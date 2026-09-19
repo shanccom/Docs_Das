@@ -1,0 +1,5 @@
+#pagebreak()
+#outline(title: "Índice General", indent: auto)
+#pagebreak()
+#counter(heading).update(0)
+#counter(page).update(1)
