@@ -130,9 +130,9 @@
         align(center, etiqueta("NOMBRE DEL SISTEMA A CONSTRUIR"))
         v(0.7cm)
         v(0.6cm)
-        align(center, text(weight: "bold", "ARQUITECTURA GENÉRICA"))
+        align(center, text(weight: "bold", "DIAGRAMA DE COMPORTAMIENTO"))
         v(0.2cm)
-        align(center, text(weight: "bold", "VERSIÓN VDD.DD"))
+        align(center, text(weight: "bold", "VERSIÓN 1.0.0"))
 
         v(2cm)
 

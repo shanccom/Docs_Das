@@ -132,7 +132,7 @@
         v(0.6cm)
         align(center, text(weight: "bold", "ARQUITECTURA GENÉRICA"))
         v(0.2cm)
-        align(center, text(weight: "bold", "VERSIÓN VDD.DD"))
+        align(center, text(weight: "bold", "VERSIÓN 1.0.0"))
 
         v(2cm)
 
