@@ -1,3 +1,7 @@
 = Observaciones
 
-Incluir las observaciones al modelo es decir aquellos juicios que no son convincentes del modelo conceptual o aquellos RNF que son preocupantes porque no se puedan cumplir.
+- La disponibilidad de los documentos del paciente en la nube (RNF-0001) depende de la conectividad a Internet de la clínica y del proveedor del servicio, por lo que la institución podría quedar sin acceso a la información ante fallas de red o del proveedor. La arquitectura genérica no define aún un mecanismo de respaldo local que mitigue esta situación.
+- Al tratarse de un sistema clínico que gestiona información sensible de los pacientes, los requisitos de seguridad y privacidad deben concretarse en mecanismos específicos de control de acceso y auditoría antes de la implementación. En la arquitectura genérica solo se contemplan como responsabilidades generales de los componentes.
+- La interoperabilidad se considera de manera conceptual (estándares como HL7 FHIR), pero no se han definido aún los mecanismos concretos de integración con el módulo financiero y con otros sistemas externos que podrían participar en el flujo de atención.
+- Los requisitos de rendimiento previstos (por ejemplo, la búsqueda de un paciente en menos de 3 segundos o la generación de una constancia en menos de 5 segundos) condicionarán las decisiones tecnológicas futuras, por lo que la selección de la infraestructura debe validarse con los componentes definidos en esta arquitectura.
+- El diagrama de la Arquitectura Genérica (Nivel 1 y Nivel 2) se encuentra en elaboración; resta completar el detalle de las restricciones técnicas y de los patrones de integración acordados por el equipo.
