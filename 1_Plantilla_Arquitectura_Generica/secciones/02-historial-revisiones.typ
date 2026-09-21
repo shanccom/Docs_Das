@@ -10,5 +10,4 @@
   table.header(
     [*FECHA*], [*VERSIÓN*], [*DESCRIPCIÓN*], [*AUTORES*]
   ),
-  [-- / -- / ----], [1.0.0], [Creación inicial y estructuración del documento.], [Apellidos y Nombres],
 )

@@ -3,27 +3,27 @@
 // --- Portada: datos ---
 #let universidad = "UNIVERSIDAD NACIONAL DE SAN AGUSTÍN"
 #let curso    = "DISEÑO Y ARQUITECTURA DE SOFTWARE"
-#let semestre = "2025-B"
-#let resultado-estudiante = "7.2"
-#let titulo   = "Prueba de Titulo"   // nombre real del sistema (aparece en grande bajo «NOMBRE DEL SISTEMA A CONSTRUIR»)
+#let semestre = "2026-B"
+#let resultado-estudiante = "OmVital Physio Control"
+#let titulo   = "OmVital Physio Control"   // nombre real del sistema (aparece en grande bajo «NOMBRE DEL SISTEMA A CONSTRUIR»)
 
 // Integrantes: la portada los reparte en 2 columnas (hasta 5 por columna).
 // Agrega o quita líneas; cada uno va en su propia línea.
 #let integrantes = (
-  "APELLIDOS Y NOMBRES 1",
-  "APELLIDOS Y NOMBRES 2",
-  "APELLIDOS Y NOMBRES 3",
-  "APELLIDOS Y NOMBRES 4",
-  "APELLIDOS Y NOMBRES 5",
-  "APELLIDOS Y NOMBRES 6",
-  "APELLIDOS Y NOMBRES 7",
-  "APELLIDOS Y NOMBRES 8",
-  "APELLIDOS Y NOMBRES 9",
-  "APELLIDOS Y NOMBRES 10",
+  "Barrios Medina Mathias Alonso",
+  "Boza Portilla Yordano Hernan",
+  "Cuno Salazar Eduardo Joel",
+  "Hancco Mullisaca Sergio Danilo",
+  "Huacani Jara Denise Andrea",
+  "Mollo Chuquicaña Dolly Yadhira",
+  "Nina Calizaya Rafael Diego",
+  "Pacheco Palo Fabiana Francinet",
+  "Quispe Madariaga Jeferson Jofre",
+  "Suclle Suca Michael Benjamin",
 )
 #let docente = "Nombre Docente Apellido Nombre"
 #let lugar   = "AREQUIPA"
-#let fecha   = "14 - 07 - 2026"
+#let fecha   = "11 - 09 - 2026"
 // Para que la fecha sea la del día de compilación, usa:
 // #let fecha = datetime.today().display("[day] - [month] - [year]")
 
