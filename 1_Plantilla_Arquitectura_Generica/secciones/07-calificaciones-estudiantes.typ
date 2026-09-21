@@ -8,6 +8,14 @@ Insertar la tabla resumen donde de muestre la calificación del estudiante segú
   table.header(
     [*Estudiante*], [*Rol / Tarea*], [*Apreciación*], [*Calificación*]
   ),
-  [Estudiante 1], [Desarrollador], [Excelente], [20],
-  [Estudiante 2], [Analista], [Excelente], [20],
+  [Hancco Mullisaca Sergio Danilo], [Líder de Proyecto], [Excelente], [20],
+  [Barrios Medina Mathias Alonso], [Arquitecto de Software], [Excelente], [20],
+  [Boza Portilla Yordano Hernan], [Diseñador de Sistemas], [Excelente], [20],
+  [Cuno Salazar Eduardo Joel], [Analista de Requisitos], [Excelente], [20],
+  [Huacani Jara Denise Andrea], [Ingeniero de Calidad (QA)], [Excelente], [20],
+  [Mollo Chuquicaña Dolly Yadhira], [DevOps Engineer], [Excelente], [20],
+  [Nina Calizaya Rafael Diego], [Desarrollador Backend], [Excelente], [20],
+  [Pacheco Palo, Fabiana Francinet], [Desarrollador Frontend], [Excelente], [20],
+  [Quispe Madariaga Jeferson Jofre], [Administrador de Bases de Datos], [Excelente], [20],
+  [Suclle Suca Michael Benjamin], [Especialista en Seguridad], [Excelente], [20],
 )
