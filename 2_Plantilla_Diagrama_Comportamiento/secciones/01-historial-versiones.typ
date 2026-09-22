@@ -8,7 +8,8 @@
   table.header(
     [*FECHA*], [*OBSERVACIONES*], [*VERSIÓN*], [*NOTA*], [*V°B°*]
   ),
-  [21 / 09 / 2026], [Versión inicial del documento.], [1.0.0], [], [],
+  [19 / 04 / 2026], [Elaboración inicial del documento correspondiente al diagrama de comportamiento representado en un solo nivel.], [1.0.0], [Ninguno], [Aprobado],
+  [22 / 09 / 2026], [Corrección del diagrama tras observación del jefe de proyecto: se solicita la representación del diagrama en dos niveles (nivel 1 y nivel 2). Se actualizó la documentación y se validaron los diagramas entregados.], [2.0.0], [Ninguno], [Aprobado],
 )
 
 #pagebreak()
