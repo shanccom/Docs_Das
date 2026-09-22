@@ -127,7 +127,7 @@
         v(2cm)
 
         // Sistema
-        align(center, etiqueta("OMVITAL SYSTEM"))
+        align(center, etiqueta("OmVital Physio Control"))
         v(0.7cm)
         v(0.6cm)
         align(center, text(weight: "bold", "DIAGRAMA DE COMPORTAMIENTO"))
