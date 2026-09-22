@@ -13,7 +13,7 @@ La formalización de los diagramas de comportamiento para el sistema clínico Om
 
 == Del producto
 
-- Se construyó satisfactoriamente el artefacto técnico _DIA-CMP-0001_ en dos niveles de granularidad: una vista de caja negra (Nivel 1) que sintetiza el flujo general de recepción y asistencia, y una vista detallada en carriles (Nivel 2) que expone la lógica algorítmica interna del proceso.
+- Se construyó el artefacto técnico _DIA-CMP-0001_ en dos niveles de granularidad: una vista de caja negra (Nivel 1) que sintetiza el flujo general de recepción y asistencia, y una vista detallada en carriles (Nivel 2) que expone la lógica algorítmica interna del proceso.
 - El modelo elaborado plasma con exactitud el ciclo de admisión del paciente en OmVital Physio Control, contemplando tanto la recuperación ágil del historial existente como la apertura guiada de nuevos expedientes bajo políticas estrictas de validación.
 - Se garantizó la trazabilidad directa entre las actividades del diagrama y las especificaciones técnicas formales del proyecto (desde `ESP-0001` hasta `ESP-0005`, así como `ESP-0030` y `ESP-0031`), respaldadas en las matrices de ilación (`ILA-0001`, `ILA-0002`, `ILA-0020`) y educción (`EDU-0001`, `EDU-0029`).
 - La integración de guardas condicionales y ciclos de validación basados en fuentes reales (como el control estricto de campos de la fuente _FUE-0004_) formaliza el tratamiento de datos inconsistentes en la interfaz de usuario antes de comprometer la persistencia en la base de datos.
