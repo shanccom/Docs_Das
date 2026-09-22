@@ -12,10 +12,10 @@ El desarrollo del artefacto se organizó utilizando los principios de Scrum, dis
 
 Para ello se consideraron las siguientes actividades:
 
-- Planificación: definición de las actividades necesarias para construir y documentar la arquitectura genérica.
-- Distribución de tareas: asignación de las actividades entre los integrantes del equipo.
-- Seguimiento: revisión periódica del avance de las tareas y de los pendientes.
-- Revisión: evaluación del resultado obtenido y detección de aspectos que requerían ajustes.
+- Planificación: Definición y desglose de las actividades para construir y documentar la arquitectura genérica. 
+- Distribución de tareas: Asignación de las actividades entre los integrantes del equipo.
+- Seguimiento: Control continuo del avance de tareas a través de reuniones periódicas y actas de trabajo. 
+- Revisión: Evaluación del resultado obtenido y detección de aspectos que requerían ajustes.
 - Mejora: incorporación de las observaciones obtenidas para mejorar la arquitectura y su documentación.
 
 == Uso de Jira
@@ -25,14 +25,15 @@ La herramienta Jira fue utilizada como soporte para la gestión del trabajo del 
 Las actividades fueron gestionadas mediante tareas asociadas a las diferentes etapas del trabajo, permitiendo conocer su estado y responsable.
 
 De manera general, se utilizó un flujo similar al siguiente:
-
+#pad(left:1.1em)[
 1. Por hacer
 2. En progreso
 3. En revisión
 4. Completado
 
+]
 Entre las actividades gestionadas se consideraron:
-
+#pad(left:1.1em)[
 - Revisar los resultados de Educción, Ilación y Especificación.
 - Identificar responsabilidades arquitectónicas.
 - Definir componentes genéricos.
@@ -42,6 +43,7 @@ Entre las actividades gestionadas se consideraron:
 - Incorporar observaciones.
 - Elaborar la documentación del artefacto.
 
+]
 El uso de Jira permitió mantener un registro del avance de las actividades y facilitar la coordinación entre los integrantes del equipo.
 
 == Construcción de la Arquitectura Genérica
@@ -54,6 +56,7 @@ Luego se establecieron las relaciones y dependencias entre dichos componentes y 
 
 El proceso puede resumirse de la siguiente manera:
 
+#pad(left:1.1em)[
 1. Educción + Ilación + Especificación
 2. Revisión de requisitos
 3. Identificación de responsabilidades
@@ -62,6 +65,7 @@ El proceso puede resumirse de la siguiente manera:
 6. Definición de relaciones
 7. Diagrama de Arquitectura Genérica
 
+]
 == Relación entre el proceso de trabajo y la construcción del artefacto
 
 Scrum y Jira fueron utilizados como mecanismos para organizar y controlar el trabajo del equipo, mientras que el proceso de abstracción arquitectónica permitió construir el artefacto técnico.
@@ -75,10 +79,10 @@ De esta manera, ambos enfoques se complementan:
     [*Proceso de trabajo*], [*Proceso de construcción del artefacto*]
   ),
   [Scrum], [Educción, Ilación y Especificación como insumo],
-  [Jira], [Identificación de responsabilidades],
+  [Jira], [Registro, gestión y seguimiento de tareas],
   [Planificación], [Definición de componentes],
   [Asignación de tareas], [Definición de relaciones],
-  [Seguimiento], [Construcción del diagrama],
+  [Seguimiento], [Construcción y refinamiento del diagrama],
 )
 
 En consecuencia, la metodología permitió organizar el trabajo colaborativo mediante Scrum y Jira, mientras que los resultados obtenidos previamente sirvieron como base para transformar los requisitos del sistema clínico en una representación arquitectónica genérica.
