@@ -8,7 +8,7 @@
   table.header(
     [*FECHA*], [*OBSERVACIONES*], [*VERSIÓN*], [*NOTA*], [*V°B°*]
   ),
-  [-- / -- / ----], [Versión inicial del documento.], [1.0.0], [], [],
+  [21 / 09 / 2026], [Versión inicial del documento.], [1.0.0], [], [],
 )
 
 #pagebreak()

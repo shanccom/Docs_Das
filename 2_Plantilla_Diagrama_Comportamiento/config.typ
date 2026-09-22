@@ -10,20 +10,20 @@
 // Integrantes: la portada los reparte en 2 columnas (hasta 5 por columna).
 // Agrega o quita líneas; cada uno va en su propia línea.
 #let integrantes = (
-  "APELLIDOS Y NOMBRES 1",
-  "APELLIDOS Y NOMBRES 2",
-  "APELLIDOS Y NOMBRES 3",
-  "APELLIDOS Y NOMBRES 4",
-  "APELLIDOS Y NOMBRES 5",
-  "APELLIDOS Y NOMBRES 6",
-  "APELLIDOS Y NOMBRES 7",
-  "APELLIDOS Y NOMBRES 8",
-  "APELLIDOS Y NOMBRES 9",
-  "APELLIDOS Y NOMBRES 10",
+  "Barrios Medina Mathias Alonso (1)",
+  "Boza Portilla Yordano Hernan (2)",
+  "Cuno Salazar Eduardo Joel (3)",
+  "Hancco Mullisaca Sergio Danilo (4)",
+  "Huacani Jara Denise Andrea (5)",
+  "Mollo Chuquicaña Dolly Yadhira (6)",
+  "Nina Calizaya Rafael Diego (7)",
+  "Pacheco Palo, Fabiana Francinet (8)",
+  "Quispe Madariaga Jeferson Jofre (9)",
+  "Suclle Suca Michael Benjamin (10)",
 )
-#let docente = "Nombre Docente Apellido Nombre"
-#let lugar   = "AREQUIPA"
-#let fecha   = "14 - 07 - 2026"
+#let docente = "Mg. Percy Huertas Niquen"
+#let lugar   = "Arequipa - Perú"
+#let fecha   = "22 - 11 - 2026"
 // Para que la fecha sea la del día de compilación, usa:
 // #let fecha = datetime.today().display("[day] - [month] - [year]")
 
