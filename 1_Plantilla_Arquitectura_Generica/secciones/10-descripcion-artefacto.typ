@@ -310,8 +310,8 @@ La etapa de especificación formaliza las condiciones operativas y técnicas del
   [ESP-0021], [Estado de camillas], [ILA-0016], [Consulta en tiempo real del estado de camillas en la sede.], [Módulo de Recursos],
   [ESP-0024], [Liberación de camillas], [ILA-0017], [Liberación y actualización de término de sesión en camilla.], [Módulo de Recursos],
   [ESP-0027], [Consentimiento informado], [ILA-0019], [Captura de firma digital y archivo de consentimiento informado.], [Servicios externos],
-  [ESP-0030], [Notificaciones WhatsApp], [ILA-0020], [Envío de confirmación de cita médica por WhatsApp al paciente.], [Servicios externos],
-  [ESP-0033], [Recordatorio de citas], [ILA-0021], [Envío automatizado de recordatorio previo a la cita terapéutica.], [Servicios externos],
+  [ESP-0030], [Registro de asistencia], [ILA-0020], [Control de llegada del paciente y registro de la asistencia del día con verificación del pago.], [Citas y Atenciones],
+  [ESP-0033], [Enviar constancia de asistencia por correo], [ILA-0021], [Envío de la constancia de asistencia del paciente por correo electrónico.], [Servicios externos],
   [ESP-0036], [Cobro de paquetes], [ILA-0022], [Registro de cobro por paquetes de sesiones terapéuticas.], [Servicios externos],
   [ESP-0038], [Facturación electrónica], [ILA-0023], [Emisión de boletas y facturas electrónicas autorizadas.], [Servicios externos],
   [ESP-0040], [Control de acceso], [ILA-0026], [Autenticación de usuarios y comprobación de permisos por rol.], [API y control de acceso],
@@ -338,6 +338,513 @@ Asimismo, los requisitos no funcionales (`RNF`) activos del proyecto establecen 
     [RNF-0010], [Consentimiento digital], [Integridad], [Archivo digital inalterable del consentimiento informado firmado por el paciente.],
   )
 ]
+
+A continuación, se presentan las fichas técnicas de especificación más representativas que implementan las responsabilidades funcionales de los módulos de la arquitectura y sus atributos de calidad vinculados:
+
+#v(0.6em)
+
+#strong[ESP-0001]: Registro inicial de nuevo paciente
+
+#plantilla_especificacion(
+  codigo: "ESP-0001",
+  nombre: "Registro inicial de nuevo paciente",
+  version: "1.0.0",
+  fecha: "09/07/26",
+  autor-plantilla: "AUT-0007",
+  actor: "ACT-0003",
+  fuente: "ENT-0001, FUE-0004",
+  experto: "Ninguno",
+  codigo-ilacion: "ILA-0001",
+  precondicion: [
+    Boolean sesionValida \
+    Boolean permisosValidos \
+    Boolean conexionBD \
+    Usuario usuarioActual \
+    String BD_en_uso \
+    \
+    BD_en_uso = "Omvital_Db_Pacientes" \
+    sesionValida = validarSesion() \
+    Si sesionValida = false Entonces \
+    #h(1.2em) MostrarMensaje("La sesión ha expirado.") \
+    #h(1.2em) Finalizar procedimiento \
+    FinSi \
+    usuarioActual = obtenerUsuarioSesion() \
+    permisosValidos = validarPermisos(usuarioActual, "RECEPCIONISTA") \
+    Si permisosValidos = false Entonces \
+    #h(1.2em) MostrarMensaje("No posee permisos para registrar pacientes.") \
+    #h(1.2em) Finalizar procedimiento \
+    FinSi \
+    conexionBD = verificarConexionBD(BD_en_uso) \
+    Si conexionBD = false Entonces \
+    #h(1.2em) MostrarMensaje("No existe conexión con la base de datos.") \
+    #h(1.2em) Finalizar procedimiento \
+    FinSi \
+    usuario.click( \
+    #h(1.2em) btnPacientes(BTN-09) \
+    ) \
+    Fin Precondiciones
+  ],
+  procedimiento: [
+    Inicio \
+    String[8] str8_Dni \
+    String[50] str_Nombres \
+    String[50] str_Apellidos \
+    String[9] str9_Telefono \
+    Date date_FechaNacimiento \
+    String[100] str_Direccion \
+    Boolean bool_Consentimiento \
+    Boolean bool_DniDuplicado \
+    Paciente obj_PacienteNuevo \
+    \
+    Si usuario.click(btnNuevoRegistro(INT-02-BNT-03)) Entonces \
+    #h(1.2em) RedirigirVista(INT-01) \
+    FinSi \
+    \
+    Si usuario.putIn(Input(INT-01-INP-01)) Entonces \
+    #h(1.2em) str8_Dni = obtenerValorTexto(INT-01-INP-01) \
+    FinSi \
+    Si usuario.putIn(Input(INT-01-INP-02)) Entonces \
+    #h(1.2em) str_Nombres = obtenerValorTexto(INT-01-INP-02) \
+    FinSi \
+    Si usuario.putIn(Input(INT-01-INP-03)) Entonces \
+    #h(1.2em) str_Apellidos = obtenerValorTexto(INT-01-INP-03) \
+    FinSi \
+    Si usuario.putIn(Input(INT-01-INP-04)) Entonces \
+    #h(1.2em) str9_Telefono = obtenerValorTexto(INT-01-INP-04) \
+    FinSi \
+    Si usuario.putIn(Input(INT-01-INP-05)) Entonces \
+    #h(1.2em) date_FechaNacimiento = obtenerValorFecha(INT-01-INP-05) \
+    FinSi \
+    Si usuario.putIn(Input(INT-01-INP-06)) Entonces \
+    #h(1.2em) str_Direccion = obtenerValorTexto(INT-01-INP-06) \
+    FinSi \
+    Si usuario.click(Checkbox(INT-01-CHK-01)) Entonces \
+    #h(1.2em) bool_Consentimiento = obtenerEstadoCheckbox(INT-01-CHK-01) \
+    FinSi \
+    \
+    Si usuario.click(btnGuardar(INT-01-BTN-01)) Entonces \
+    #h(1.2em) Si str8_Dni = null o str8_Dni = "" Entonces \
+    #h(2.4em) MostrarMensaje("El campo DNI es obligatorio.") \
+    #h(2.4em) ResaltarCampo(INT-01-INP-01) \
+    #h(2.4em) Finalizar procedimiento \
+    #h(1.2em) FinSi \
+    #h(1.2em) Si longitud(str8_Dni) <> 8 o validarSoloDigitos(str8_Dni) = false Entonces \
+    #h(2.4em) MostrarMensaje("El DNI debe contener exactamente 8 dígitos numéricos.") \
+    #h(2.4em) ResaltarCampo(INT-01-INP-01) \
+    #h(2.4em) Finalizar procedimiento \
+    #h(1.2em) FinSi \
+    #h(1.2em) bool_DniDuplicado = existeRegistro("TABLE_PACIENTE", str8_Dni) \
+    #h(1.2em) Si bool_DniDuplicado = true Entonces \
+    #h(2.4em) MostrarMensaje("El DNI ya pertenece a un paciente registrado.") \
+    #h(2.4em) ResaltarCampo(INT-01-INP-01) \
+    #h(2.4em) Finalizar procedimiento \
+    #h(1.2em) FinSi \
+    #h(1.2em) Si str_Nombres = "" o str_Nombres = null Entonces \
+    #h(2.4em) MostrarMensaje("Los Nombres son obligatorios.") \
+    #h(2.4em) ResaltarCampo(INT-01-INP-02) \
+    #h(2.4em) Finalizar procedimiento \
+    #h(1.2em) FinSi \
+    #h(1.2em) Si validarCaracteresEspeciales(str_Nombres) = true Entonces \
+    #h(2.4em) MostrarMensaje("Los Nombres no permiten caracteres especiales.") \
+    #h(2.4em) ResaltarCampo(INT-01-INP-02) \
+    #h(2.4em) Finalizar procedimiento \
+    #h(1.2em) FinSi \
+    #h(1.2em) Si str_Apellidos = "" o str_Apellidos = null Entonces \
+    #h(2.4em) MostrarMensaje("Los Apellidos son obligatorios.") \
+    #h(2.4em) ResaltarCampo(INT-01-INP-03) \
+    #h(2.4em) Finalizar procedimiento \
+    #h(1.2em) FinSi \
+    #h(1.2em) Si validarCaracteresEspeciales(str_Apellidos) = true Entonces \
+    #h(2.4em) MostrarMensaje("Los Apellidos no permiten caracteres especiales.") \
+    #h(2.4em) ResaltarCampo(INT-01-INP-03) \
+    #h(2.4em) Finalizar procedimiento \
+    #h(1.2em) FinSi \
+    #h(1.2em) Si str9_Telefono <> "" y str9_Telefono <> null Entonces \
+    #h(2.4em) Si longitud(str9_Telefono) <> 9 o validarSoloDigitos(str9_Telefono) = false Entonces \
+    #h(3.6em) MostrarMensaje("El Teléfono debe contener exactamente 9 dígitos numéricos.") \
+    #h(3.6em) ResaltarCampo(INT-01-INP-04) \
+    #h(3.6em) Finalizar procedimiento \
+    #h(2.4em) FinSi \
+    #h(1.2em) FinSi \
+    #h(1.2em) Si bool_Consentimiento = false Entonces \
+    #h(2.4em) MostrarMensaje("Debe aceptar el Consentimiento Informado.") \
+    #h(2.4em) ResaltarCampo(INT-01-CHK-01) \
+    #h(2.4em) Finalizar procedimiento \
+    #h(1.2em) FinSi \
+    \
+    #h(1.2em) obj_PacienteNuevo = new Paciente() \
+    #h(1.2em) obj_PacienteNuevo.setDni(str8_Dni) \
+    #h(1.2em) obj_PacienteNuevo.setNombres(str_Nombres) \
+    #h(1.2em) obj_PacienteNuevo.setApellidos(str_Apellidos) \
+    #h(1.2em) Si str9_Telefono <> "" Entonces \
+    #h(2.4em) obj_PacienteNuevo.setTelefono(str9_Telefono) \
+    #h(1.2em) FinSi \
+    #h(1.2em) Si date_FechaNacimiento <> null Entonces \
+    #h(2.4em) obj_PacienteNuevo.setFechaNacimiento(date_FechaNacimiento) \
+    #h(1.2em) FinSi \
+    #h(1.2em) Si str_Direccion <> "" Entonces \
+    #h(2.4em) obj_PacienteNuevo.setDireccion(str_Direccion) \
+    #h(1.2em) FinSi \
+    #h(1.2em) obj_PacienteNuevo.setConsentimiento(bool_Consentimiento) \
+    #h(1.2em) obj_PacienteNuevo.setEstado("ACTIVO") \
+    \
+    #h(1.2em) uInt32_NuevoId = registrarPaciente(obj_PacienteNuevo) \
+    FinSi \
+    Fin Procedimiento
+  ],
+  postcondicion: [
+    Inicio Postcondiciones \
+    Boolean bool_PacienteRegistrado \
+    String[20] str_EstadoVerificado \
+    \
+    bool_PacienteRegistrado = existeRegistroId("TABLE_PACIENTE", uInt32_NuevoId) \
+    Si bool_PacienteRegistrado = true Entonces \
+    #h(1.2em) str_EstadoVerificado = obtenerEstadoPaciente(str8_Dni) \
+    #h(1.2em) Verificar str_EstadoVerificado = "ACTIVO" \
+    #h(1.2em) MostrarMensaje("El registro fue exitoso.") \
+    #h(1.2em) RedirigirVista(INT-02) \
+    FinSi \
+    Fin Postcondiciones
+  ],
+  codigo-artefactos-asociados: "SDB-01, BTN-09, INT-01, INT-01-INP-01, INT-01-INP-02, INT-01-INP-03, INT-01-INP-04, INT-01-INP-05, INT-01-INP-06, INT-01-CHK-01, INT-01-BTN-01",
+  importancia: "Vital",
+  estado: "Concluido",
+  comentario: "Ninguno",
+)
+
+#v(0.6em)
+
+#strong[ESP-0003]: Búsqueda y filtrado de pacientes en grilla
+
+#plantilla_especificacion(
+  codigo: "ESP-0003",
+  nombre: "Búsqueda y filtrado de pacientes en grilla",
+  version: "1.0.0",
+  fecha: "09/07/26",
+  autor-plantilla: "AUT-0007",
+  actor: "ACT-0003",
+  fuente: "ENT-0001",
+  experto: "Ninguno",
+  codigo-ilacion: "ILA-0002",
+  precondicion: [
+    Boolean sesionValida \
+    Boolean permisosValidos \
+    Boolean conexionBD \
+    Usuario usuarioActual \
+    String BD_en_uso \
+    \
+    BD_en_uso = "Omvital_Db_Pacientes" \
+    sesionValida = validarSesion() \
+    Si sesionValida = false Entonces \
+    #h(1.2em) MostrarMensaje("La sesión ha expirado.") \
+    #h(1.2em) Finalizar procedimiento \
+    FinSi \
+    usuarioActual = obtenerUsuarioSesion() \
+    permisosValidos = validarPermisos(usuarioActual, "RECEPCIONISTA") \
+    Si permisosValidos = false Entonces \
+    #h(1.2em) MostrarMensaje("No posee permisos para consultar pacientes.") \
+    #h(1.2em) Finalizar procedimiento \
+    FinSi \
+    conexionBD = verificarConexionBD(BD_en_uso) \
+    Si conexionBD = false Entonces \
+    #h(1.2em) MostrarMensaje("No existe conexión con la base de datos.") \
+    #h(1.2em) Finalizar procedimiento \
+    FinSi \
+    usuario.click( \
+    #h(1.2em) btnPacientes(BTN-09) \
+    ) \
+    Fin Precondiciones
+  ],
+  procedimiento: [
+    Inicio \
+    String[50] str50_ParametroBusqueda \
+    Unsigned int8 uInt8_LongitudBusqueda \
+    Unsigned int8 uInt8_LimiteResultados \
+    Unsigned int8 uInt8_IndiceFor \
+    ListaPacientes obj_ListaPacientes \
+    \
+    uInt8_LimiteResultados = 50 \
+    \
+    Si usuario.putIn(Input(INT-02-INP-01)) Entonces \
+    #h(1.2em) str50_ParametroBusqueda = obtenerValorTexto(INT-02-INP-01) \
+    #h(1.2em) uInt8_LongitudBusqueda = contarCaracteres(str50_ParametroBusqueda) \
+    \
+    #h(1.2em) Si uInt8_LongitudBusqueda < 3 y uInt8_LongitudBusqueda > 0 Entonces \
+    #h(2.4em) DetenerEjecucion() // Evita saturar la BD por cada letra, espera a 3 chars \
+    #h(1.2em) FinSi \
+    \
+    #h(1.2em) Si uInt8_LongitudBusqueda >= 3 Entonces \
+    #h(2.4em) obj_ListaPacientes = buscarRegistros("TABLE_PACIENTE", str50_ParametroBusqueda, uInt8_LimiteResultados) \
+    #h(1.2em) Sino \
+    #h(2.4em) obj_ListaPacientes = cargarPacientesRecientes("TABLE_PACIENTE", uInt8_LimiteResultados) \
+    #h(1.2em) FinSi \
+    \
+    #h(1.2em) limpiarGrilla(INT-02-TBL-01) \
+    \
+    #h(1.2em) Si obj_ListaPacientes.estaVacia() = true Entonces \
+    #h(2.4em) MostrarMensajeInteractivo("No se encontraron pacientes coincidentes.") \
+    #h(1.2em) Sino \
+    #h(2.4em) Para uInt8_IndiceFor = 0 Hasta (obj_ListaPacientes.longitud() - 1) con paso 1 Hacer \
+    #h(3.6em) agregarFilaGrilla(INT-02-TBL-01, obj_ListaPacientes.obtener(uInt8_IndiceFor).getIdInterno()) \
+    #h(2.4em) FinPara \
+    #h(1.2em) FinSi \
+    FinSi \
+    Fin Procedimiento
+  ],
+  postcondicion: [
+    Inicio Postcondiciones \
+    Unsigned int8 uInt8_FilasMostradas \
+    Boolean bool_DatosModificados \
+    \
+    uInt8_FilasMostradas = contarFilas(INT-02-TBL-01) \
+    Verificar uInt8_FilasMostradas <= 50 \
+    \
+    bool_DatosModificados = verificarCambiosPendientesEnBD("TABLE_PACIENTE") \
+    Verificar bool_DatosModificados = false \
+    \
+    Fin Postcondiciones
+  ],
+  codigo-artefactos-asociados: "SDB-01, BTN-09, INT-02, INT-02-INP-01, INT-02-TBL-01",
+  importancia: "Vital",
+  estado: "Concluido",
+  comentario: "Ninguno",
+)
+
+#v(0.6em)
+
+#strong[ESP-0005]: Generar constancia de atención del paciente
+
+#plantilla_especificacion(
+  codigo: "ESP-0005",
+  nombre: "Generar constancia de atención del paciente",
+  version: "1.0.0",
+  fecha: "09/07/26",
+  autor-plantilla: "AUT-0007",
+  actor: "ACT-0003",
+  fuente: "ENT-0001",
+  experto: "Ninguno",
+  codigo-ilacion: "ILA-0002",
+  precondicion: [
+    Boolean sesionValida \
+    Boolean permisosValidos \
+    Boolean conexionBD \
+    Usuario usuarioActual \
+    String BD_en_uso \
+    \
+    BD_en_uso = "Omvital_Db_Pacientes" \
+    sesionValida = validarSesion() \
+    Si sesionValida = false Entonces \
+    #h(1.2em) MostrarMensaje("La sesión ha expirado.") \
+    #h(1.2em) Finalizar procedimiento \
+    FinSi \
+    usuarioActual = obtenerUsuarioSesion() \
+    permisosValidos = validarPermisos(usuarioActual, "RECEPCIONISTA") \
+    Si permisosValidos = false Entonces \
+    #h(1.2em) MostrarMensaje("No posee permisos para generar documentos.") \
+    #h(1.2em) Finalizar procedimiento \
+    FinSi \
+    conexionBD = verificarConexionBD(BD_en_uso) \
+    Si conexionBD = false Entonces \
+    #h(1.2em) MostrarMensaje("No existe conexión con la base de datos.") \
+    #h(1.2em) Finalizar procedimiento \
+    FinSi \
+    usuario.click( \
+    #h(1.2em) btnVerFicha(INT-02-BTN-02) \
+    ) \
+    Fin Precondiciones
+  ],
+  procedimiento: [
+    Inicio \
+    Unsigned int32 uInt32_IdPacienteActivo \
+    Boolean bool_AtencionesValidas \
+    ArchivoPDF obj_ConstanciaEnMemoria \
+    \
+    uInt32_IdPacienteActivo = obtenerIdContextoVista(INT-02-A) \
+    Si uInt32_IdPacienteActivo = 0 o uInt32_IdPacienteActivo = null Entonces \
+    #h(1.2em) MostrarMensaje("No se pudo identificar al paciente en la vista actual.") \
+    #h(1.2em) Finalizar procedimiento \
+    FinSi \
+    \
+    Si usuario.click(btnConstancia(INT-02-BTN-01)) Entonces \
+    #h(1.2em) bool_AtencionesValidas = verificarAtencionesPrevias("TABLE_CITAS", uInt32_IdPacienteActivo) \
+    #h(1.2em) Si bool_AtencionesValidas = false Entonces \
+    #h(2.4em) MostrarMensaje("El paciente no registra atenciones previas.") \
+    #h(2.4em) Finalizar procedimiento \
+    #h(1.2em) FinSi \
+    \
+    #h(1.2em) obj_ConstanciaEnMemoria = compilarConstanciaPDF(uInt32_IdPacienteActivo) \
+    #h(1.2em) Si obj_ConstanciaEnMemoria = null Entonces \
+    #h(2.4em) MostrarMensaje("Ocurrió un error al procesar el archivo PDF.") \
+    #h(2.4em) Finalizar procedimiento \
+    #h(1.2em) FinSi \
+    \
+    #h(1.2em) renderizarDocumentoEnPantalla(obj_ConstanciaEnMemoria) \
+    #h(1.2em) liberarBufferMemoria(obj_ConstanciaEnMemoria) \
+    FinSi \
+    Fin Procedimiento
+  ],
+  postcondicion: [
+    Inicio Postcondiciones \
+    String[15] str15_VistaActual \
+    Boolean bool_DatosModificados \
+    \
+    str15_VistaActual = obtenerVistaActiva() \
+    Verificar str15_VistaActual = "INT-02-A" \
+    \
+    bool_DatosModificados = verificarCambiosPendientesEnBD("TABLE_PACIENTE") \
+    Verificar bool_DatosModificados = false \
+    \
+    MostrarMensaje("Documento generado con éxito.") \
+    Fin Postcondiciones
+  ],
+  codigo-artefactos-asociados: "SDB-01, BTN-09, INT-02-A, INT-02-BTN-01",
+  importancia: "Vital",
+  estado: "Concluido",
+  comentario: "Ninguno",
+)
+
+#v(0.6em)
+
+#strong[ESP-0030]: Registro de asistencia
+
+#plantilla_especificacion(
+  codigo: "ESP-0030",
+  nombre: "Registro de asistencia",
+  version: "1.0.0",
+  fecha: "06/07/26",
+  autor-plantilla: "AUT-0001",
+  actor: "ACT-0003",
+  fuente: "ENT-0001",
+  experto: "Ninguno",
+  codigo-ilacion: "ILA-0020",
+  precondicion: [
+    Boolean sesionValida \
+    Boolean permisosValidos \
+    Boolean conexionBD \
+    Usuario usuarioActual \
+    Long idCita \
+    String BD_en_uso \
+    \
+    BD_en_uso = "Omvital_Db_Pacientes" \
+    \
+    sesionValida = validarSesion() \
+    \
+    Si sesionValida = false Entonces \
+    #h(1.2em) MostrarMensaje("La sesión ha expirado.") \
+    #h(1.2em) Finalizar procedimiento \
+    FinSi \
+    \
+    usuarioActual = obtenerUsuarioSesion() \
+    \
+    permisosValidos = validarPermisos(usuarioActual, "RECEPCIONISTA") \
+    \
+    Si permisosValidos = false Entonces \
+    #h(1.2em) MostrarMensaje("No posee permisos para registrar asistencias.") \
+    #h(1.2em) Finalizar procedimiento \
+    FinSi \
+    \
+    conexionBD = verificarConexionBD(BD_en_uso) \
+    \
+    Si conexionBD = false Entonces \
+    #h(1.2em) MostrarMensaje("No existe conexión con la base de datos.") \
+    #h(1.2em) Finalizar procedimiento \
+    FinSi \
+    \
+    usuario.click( \
+    #h(1.2em) btnCitas(BTN-08) \
+    ) \
+    \
+    Fin Precondiciones
+  ],
+  procedimiento: [
+    Inicio \
+    \
+    Long idCita \
+    Cita cita \
+    Asistencia asistencia \
+    ArchivoPDF firmaPDF \
+    EstadoPago estadoPago \
+    EstadoCita estadoCita \
+    Boolean asistenciaRegistrada \
+    RutaArchivo rutaFirma \
+    \
+    idCita = obtenerCitaSeleccionada() \
+    \
+    cita = obtenerCita(idCita) \
+    \
+    Si cita = null Entonces \
+    #h(1.2em) MostrarMensaje("La cita no existe.") \
+    #h(1.2em) Finalizar procedimiento \
+    FinSi \
+    \
+    estadoPago = obtenerEstadoPago(idCita) \
+    \
+    Si estadoPago <> PAGADO Entonces \
+    #h(1.2em) MostrarMensaje("No es posible registrar la asistencia porque la cita aún no ha sido pagada.") \
+    #h(1.2em) Finalizar procedimiento \
+    FinSi \
+    \
+    asistenciaRegistrada = existeAsistencia(idCita) \
+    \
+    Si asistenciaRegistrada = true Entonces \
+    #h(1.2em) MostrarMensaje("La asistencia ya fue registrada.") \
+    #h(1.2em) Finalizar procedimiento \
+    FinSi \
+    \
+    Si usuario.putIn(FileUpload(INT-20-FUP-0001)) Entonces \
+    #h(1.2em) firmaPDF = obtenerArchivoSubido() \
+    \
+    #h(1.2em) Si firmaPDF <> null Entonces \
+    #h(2.4em) validarFormatoArchivo(firmaPDF) \
+    #h(2.4em) validarTamanoArchivo(firmaPDF) \
+    #h(2.4em) rutaFirma = guardarArchivo(firmaPDF) \
+    #h(1.2em) Sino \
+    #h(2.4em) rutaFirma = null \
+    #h(1.2em) FinSi \
+    Sino \
+    #h(1.2em) rutaFirma = null \
+    FinSi \
+    \
+    Si usuario.click(btnRegistrarAsistencia(INT-20-BTN-002)) Entonces \
+    #h(1.2em) asistencia = new Asistencia() \
+    #h(1.2em) asistencia.setIdCita(idCita) \
+    #h(1.2em) asistencia.setUsuarioRegistro(usuarioActual) \
+    #h(1.2em) asistencia.setFechaRegistro(obtenerFechaActual()) \
+    #h(1.2em) asistencia.setHoraRegistro(obtenerHoraActual()) \
+    #h(1.2em) asistencia.setRutaFirma(rutaFirma) \
+    \
+    #h(1.2em) registrarAsistencia(asistencia) \
+    FinSi \
+    Fin Procedimiento
+  ],
+  postcondicion: [
+    Inicio Postcondiciones \
+    \
+    Boolean asistenciaRegistrada \
+    EstadoCita estadoCita \
+    ArchivoPDF firmaPDF \
+    \
+    asistenciaRegistrada = existeAsistencia(idCita) \
+    \
+    Si asistenciaRegistrada = true Entonces \
+    #h(1.2em) estadoCita = obtenerEstadoCita(idCita) \
+    #h(1.2em) Verificar estadoCita = EN_CURSO \
+    \
+    #h(1.2em) Si rutaFirma <> null Entonces \
+    #h(2.4em) firmaPDF = obtenerFirmaAsistencia(idCita) \
+    #h(2.4em) Verificar firmaPDF <> null \
+    #h(1.2em) FinSi \
+    \
+    #h(1.2em) MostrarMensaje("La asistencia fue registrada correctamente.") \
+    FinSi \
+    \
+    Fin Postcondiciones
+  ],
+  codigo-artefactos-asociados: "BTN-08, INT-20-FUP-0001, INT-20-BTN-002",
+  importancia: "Vital",
+  estado: "Concluido",
+  comentario: "Se planea usar para las firmas: Firma Perú",
+)
 
 == Construcción de la Arquitectura Genérica
 
