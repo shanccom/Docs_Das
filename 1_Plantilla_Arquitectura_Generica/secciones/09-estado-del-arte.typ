@@ -44,12 +44,12 @@ Además de las funcionalidades que debe proporcionar el sistema, los sistemas cl
 
 Entre las principales se encuentran:
 
-- *Seguridad:* debido a que el sistema gestiona información clínica y datos personales, se requiere controlar el acceso a la información de acuerdo con las responsabilidades de cada usuario.
-- *Privacidad:* la información de los pacientes debe ser protegida frente a accesos o usos no autorizados.
-- *Disponibilidad:* el sistema debe encontrarse disponible durante las actividades de atención de la clínica.
-- *Integridad:* los registros clínicos deben conservarse correctamente y evitar modificaciones no autorizadas.
-- *Interoperabilidad:* la arquitectura debería permitir futuras comunicaciones con otros sistemas cuando sea necesario.
-- *Mantenibilidad:* los componentes deben estar organizados de manera que las modificaciones futuras no impliquen alterar innecesariamente todo el sistema.
+- Seguridad: debido a que el sistema gestiona información clínica y datos personales, se requiere controlar el acceso a la información de acuerdo con las responsabilidades de cada usuario.
+- Privacidad: la información de los pacientes debe ser protegida frente a accesos o usos no autorizados.
+- Disponibilidad: el sistema debe encontrarse disponible durante las actividades de atención de la clínica.
+- Integridad: los registros clínicos deben conservarse correctamente y evitar modificaciones no autorizadas.
+- Interoperabilidad: la arquitectura debería permitir futuras comunicaciones con otros sistemas cuando sea necesario.
+- Mantenibilidad: los componentes deben estar organizados de manera que las modificaciones futuras no impliquen alterar innecesariamente todo el sistema.
 
 La OMS señala que las iniciativas de salud digital deben considerar aspectos de privacidad, seguridad, gobernanza, estándares e interoperabilidad dentro de su arquitectura #cite(<oms2026>).
 

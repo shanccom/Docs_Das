@@ -15,7 +15,7 @@ La presente sección documenta el control de versiones de los diagramas de la Ar
 
 === Versión 1.0.0
 
-_*Ficha técnica — D-ARQ-001 (Arquitectura Genérica Nivel 1)*_
+_Ficha técnica — D-ARQ-001 (Arquitectura Genérica Nivel 1)_
 
 #align(center)[
   #block(width: 95%)[
@@ -56,7 +56,7 @@ El diagrama de Nivel 1 se presenta a continuación:
 
 === Versión 1.0.1
 
-_*Ficha técnica — D-DP-001 (Arquitectura Genérica Nivel 2)*_
+_Ficha técnica — D-DP-001 (Arquitectura Genérica Nivel 2)_
 
 #align(center)[
   #block(width: 95%)[

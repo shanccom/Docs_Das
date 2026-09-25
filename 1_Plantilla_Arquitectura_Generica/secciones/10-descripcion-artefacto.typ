@@ -2,11 +2,11 @@
 
 = Descripción del artefacto
 
-El presente artefacto corresponde a la *Arquitectura Genérica* del sistema clínico *OmVital Physio Control*, identificado formalmente con los códigos _D-ARQ-001_ (Nivel 1) y _D-DP-001_ (Nivel 2). El modelado ha sido construido conforme a los principios de abstracción arquitectónica y trazabilidad de requisitos establecidos por el curso, representando de manera general los componentes principales de la solución y las relaciones existentes entre ellos.
+El presente artefacto corresponde a la Arquitectura Genérica del sistema clínico OmVital Physio Control, identificado formalmente con los códigos _D-ARQ-001_ (Nivel 1) y _D-DP-001_ (Nivel 2). El modelado se basa en los principios de abstracción arquitectónica y trazabilidad de requisitos establecidos por el curso, representando de manera general los componentes principales de la solución y las relaciones entre ellos.
 
 El propósito central de este artefacto es formalizar la estructura conceptual del sistema: la delimitación de las fronteras de la plataforma frente a los usuarios internos y los servicios externos, la organización de las responsabilidades funcionales en módulos arquitectónicos (Pacientes, Citas y Atenciones, Recursos, Documentos y Evaluaciones, API y control de acceso y Plataforma de datos) y la representación del acceso centralizado de las tres sucursales a la información de los pacientes mediante la infraestructura en la nube.
 
-Para garantizar máxima rigurosidad metodológica, la presente sección expone en primer lugar la fundamentación analítica basada en las matrices de *Educción*, *Ilación* y *Especificación técnica*, culminando con la presentación visual de los *Diagramas de Arquitectura Genérica en Nivel 1 (Vista general de fronteras)* y *Nivel 2 (Acceso multi-sucursal y despliegue)*.
+La presente sección expone la fundamentación analítica basada en las matrices de Educción, Ilación y Especificación técnica, y culmina con la presentación visual de los Diagramas de Arquitectura Genérica en Nivel 1 (Vista general de fronteras) y Nivel 2 (Acceso multi-sucursal y despliegue).
 
 == Insumos para la construcción de la arquitectura
 
@@ -41,7 +41,7 @@ A continuación, se presentan las fichas técnicas de educción que sustentan fo
 
 #v(0.6em)
 
-#strong[EDU-0001]: Gestión del paciente
+EDU-0001: Gestión del paciente
 
 #plantilla_educcion(
   codigo: "EDU-0001",
@@ -68,7 +68,7 @@ A continuación, se presentan las fichas técnicas de educción que sustentan fo
 
 #v(0.6em)
 
-#strong[EDU-0029]: Control de asistencia de pacientes
+EDU-0029: Control de asistencia de pacientes
 
 #plantilla_educcion(
   codigo: "EDU-0029",
@@ -138,7 +138,7 @@ A continuación, se presentan las fichas técnicas de ilación que sustentan la 
 
 #v(0.6em)
 
-#strong[ILA-0001]: Registro inicial de nuevo paciente
+ILA-0001: Registro inicial de nuevo paciente
 
 #plantilla_ilacion(
   codigo: "ILA-0001",
@@ -189,7 +189,7 @@ A continuación, se presentan las fichas técnicas de ilación que sustentan la 
 
 #v(0.6em)
 
-#strong[ILA-0002]: Consulta del perfil del paciente
+ILA-0002: Consulta del perfil del paciente
 
 #plantilla_ilacion(
   codigo: "ILA-0002",
@@ -238,7 +238,7 @@ A continuación, se presentan las fichas técnicas de ilación que sustentan la 
 
 #v(0.6em)
 
-#strong[ILA-0020]: Registrar asistencia
+ILA-0020: Registrar asistencia
 
 #plantilla_ilacion(
   codigo: "ILA-0020",
@@ -343,7 +343,7 @@ A continuación, se presentan las fichas técnicas de especificación más repre
 
 #v(0.6em)
 
-#strong[ESP-0001]: Registro inicial de nuevo paciente
+ESP-0001: Registro inicial de nuevo paciente
 
 #plantilla_especificacion(
   codigo: "ESP-0001",
@@ -514,7 +514,7 @@ A continuación, se presentan las fichas técnicas de especificación más repre
 
 #v(0.6em)
 
-#strong[ESP-0003]: Búsqueda y filtrado de pacientes en grilla
+ESP-0003: Búsqueda y filtrado de pacientes en grilla
 
 #plantilla_especificacion(
   codigo: "ESP-0003",
@@ -612,7 +612,7 @@ A continuación, se presentan las fichas técnicas de especificación más repre
 
 #v(0.6em)
 
-#strong[ESP-0005]: Generar constancia de atención del paciente
+ESP-0005: Generar constancia de atención del paciente
 
 #plantilla_especificacion(
   codigo: "ESP-0005",
@@ -705,7 +705,7 @@ A continuación, se presentan las fichas técnicas de especificación más repre
 
 #v(0.6em)
 
-#strong[ESP-0030]: Registro de asistencia
+ESP-0030: Registro de asistencia
 
 #plantilla_especificacion(
   codigo: "ESP-0030",
@@ -849,8 +849,8 @@ A continuación, se presentan las fichas técnicas de especificación más repre
 == Construcción de la Arquitectura Genérica
 
 A partir de los requisitos establecidos, se definieron las responsabilidades del sistema y se agruparon en dos niveles de detalle:
-- *Nivel 1*: Vista general que delimita las fronteras de la plataforma frente a los usuarios internos y los servicios externos.
-- *Nivel 2*: Descomposición interna que representa el acceso centralizado de las tres sucursales a la información de los pacientes mediante la infraestructura en la nube.
+- Nivel 1: Vista general que delimita las fronteras de la plataforma frente a los usuarios internos y los servicios externos.
+- Nivel 2: Descomposición interna que representa el acceso centralizado de las tres sucursales a la información de los pacientes mediante la infraestructura en la nube.
 
 === Diagrama de la Arquitectura Genérica: Nivel 1
 
