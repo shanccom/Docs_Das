@@ -16,4 +16,7 @@
   [22 / 09 / 2026], [2.0.0], [Revisión y corrección del diagrama de comportamiento: representación en dos niveles (nivel 1 y nivel 2) conforme a las observaciones del jefe de proyecto. Se actualizó y validó la documentación correspondiente.], [
     AUT-0001, AUT-0002, AUT-0003, AUT-0004, AUT-0006, AUT-0007, AUT-0008, AUT-0009, AUT-0010
   ],
+  [22 / 09 / 2026], [2.0.0], [Corrección de las secciones de conclusiones y observaciones según lo indicado por el docente, colocando las cantidades exactas para evitar ambigüedades.], [
+    AUT-0001, AUT-0002, AUT-0003, AUT-0004, AUT-0006, AUT-0007, AUT-0008, AUT-0009, AUT-0010
+  ],
 )
