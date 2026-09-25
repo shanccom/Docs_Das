@@ -34,7 +34,7 @@
   alineacion: (left + top, left + top),
   inset: (x: 7pt, y: 5pt),
   stroke: 0.5pt + luma(140),
-  tamano_letra: 9.5pt,              // Tamaño de letra óptimo
+  tamano_letra: 9pt,                // Tamaño de letra óptimo
   ..args,
 ) = {
   let named = args.named()
@@ -74,7 +74,7 @@
         align: ali,
         inset: ins,
         stroke: stk,
-        table.header(
+        table.header(repeat: false,
           table.cell(fill: col_enc, align: left + horizon)[
             #text(fill: col_txt, weight: "bold")[Código ilación]
           ],

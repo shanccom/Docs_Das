@@ -21,9 +21,9 @@
   "Quispe Madariaga Jeferson Jofre",
   "Suclle Suca Michael Benjamin",
 )
-#let docente = "Nombre Docente Apellido Nombre"
-#let lugar   = "AREQUIPA"
-#let fecha   = "11 - 09 - 2026"
+#let docente = "Mg. Percy Huertas Niquen"
+#let lugar   = "Arequipa - Perú"
+#let fecha   = "25 - 09 - 2026"
 // Para que la fecha sea la del día de compilación, usa:
 // #let fecha = datetime.today().display("[day] - [month] - [year]")
 
