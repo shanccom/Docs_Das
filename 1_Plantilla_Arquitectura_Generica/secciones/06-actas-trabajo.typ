@@ -38,10 +38,10 @@
     [AUT-0003], [Cuno Salazar Eduardo Joel], image("../imagenes/firmas/firma-03.png", height: 0.95cm),
     [AUT-0004], [Hancco Mullisaca Sergio Danilo], image("../imagenes/firmas/firma-04.png", height: 0.95cm),
     [AUT-0005], [Huacani Jara Denise Andrea], image("../imagenes/firmas/firma-05.png", height: 0.95cm),
-    [AUT-0006], [Mollo Chuquicaña Dolly Yadhira], image("../imagenes/firmas/firma-06.png", height: 0.95cm),
+    [AUT-0006], [#highlight(fill: yellow)[Mollo Chuquicaña Dolly Yadhira]], image("../imagenes/firmas/firma-06.png", height: 0.95cm),
     [AUT-0007], [Nina Calizaya Rafael Diego], image("../imagenes/firmas/firma-07.png", height: 0.95cm),
     [AUT-0008], [Pacheco Palo Fabiana Francinet], image("../imagenes/firmas/firma-08.png", height: 0.95cm),
-    [AUT-0009], [Quispe Madariaga Jeferson Jofre], image("../imagenes/firmas/firma-09.png", height: 0.95cm),
+    [AUT-0009], [#highlight(fill: yellow)[Quispe Madariaga Jeferson Jofre]], image("../imagenes/firmas/firma-09.png", height: 0.95cm),
     [AUT-0010], [Suclle Suca Michael Benjamin], image("../imagenes/firmas/firma-10.png", height: 0.95cm),
   )
 ]
@@ -173,10 +173,10 @@
     [AUT-0003], [Cuno Salazar Eduardo Joel], image("../imagenes/firmas/firma-03.png", height: 0.95cm),
     [AUT-0004], [Hancco Mullisaca Sergio Danilo], image("../imagenes/firmas/firma-04.png", height: 0.95cm),
     [AUT-0005], [Huacani Jara Denise Andrea], image("../imagenes/firmas/firma-05.png", height: 0.95cm),
-    [AUT-0006], [Mollo Chuquicaña Dolly Yadhira], image("../imagenes/firmas/firma-06.png", height: 0.95cm),
+    [AUT-0006], [#highlight(fill: yellow)[Mollo Chuquicaña Dolly Yadhira]], image("../imagenes/firmas/firma-06.png", height: 0.95cm),
     [AUT-0007], [Nina Calizaya Rafael Diego], image("../imagenes/firmas/firma-07.png", height: 0.95cm),
     [AUT-0008], [Pacheco Palo Fabiana Francinet], image("../imagenes/firmas/firma-08.png", height: 0.95cm),
-    [AUT-0009], [Quispe Madariaga Jeferson Jofre], image("../imagenes/firmas/firma-09.png", height: 0.95cm),
+    [AUT-0009], [#highlight(fill: yellow)[Quispe Madariaga Jeferson Jofre]], image("../imagenes/firmas/firma-09.png", height: 0.95cm),
     [AUT-0010], [Suclle Suca Michael Benjamin], image("../imagenes/firmas/firma-10.png", height: 0.95cm),
   )
 ]
@@ -308,10 +308,10 @@
     [AUT-0003], [Cuno Salazar Eduardo Joel], image("../imagenes/firmas/firma-03.png", height: 0.95cm),
     [AUT-0004], [Hancco Mullisaca Sergio Danilo], image("../imagenes/firmas/firma-04.png", height: 0.95cm),
     [AUT-0005], [Huacani Jara Denise Andrea], image("../imagenes/firmas/firma-05.png", height: 0.95cm),
-    [AUT-0006], [Mollo Chuquicaña Dolly Yadhira], image("../imagenes/firmas/firma-06.png", height: 0.95cm),
+    [AUT-0006], [#highlight(fill: yellow)[Mollo Chuquicaña Dolly Yadhira]], image("../imagenes/firmas/firma-06.png", height: 0.95cm),
     [AUT-0007], [Nina Calizaya Rafael Diego], image("../imagenes/firmas/firma-07.png", height: 0.95cm),
     [AUT-0008], [Pacheco Palo Fabiana Francinet], image("../imagenes/firmas/firma-08.png", height: 0.95cm),
-    [AUT-0009], [Quispe Madariaga Jeferson Jofre], image("../imagenes/firmas/firma-09.png", height: 0.95cm),
+    [AUT-0009], [#highlight(fill: yellow)[Quispe Madariaga Jeferson Jofre]], image("../imagenes/firmas/firma-09.png", height: 0.95cm),
     [AUT-0010], [Suclle Suca Michael Benjamin], image("../imagenes/firmas/firma-10.png", height: 0.95cm),
   )
 ]

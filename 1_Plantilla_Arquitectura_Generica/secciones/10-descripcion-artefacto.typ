@@ -880,7 +880,7 @@ El diagrama de Nivel 1 expresa la organización general del sistema clínico, id
       [*Requisitos no funcionales:*], [RNF-0001 (Disponibilidad), RNF-0002 (Rendimiento), RNF-0006 (Tiempo real)],
       [*Contexto / Módulo:*], [Arquitectura Genérica del sistema clínico OmVital — Nivel 1],
       [*Proceso representado:*], [Interacción y organización general del Sistema Clínico, mostrando los subsistemas de Pacientes y Administración y su acceso a una base de datos compartida.],
-      [*Versión:*], [1.0.0],
+      [*Versión:*], [1.0.1],
       [*Autor:*], [AUT-0006],
       [*Fecha:*], [17/09/2026],
       [*Justificación:*], [El diagrama representa la estructura general del Sistema Clínico, identificando sus dos subsistemas principales, Pacientes y Administración, y mostrando que ambos utilizan una base de datos compartida. Permite visualizar la organización general del sistema y sirve como base para los diagramas arquitectónicos posteriores.],
