@@ -82,6 +82,11 @@
 
     // Integrantes en 2 columnas (hasta 5 por columna), cada nombre centrado.
     // Las celdas se pasan en orden por filas: izquierda, derecha, izquierda, ...
+    let destacar(nombre) = if nombre in integrantes-destacados {
+      highlight(fill: yellow)[#nombre]
+    } else {
+      nombre
+    }
     let red-integrantes = block()
     if integrantes.len() > 0 {
       let col-mayor = integrantes.chunks(5)
@@ -89,8 +94,8 @@
       if n-filas > 0 {
         let celdas = ()
         for i in range(n-filas) {
-          celdas.push(align(center, col-mayor.at(0).at(i, default: block())))
-          let derecha = if col-mayor.len() > 1 { col-mayor.at(1).at(i, default: block()) } else { block() }
+          celdas.push(align(center, destacar(col-mayor.at(0).at(i, default: block()))))
+          let derecha = if col-mayor.len() > 1 { destacar(col-mayor.at(1).at(i, default: block())) } else { block() }
           celdas.push(align(center, derecha))
         }
         red-integrantes = grid(columns: (1fr, 1fr), column-gutter: 0.8cm, row-gutter: 0.35em, ..celdas)

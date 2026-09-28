@@ -22,6 +22,14 @@
   "Quispe Madariaga Jeferson Jofre",
   "Suclle Suca Michael Benjamin",
 )
+
+// Integrantes a resaltar en amarillo en la portada (primera página).
+// Dejar vacío () para no resaltar ninguno.
+#let integrantes-destacados = (
+  "Cuno Salazar Eduardo Joel",
+  "Mollo Chuquicaña Dolly Yadhira",
+  "Quispe Madariaga Jeferson Jofre",
+)
 #let docente = "Mg. Percy Huertas Niquen"
 #let lugar   = "Arequipa - Perú"
 #let fecha   = "25 - 09 - 2026"
