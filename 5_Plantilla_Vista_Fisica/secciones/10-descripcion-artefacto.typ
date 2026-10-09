@@ -108,10 +108,11 @@ Servicios externos ya disponibles, que no son dispositivos del sistema: WhatsApp
 )
 
 === Diagrama de despliegue 2: situación propuesta
-
 #figure(
-  image("../imagenes/diagramas/diagrama-despliegue-propuesto.png", width: 100%),
-  
+  rect(width: 100%, height: 7cm)[
+    #align(center + horizon)[#image("/assets/image-2.png")]
+  ],
+  caption: [D-FIS-002: Diagrama de despliegue de #sistema – situación propuesta.],
 )
 
 #table(
