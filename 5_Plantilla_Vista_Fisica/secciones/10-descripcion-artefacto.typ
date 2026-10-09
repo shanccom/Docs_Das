@@ -39,10 +39,10 @@ Tomados del análisis del Diagrama de Comportamiento (valores referenciales): tr
   table.header(
     [*N.°*], [*Dispositivo*], [*Función en el sistema*], [*Cant.*], [*Fuente*],
   ),
-  [1], [Laptop estándar de oficina (4 a 8 GB de RAM)], [Cliente de la aplicación web en recepción: registro, check-in, carga de firma en PDF.], [[CONFIRMAR] por sede], [Observaciones de DIA-CMP-0001],
-  [2], [Conexión a Internet de la clínica (router o módem)], [Acceso de cada sucursal a la nube.], [[CONFIRMAR] 3], [Observaciones de la Arquitectura Genérica (RNF-0001)],
-  [3], [Equipo del fisioterapeuta en consultorio (PC, laptop o celular)], [Registro de notas de evolución (SOAP) y consulta de la ficha del paciente.], [[CONFIRMAR]], [Sin confirmar en los documentos],
-  [4], [Impresora para constancias], [Impresión de la constancia de atención.], [[CONFIRMAR]], [Sin confirmar en los documentos],
+  [1], [Laptop estándar de oficina (4 a 8 GB de RAM)], [Cliente de la aplicación web en recepción: registro, check-in, carga de firma en PDF.], [1], [Observaciones de DIA-CMP-0001],
+  [2], [Conexión a Internet de la clínica (router o módem)], [Acceso de cada sucursal a la nube.], [3], [Observaciones de la Arquitectura Genérica (RNF-0001)],
+  [3], [Equipo del fisioterapeuta en consultorio (PC, laptop o celular)], [Registro de notas de evolución (SOAP) y consulta de la ficha del paciente.], [0], [Entrevista 05, se tiene previsto una tableta en el futuro],
+  [4], [Impresora para constancias], [Impresión de la constancia de atención.], [0], [Entrevista 05],
 )
 
 Servicios externos ya disponibles, que no son dispositivos del sistema: WhatsApp y correo electrónico (confirmaciones y recordatorios), módulo financiero y de facturación, y servicio de firma digital (Firma Perú).
@@ -51,7 +51,7 @@ Servicios externos ya disponibles, que no son dispositivos del sistema: WhatsApp
 
 #figure(
   rect(width: 100%, height: 7cm)[
-    #align(center + horizon)[Insertar aquí el diagrama D-FIS-001 (situación actual)]
+    #align(center + horizon)[#image("/assets/image-1.png")]
   ],
   caption: [D-FIS-001: Diagrama de despliegue de #sistema – situación actual.],
 )
@@ -67,10 +67,10 @@ Servicios externos ya disponibles, que no son dispositivos del sistema: WhatsApp
   [Contexto / módulo], [Vista Física de #sistema – situación actual],
   [Proceso representado], [Dispositivos existentes en las tres sucursales (clientes de recepción y consultorio y conexión a Internet). Evidencia que aún no existe infraestructura central para compartir datos entre sedes.],
   [Versión], [1.0.0],
-  [Autor], [[AUT-xxxx]],
-  [Fecha], [[dd/mm/2026]],
+  [Autor], [AUT-0008],
+  [Fecha], [08/10/2026],
   [Justificación], [Establece la línea base de la infraestructura disponible y permite medir la brecha frente a los RNF.],
-  [Estado], [[Concluido / En revisión]],
+  [Estado], [[Concluido]],
   [Código de artefactos], [EDU-0001, EDU-0002, EDU-0025, EDU-0026, EDU-0029, EDU-0032, EDU-0033],
   [Comentarios], [Ninguno],
 )
@@ -85,7 +85,7 @@ Servicios externos ya disponibles, que no son dispositivos del sistema: WhatsApp
   table.header(
     [*N.°*], [*Dispositivo*], [*Justificación*], [*RNF*], [*Cant.*],
   ),
-  [A1], [Tableta de captura de firma], [Captura de firma del paciente en menos de 10 s. En el análisis de DIA-CMP-0001 la captura en laptop toma 2 a 4 s frente a menos de 1 s con tableta dedicada, lo que importa en los picos de afluencia.], [RNF-0003], [[CONFIRMAR] por sede],
+  [A1], [Tableta de captura de firma], [Captura de firma del paciente en menos de 10 s. En el análisis de DIA-CMP-0001 la captura en laptop toma 2 a 4 s frente a menos de 1 s con tableta dedicada, lo que importa en los picos de afluencia.], [RNF-0003], [1],
   [A2], [Router con VPN y firewall], [Enlace seguro entre cada sede y la nube (HTTPS/VPN) y filtrado del tráfico.], [RNF-0010], [3],
   [A3], [Enlace de Internet secundario], [Reduce la dependencia de un único proveedor de conectividad (observación de RNF-0001).], [RNF-0001], [3],
 )
@@ -110,10 +110,8 @@ Servicios externos ya disponibles, que no son dispositivos del sistema: WhatsApp
 === Diagrama de despliegue 2: situación propuesta
 
 #figure(
-  rect(width: 100%, height: 8cm)[
-    #align(center + horizon)[Insertar aquí el diagrama D-FIS-002 (existentes + a adquirir)]
-  ],
-  caption: [D-FIS-002: Diagrama de despliegue de #sistema – situación propuesta.],
+  image("../imagenes/diagramas/diagrama-despliegue-propuesto.png", width: 100%),
+  
 )
 
 #table(
@@ -127,10 +125,10 @@ Servicios externos ya disponibles, que no son dispositivos del sistema: WhatsApp
   [Contexto / módulo], [Vista Física de #sistema – situación propuesta],
   [Proceso representado], [Acceso de las tres sucursales a una infraestructura centralizada en la nube mediante HTTPS/VPN, con servidores replicables, base de datos con réplica, caché, almacenamiento de archivos, respaldo y monitoreo. Distingue con otro color los dispositivos existentes de los que deben adquirirse.],
   [Versión], [1.0.0],
-  [Autor], [[AUT-xxxx]],
-  [Fecha], [[dd/mm/2026]],
+  [Autor], [AUT-0008],
+  [Fecha], [08/10/2026],
   [Justificación], [Concreta en infraestructura los componentes de D-DP-001 y cumple los RNF aprobados.],
-  [Estado], [[Concluido / En revisión]],
+  [Estado], [Concluido],
   [Código de artefactos], [RNF-0001, RNF-0002, RNF-0003, RNF-0006, RNF-0007, RNF-0010, EDU-0027],
   [Comentarios], [Ninguno],
 )
