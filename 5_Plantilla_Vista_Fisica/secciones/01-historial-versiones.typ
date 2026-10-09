@@ -8,7 +8,7 @@
   table.header(
     [*FECHA*], [*OBSERVACIONES*], [*VERSIÓN*], [*NOTA*], [*V°B°*]
   ),
-  [-- / -- / ----], [Versión inicial del documento.], [1.0.0], [], [],
+  [08 / 10 / 2026], [Versión inicial: inventario de dispositivos existentes y propuestos, diagramas D-FIS-001 y D-FIS-002.], [1.0.0], [], [],
 )
 
 #pagebreak()
