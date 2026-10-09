@@ -106,11 +106,11 @@ Servicios externos ya disponibles, que no son dispositivos del sistema: WhatsApp
   [B6], [Respaldo y replicación], [Copias de seguridad periódicas de la base de datos y los archivos (ESP-0043).], [RNF-0001],
   [B7], [Registro de auditoría y monitoreo con alertas], [Trazabilidad de operaciones clínicas (ESP-0041) y detección de fallas.], [RNF-0001, RNF-0010],
 )
-
 === Diagrama de despliegue 2: situación propuesta
+
 #figure(
   rect(width: 100%, height: 7cm)[
-    #align(center + horizon)[#image("/assets/image-2.png")]
+    #align(center + horizon)[#image("/assets/image-4.png")]
   ],
   caption: [D-FIS-002: Diagrama de despliegue de #sistema – situación propuesta.],
 )

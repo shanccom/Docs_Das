@@ -8,5 +8,5 @@
   table.header(
     [*Fecha*], [*Versión*], [*Descripción*], [*Autores*],
   ),
-  [[dd/mm/2026]], [1.0.0], [Versión inicial: inventario de dispositivos existentes y propuestos, diagramas D-FIS-001 y D-FIS-002.], [[AUT-xxxx]],
+  [[09/10/2026]], [1.0.0], [Versión inicial: inventario de dispositivos existentes y propuestos, diagramas D-FIS-001 y D-FIS-002.], [[AUT-0008]],
 )
