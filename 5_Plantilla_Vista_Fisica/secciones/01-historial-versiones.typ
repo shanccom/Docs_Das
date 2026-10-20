@@ -8,7 +8,7 @@
   table.header(
     [*FECHA*], [*OBSERVACIONES*], [*VERSIÓN*], [*NOTA*], [*V°B°*]
   ),
-  [08 / 10 / 2026], [Versión inicial: inventario de dispositivos existentes y propuestos, diagramas D-FIS-001 y D-FIS-002.], [1.0.0], [], [],
+  [08/10/2026], [Versión inicial: inventario de dispositivos existentes y propuestos, diagramas D-FIS-001 y D-FIS-002.], [1.0.0], [], [], [20/10/2026], [Diagramas considerando Procesos.],[1.1.0]
 )
 
 #pagebreak()
