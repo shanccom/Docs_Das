@@ -13,9 +13,9 @@
 #let color-fondo   = white
 #let color-borde-carril = rgb("#cbd5e1")
 #let color-fork    = rgb("#0f172a")
-#let color-guarda  = rgb("#1e40af")
-#let color-nota-bg = rgb("#fffbeb")
-#let color-nota-br = rgb("#d97706")
+#let color-guarda  = rgb("#0f3d75")
+#let color-nota-bg = rgb("#f1f5f9")
+#let color-nota-br = rgb("#64748b")
 
 // ------------------------------------------------------------
 // Primitivas estándar OMG UML 2.5.1
@@ -56,7 +56,7 @@
       {
         set text(font: ("Arial", "Segoe UI"), lang: "es")
         set par(leading: 0.44em, spacing: 0pt)
-        align(center + horizon, text(size: size, weight: "medium", fill: stroke, texto))
+        align(center + horizon, text(size: size, weight: "medium", fill: rgb("#0f172a"), texto))
       }
     )
   )
@@ -120,7 +120,7 @@
   ))
   place(dx: x0 + w - fold, dy: y0, polygon(
     (0cm, 0cm), (0cm, fold), (fold, fold),
-    fill: rgb("#fde68a"),
+    fill: rgb("#cbd5e1"),
     stroke: (paint: color-nota-br, thickness: trazo-fino),
   ))
   place(dx: x0, dy: y0, block(
@@ -131,9 +131,9 @@
       stack(
         dir: ttb,
         spacing: 1.8pt,
-        text(size: 5.5pt, weight: "bold", fill: rgb("#92400e"), cod),
+        text(size: 5.5pt, weight: "bold", fill: rgb("#0f172a"), cod),
         if desc != "" {
-          text(size: 4.7pt, fill: rgb("#78350f"), desc)
+          text(size: 4.7pt, fill: rgb("#334155"), desc)
         }
       )
     })
@@ -204,11 +204,11 @@
     let h_lane = 14.85cm
 
     let carriles = (
-      ("Carril 1: UI Cliente", "«process» P-CLI-01/02", 3.00cm, rgb("#f8fafc")),
-      ("Carril 2: API Gateway", "«process» P-SRV-01", 3.40cm, rgb("#eef2ff")),
-      ("Carril 3: Persistencia ACID", "«process» P-DAT-01", 3.10cm, rgb("#f1f5f9")),
-      ("Carril 4: Tiempo Real", "«process» P-SRV-02", 3.20cm, rgb("#faf5ff")),
-      ("Carril 5: Worker Async", "«process» P-WRK-01", 3.90cm, rgb("#f0fdf4")),
+      ("Carril 1: UI Cliente", "P-CLI-01/02", 3.00cm, rgb("#ffffff")),
+      ("Carril 2: API Gateway", "P-SRV-01", 3.40cm, rgb("#f8fafc")),
+      ("Carril 3: Persistencia ACID", "P-DAT-01", 3.10cm, rgb("#ffffff")),
+      ("Carril 4: Tiempo Real", "P-SRV-02", 3.20cm, rgb("#f8fafc")),
+      ("Carril 5: Worker Async", "P-WRK-01", 3.90cm, rgb("#ffffff")),
     )
 
     // Dibujar fondos y encabezados de carriles
@@ -267,8 +267,8 @@
     let y_ini = 1.65cm
     nodo-inicial(c1, y_ini, r: 0.15cm)
 
-    // Nota RNF-0002 en Carril 2 arriba de Action 2 (Conexión vertical directa)
-    nota-n2(c2, y_ini, 2.50cm, 0.52cm, "RNF-0002", "DNI <= 500ms · Saldo <= 3s", c2, 2.35cm - h_act / 2)
+    // Nota ILA-0020 en Carril 2 arriba de Action 2 (Conexión vertical directa)
+    nota-n2(c2, y_ini, 2.50cm, 0.52cm, "ILA-0020", "ESP-0030 · Check-in síncrono", c2, 2.35cm - h_act / 2)
 
     // 2. Solicitar Check-in (Carril 1)
     let y_act1 = 2.35cm
@@ -278,7 +278,7 @@
 
     // 3. Validar JWT y verificar saldo (Carril 2)
     let y_act2 = 2.35cm
-    accion-n2(c2, y_act2, w_box2, h_act, "2. Validar Token JWT y consultar\nsaldo a API Financiera (<= 3s)", fill: rgb("#e0e7ff"), stroke: rgb("#4338ca"))
+    accion-n2(c2, y_act2, w_box2, h_act, "2. Validar Token JWT y consultar\nsaldo a API Financiera (<= 3s)", fill: white, stroke: color-linea)
     place(dx: 0cm, dy: 0cm, line(start: (c1 + w_box1 / 2, y_act1), end: (c2 - w_box2 / 2, y_act2), stroke: (paint: color-linea, thickness: trazo)))
     punta-derecha(c2 - w_box2 / 2, y_act2)
 
@@ -290,7 +290,7 @@
 
     // Rama [No / Timeout] de Decisión 1 -> Notificar caja en Carril 1
     let y_err1 = 3.30cm
-    accion-n2(c1, y_err1, w_box1, h_act, "Aviso: 'Pago Pendiente'\nen caja de cobro", fill: rgb("#fff1f2"), stroke: rgb("#e11d48"))
+    accion-n2(c1, y_err1, w_box1, h_act, "Aviso: 'Pago Pendiente'\nen caja de cobro", fill: white, stroke: rgb("#475569"))
     place(dx: 0cm, dy: 0cm, line(start: (c2 - 0.85cm, y_dec1), end: (c1 + w_box1 / 2, y_err1), stroke: (paint: color-linea, thickness: trazo)))
     punta-izquierda(c1 + w_box1 / 2, y_err1)
     guarda(3.10cm, y_dec1 - 0.28cm, "[No/Timeout]")
@@ -320,18 +320,18 @@
 
     // Rama 2 (Carril 3 - BD): Bloqueo ACID
     let y_f1_db = 5.10cm
-    accion-n2(c3, y_f1_db, w_box3, h_act, "4b. Bloqueo de camilla y\ndeducción de sesión ACID", fill: rgb("#e2e8f0"), stroke: rgb("#334155"))
+    accion-n2(c3, y_f1_db, w_box3, h_act, "4b. Bloqueo de camilla y\ndeducción de sesión ACID", fill: rgb("#f1f5f9"), stroke: rgb("#334155"))
     place(dx: 0cm, dy: 0cm, line(start: (c3, y_fork1 + 0.055cm), end: (c3, y_f1_db - h_act / 2), stroke: (paint: color-linea, thickness: trazo)))
     punta-abajo(c3, y_f1_db - h_act / 2)
 
     // Rama 3 (Carril 4 - WSS): Difusión tiempo real
     let y_f1_ws = 5.10cm
-    accion-n2(c4, y_f1_ws, w_box4, h_act, "4c. Broadcast WSS:\nCamilla 'Ocupada' (< 1s)", fill: rgb("#faf5ff"), stroke: rgb("#7e22ce"))
+    accion-n2(c4, y_f1_ws, w_box4, h_act, "4c. Broadcast WSS:\nCamilla 'Ocupada' (< 1s)", fill: white, stroke: color-linea)
     place(dx: 0cm, dy: 0cm, line(start: (c4, y_fork1 + 0.055cm), end: (c4, y_f1_ws - h_act / 2), stroke: (paint: color-linea, thickness: trazo)))
     punta-abajo(c4, y_f1_ws - h_act / 2)
 
-    // Nota RNF-0006 en Carril 5 a la altura de Fork 1 (Carril 5 está libre aquí)
-    nota-n2(c5, 5.10cm, 2.40cm, 0.65cm, "RNF-0006", "WSS Latencia < 1s", c4 + w_box4 / 2, y_f1_ws)
+    // Nota ILA-0019 en Carril 5 a la altura de Fork 1 (Carril 5 está libre aquí)
+    nota-n2(c5, 5.10cm, 2.40cm, 0.65cm, "ILA-0019", "ESP-0027 · Broadcast WSS", c4 + w_box4 / 2, y_f1_ws)
 
     // ============================================================
     // SINCRONIZACIÓN DE CHECK-IN (JOINNODE 1) — OMG UML 2.5.1
@@ -358,7 +358,7 @@
 
     // Conector de Carril 1 a Carril 2 (Orquestar Cierre)
     let y_act6 = 6.80cm
-    accion-n2(c2, y_act6, w_box2, h_act, "6. Orquestar cierre de sesión\ny payload de notas SOAP", fill: rgb("#e0e7ff"), stroke: rgb("#4338ca"))
+    accion-n2(c2, y_act6, w_box2, h_act, "6. Orquestar cierre de sesión\ny payload de notas SOAP", fill: white, stroke: color-linea)
     place(dx: 0cm, dy: 0cm, line(start: (c1 + w_box1 / 2, y_act5), end: (c2 - w_box2 / 2, y_act6), stroke: (paint: color-linea, thickness: trazo)))
     punta-derecha(c2 - w_box2 / 2, y_act6)
 
@@ -386,7 +386,7 @@
 
     // Rama B (Carril 3 - BD): Liberar Camilla en BD
     let y_f2_db = 8.60cm
-    accion-n2(c3, y_f2_db, w_box3, h_act, "7b. Actualizar estado BD:\n'En Desinfección'", fill: rgb("#e2e8f0"), stroke: rgb("#334155"))
+    accion-n2(c3, y_f2_db, w_box3, h_act, "7b. Actualizar estado BD:\n'En Desinfección'", fill: rgb("#f1f5f9"), stroke: rgb("#334155"))
     place(dx: 0cm, dy: 0cm, line(start: (c3, y_fork2 + 0.055cm), end: (c3, y_f2_db - h_act / 2), stroke: (paint: color-linea, thickness: trazo)))
     punta-abajo(c3, y_f2_db - h_act / 2)
 
@@ -398,7 +398,7 @@
 
     // Rama C (Carril 4 - WSS): Difusión Camilla Liberada
     let y_f2_ws = 8.60cm
-    accion-n2(c4, y_f2_ws, w_box4, h_act, "7c. Broadcast WSS:\nCamilla 'Disponible'", fill: rgb("#faf5ff"), stroke: rgb("#7e22ce"))
+    accion-n2(c4, y_f2_ws, w_box4, h_act, "7c. Broadcast WSS:\nCamilla 'Disponible'", fill: white, stroke: color-linea)
     place(dx: 0cm, dy: 0cm, line(start: (c4, y_fork2 + 0.055cm), end: (c4, y_f2_ws - h_act / 2), stroke: (paint: color-linea, thickness: trazo)))
     punta-abajo(c4, y_f2_ws - h_act / 2)
 
@@ -414,25 +414,25 @@
 
     // Rama D (Carril 5 - Worker): Encolamiento asíncrono
     let y_f2_wrk = 8.60cm
-    accion-n2(c5, y_f2_wrk, w_box5, h_act, "7d. Encolar payload en\nQueue de Workers", fill: rgb("#dcfce7"), stroke: rgb("#15803d"))
+    accion-n2(c5, y_f2_wrk, w_box5, h_act, "7d. Encolar payload en\nQueue de Workers", fill: rgb("#f8fafc"), stroke: rgb("#334155"))
     place(dx: 0cm, dy: 0cm, line(start: (c5, y_fork2 + 0.055cm), end: (c5, y_f2_wrk - h_act / 2), stroke: (paint: color-linea, thickness: trazo)))
     punta-abajo(c5, y_f2_wrk - h_act / 2)
 
     // 8. Renderizado PDF (Carril 5)
     let y_act8 = 9.85cm
-    accion-n2(c5, y_act8, w_box5, h_act, "8. Compilar constancia PDF\ncon firma digital (<= 5s)", fill: rgb("#dcfce7"), stroke: rgb("#15803d"))
+    accion-n2(c5, y_act8, w_box5, h_act, "8. Compilar constancia PDF\ncon firma digital (<= 5s)", fill: rgb("#f8fafc"), stroke: rgb("#334155"))
     place(dx: 0cm, dy: 0cm, line(start: (c5, y_f2_wrk + h_act / 2), end: (c5, y_act8 - h_act / 2), stroke: (paint: color-linea, thickness: trazo)))
     punta-abajo(c5, y_act8 - h_act / 2)
 
     // 9. Persistencia en AWS S3 (Carril 5)
     let y_act9 = 11.05cm
-    accion-n2(c5, y_act9, w_box5, h_act, "9. Subir constancia a S3\n(Inmutable AES-256)", fill: rgb("#dcfce7"), stroke: rgb("#15803d"))
+    accion-n2(c5, y_act9, w_box5, h_act, "9. Subir constancia a S3\n(Inmutable AES-256)", fill: rgb("#f8fafc"), stroke: rgb("#334155"))
     place(dx: 0cm, dy: 0cm, line(start: (c5, y_act8 + h_act / 2), end: (c5, y_act9 - h_act / 2), stroke: (paint: color-linea, thickness: trazo)))
     punta-abajo(c5, y_act9 - h_act / 2)
 
     // 10. Despacho WhatsApp API (Carril 5)
     let y_act10 = 12.25cm
-    accion-n2(c5, y_act10, w_box5, h_act, "10. Despachar ticket y cita\npor WhatsApp API", fill: rgb("#dcfce7"), stroke: rgb("#15803d"))
+    accion-n2(c5, y_act10, w_box5, h_act, "10. Despachar ticket y cita\npor WhatsApp API", fill: rgb("#f8fafc"), stroke: rgb("#334155"))
     place(dx: 0cm, dy: 0cm, line(start: (c5, y_act9 + h_act / 2), end: (c5, y_act10 - h_act / 2), stroke: (paint: color-linea, thickness: trazo)))
     punta-abajo(c5, y_act10 - h_act / 2)
 
@@ -445,25 +445,25 @@
     // ============================================================
     // NOTAS UML 2.5.1 (Ubicadas en Carril 4 alineadas a Actions 8 y 9)
     // ============================================================
-    // RNF-0007 en Carril 4 a la altura exacta de Action 8
-    nota-n2(c4, y_act8, 2.40cm, 0.65cm, "RNF-0007", "Render PDF <= 5s", c5 - w_box5 / 2, y_act8)
+    // ILA-0017 en Carril 4 a la altura exacta de Action 8
+    nota-n2(c4, y_act8, 2.40cm, 0.65cm, "ILA-0017", "ESP-0024 · Pipeline PDF S3", c5 - w_box5 / 2, y_act8)
 
-    // RNF-0010 en Carril 4 a la altura exacta de Action 9
-    nota-n2(c4, y_act9, 2.40cm, 0.65cm, "RNF-0010", "S3 Cifrado AES-256", c5 - w_box5 / 2, y_act9)
+    // ILA-0017 (Persistencia inmutable) en Carril 4 a la altura exacta de Action 9
+    nota-n2(c4, y_act9, 2.55cm, 0.65cm, "ILA-0017", "ESP-0025 · S3 Inmutable AES-256", c5 - w_box5 / 2, y_act9)
 
     // ============================================================
     // LEYENDA FORMAL OMG UML 2.5.1 (Bottom Legend Bar)
     // ============================================================
-    place(dx: 0.20cm, dy: 15.65cm, block(
+    place(dx: 0.20cm, dy: 14.85cm, block(
       width: 16.60cm,
-      height: 1.35cm,
+      height: 0.95cm,
       fill: rgb("#f8fafc"),
       stroke: (paint: rgb("#cbd5e1"), thickness: 0.6pt),
       radius: 3pt,
-      inset: (x: 10pt, y: 4pt),
+      inset: (x: 8pt, y: 3pt),
       {
-        set text(size: 5.4pt, font: ("Arial", "Segoe UI"))
-        set par(leading: 0.44em, spacing: 0pt)
+        set text(size: 5.2pt, font: ("Arial", "Segoe UI"))
+        set par(leading: 0.40em, spacing: 0pt)
         grid(
           columns: (1fr, 1.1fr),
           gutter: 8pt,
@@ -475,7 +475,7 @@
           [
             *Concurrencia y Sincronización:* \
             • #text(weight: "bold", fill: color-fork, [▬]) Barra de bifurcación (Fork) y sincronización (Join) \
-            • #text(weight: "bold", fill: color-nota-br, [Nota]): Requisito No Funcional asociado
+            • #text(weight: "bold", fill: color-nota-br, [Nota]): Trazabilidad a Ilación / Especificación
           ]
         )
       }
