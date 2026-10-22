@@ -1,48 +1,40 @@
 // ============================================================
-// DIA-PRC-0001 — Diagrama de Procesos (Nivel 2: Concurrencia en Detalle)
-// Sistema: OmVital Physio Control
-// Estándar: OMG UML 2.5.1 — ActivityPartitions & Nodos de Control
-// Notación: Carriles de Hilos/Procesos, ForkNode, JoinNode, FlowFinalNode
-// Primitivas vectoriales de Typst
+// DIA-PRC-0001 — Diagrama de Procesos Integrado del Sistema
+// Estándar: OMG UML 2.5.1 (Sección 15.6 ActivityPartitions)
+// Matriz Bidimensional de Actividad:
+//   - Eje Horizontal (Filas): Ilaciones del Negocio (ILA-0020, ILA-0019, ILA-0017)
+//   - Eje Vertical (Columnas): Capas de Ejecución Arquitectónicas
+// Gama Tonal: Pizarra / Cool Neutrals (Slate #f8fafc a #0f172a)
 // ============================================================
 
-#let trazo         = 0.70pt
+#let trazo         = 0.65pt
 #let trazo-fino    = 0.45pt
 #let trazo-grueso  = 1.10pt
 #let color-linea   = rgb("#1e293b")
 #let color-fondo   = white
 #let color-borde-carril = rgb("#cbd5e1")
 #let color-fork    = rgb("#0f172a")
-#let color-guarda  = rgb("#0f3d75")
-#let color-nota-bg = rgb("#f1f5f9")
-#let color-nota-br = rgb("#64748b")
+#let color-guarda  = rgb("#1e293b")
 
-// ------------------------------------------------------------
-// Primitivas estándar OMG UML 2.5.1
-// ------------------------------------------------------------
-
-// 1. Nodo Inicial (InitialNode: Círculo negro sólido)
-#let nodo-inicial(cx, cy, r: 0.15cm) = place(
+// Primitivas gráficas estándar OMG UML 2.5.1
+#let nodo-inicial(cx, cy, r: 0.14cm) = place(
   dx: cx - r, dy: cy - r,
   circle(radius: r, fill: color-fork, stroke: none),
 )
 
-// 2. Nodo Final de Actividad (ActivityFinalNode: Círculo concéntrico)
-#let nodo-final-actividad(cx, cy, r-ext: 0.20cm, r-int: 0.11cm) = {
+#let nodo-final-actividad(cx, cy, r-ext: 0.19cm, r-int: 0.10cm) = {
   place(dx: cx - r-ext, dy: cy - r-ext, circle(radius: r-ext, fill: color-fondo, stroke: (paint: color-linea, thickness: trazo)))
   place(dx: cx - r-int, dy: cy - r-int, circle(radius: r-int, fill: color-fork, stroke: none))
 }
 
-// 3. Nodo Final de Flujo (FlowFinalNode: Círculo con X interna - UML 2.5.1 Cl. 15.3.3.5)
-#let nodo-final-flujo(cx, cy, r: 0.16cm) = {
+#let nodo-final-flujo(cx, cy, r: 0.14cm) = {
   place(dx: cx - r, dy: cy - r, circle(radius: r, fill: color-fondo, stroke: (paint: color-linea, thickness: trazo)))
   let d = r * 0.707
   place(dx: 0cm, dy: 0cm, line(start: (cx - d, cy - d), end: (cx + d, cy + d), stroke: (paint: color-linea, thickness: trazo)))
   place(dx: 0cm, dy: 0cm, line(start: (cx - d, cy + d), end: (cx + d, cy - d), stroke: (paint: color-linea, thickness: trazo)))
 }
 
-// 4. Nodo de Acción UML (Action: Rectángulo redondeado)
-#let accion-n2(cx, cy, ancho, alto, texto, fill: white, stroke: color-linea, size: 5.3pt) = {
+#let accion-n2(cx, cy, ancho, alto, texto, fill: white, stroke: color-linea, size: 4.85pt) = {
   place(
     dx: cx - ancho / 2,
     dy: cy - alto / 2,
@@ -55,14 +47,13 @@
       radius: 3pt,
       {
         set text(font: ("Arial", "Segoe UI"), lang: "es")
-        set par(leading: 0.44em, spacing: 0pt)
+        set par(leading: 0.35em, spacing: 0pt)
         align(center + horizon, text(size: size, weight: "medium", fill: rgb("#0f172a"), texto))
       }
     )
   )
 }
 
-// 5. Barra de ForkNode / JoinNode UML (Solid thick bar - UML 2.5.1 Cl. 15.3.4.1/2)
 #let barra-sincronizacion(cx, cy, ancho, grosor: 0.11cm) = {
   place(
     dx: cx - ancho / 2,
@@ -77,8 +68,7 @@
   )
 }
 
-// 6. Nodo de Decisión / Fusión (Rombo UML 2.5.1 Cl. 15.3.4.3)
-#let rombo-n2(cx, cy, hw, hh, texto: none, size: 5.2pt) = {
+#let rombo-n2(cx, cy, hw, hh, texto: none, size: 5.0pt) = {
   place(
     dx: cx - hw, dy: cy - hh,
     polygon(
@@ -99,81 +89,40 @@
   }
 }
 
-// 7. Guarda UML [Condición]
 #let guarda(x, y, txt) = place(
   dx: x, dy: y,
-  text(size: 5.3pt, weight: "bold", font: ("Arial", "Segoe UI"), fill: color-guarda, txt)
+  text(size: 5.0pt, weight: "bold", font: ("Arial", "Segoe UI"), fill: color-guarda, txt)
 )
 
-// 8. Nota UML 2.5.1 (Dog-ear Note)
-#let nota-n2(cx, cy, ancho, alto, cod, desc, tx, ty) = {
-  let fold = 0.12cm
-  let x0 = cx - ancho / 2
-  let y0 = cy - alto / 2
-  let w = ancho
-  let h = alto
-
-  place(dx: x0, dy: y0, polygon(
-    (0cm, 0cm), (w - fold, 0cm), (w, fold), (w, h), (0cm, h),
-    fill: color-nota-bg,
-    stroke: (paint: color-nota-br, thickness: trazo-fino, dash: "dashed"),
-  ))
-  place(dx: x0 + w - fold, dy: y0, polygon(
-    (0cm, 0cm), (0cm, fold), (fold, fold),
-    fill: rgb("#cbd5e1"),
-    stroke: (paint: color-nota-br, thickness: trazo-fino),
-  ))
-  place(dx: x0, dy: y0, block(
-    width: w, height: h,
-    align(center + horizon, {
-      set text(font: ("Arial", "Segoe UI"), lang: "es")
-      set par(leading: 0.38em)
-      stack(
-        dir: ttb,
-        spacing: 1.8pt,
-        text(size: 5.5pt, weight: "bold", fill: rgb("#0f172a"), cod),
-        if desc != "" {
-          text(size: 4.7pt, fill: rgb("#334155"), desc)
-        }
-      )
-    })
-  ))
-  // Conector discontinuo sin flecha (UML 2.5.1 Cl. 7.2.4)
-  let x_start = if cx < tx { cx + w / 2 } else if cx > tx { cx - w / 2 } else { cx }
-  let y_start = if cy < ty { cy + h / 2 } else if cy > ty { cy - h / 2 } else { cy }
-  place(dx: 0cm, dy: 0cm, line(
-    start: (x_start, y_start),
-    end: (tx, ty),
-    stroke: (paint: color-nota-br, thickness: trazo-fino, dash: "dashed"),
-  ))
-}
-
-// 9. Puntas de Flecha
-#let punta-abajo(x, y, s: 0.09cm, fill: color-linea) = place(
+#let punta-abajo(x, y, s: 0.08cm, fill: color-linea) = place(
   dx: x - s, dy: y - 2 * s,
   polygon((0cm, 0cm), (2 * s, 0cm), (s, 2 * s), fill: fill, stroke: none),
 )
-#let punta-derecha(x, y, s: 0.09cm, fill: color-linea) = place(
+#let punta-arriba(x, y, s: 0.08cm, fill: color-linea) = place(
+  dx: x - s, dy: y,
+  polygon((0cm, 2 * s), (2 * s, 2 * s), (s, 0cm), fill: fill, stroke: none),
+)
+#let punta-derecha(x, y, s: 0.08cm, fill: color-linea) = place(
   dx: x - 2 * s, dy: y - s,
   polygon((0cm, 0cm), (0cm, 2 * s), (2 * s, s), fill: fill, stroke: none),
 )
-#let punta-izquierda(x, y, s: 0.09cm, fill: color-linea) = place(
+#let punta-izquierda(x, y, s: 0.08cm, fill: color-linea) = place(
   dx: x, dy: y - s,
   polygon((2 * s, 0cm), (2 * s, 2 * s), (0cm, s), fill: fill, stroke: none),
 )
 
 // ------------------------------------------------------------
-// Diagrama Nivel 2 Exportado (Atomic Box 17.0cm × 17.2cm)
+// Diagrama Exportado: DIA-PRC-0001 (17.0cm × 17.4cm)
 // ------------------------------------------------------------
 #let diagrama_nivel_2 = box(
   width: 17.0cm,
-  height: 17.2cm,
+  height: 17.4cm,
   fill: white,
   stroke: (paint: rgb("#94a3b8"), thickness: 0.70pt),
   radius: 3pt,
   {
     set text(font: ("Arial", "Segoe UI"), lang: "es")
-    set par(leading: 0.42em)
+    set par(leading: 0.40em)
 
     // --- Encabezado del Marco UML 2.5.1 (Diagram Frame) ---
     place(dx: 0cm, dy: 0cm, block(
@@ -184,58 +133,81 @@
       inset: (x: 8pt),
       align(left + horizon, {
         grid(
-          columns: (auto, 1fr),
+          columns: (1fr, auto),
           align: (left + horizon, right + horizon),
-          [
-            #text(size: 7.2pt, weight: "bold", fill: rgb("#0f172a"), [act DIA-PRC-0001 · Concurrencia de Procesos en Carriles (Nivel 2)])
-            #h(8pt)
-            #text(size: 5.8pt, fill: rgb("#64748b"), [Flujo Concurrente y Sincronización de Hilos · Nivel 2])
-          ],
-          [
-            #text(size: 5.8pt, weight: "medium", fill: rgb("#475569"), [OmVital Physio Control])
-          ]
+          stack(
+            dir: ttb,
+            spacing: 2.2pt,
+            text(size: 6.6pt, weight: "bold", fill: rgb("#0f172a"), [act DIA-PRC-0001 · Diagrama de Procesos Integrado del Sistema]),
+            text(size: 5.1pt, fill: rgb("#475569"), [Flujo asistencial unificado: ILA-0020, ILA-0019, ILA-0017]),
+          ),
+          text(size: 5.8pt, weight: "medium", fill: rgb("#334155"), [OmVital Physio Control])
         )
       })
     ))
 
-    // Geometría de los 5 Carriles de Ejecución (Suma de anchos: 16.60cm)
+    // ============================================================
+    // GEOMETRÍA DE LA MATRIZ BIDIMENSIONAL
+    // ============================================================
     let x0 = 0.20cm
     let y_top = 0.75cm
-    let h_lane = 14.85cm
+    let h_lane = 15.15cm
+    let h_head = 0.58cm
+    let y_content_top = y_top + h_head // 1.33cm
 
+    // Columna 0: Encabezado de Filas (Ilaciones)
+    let w_row_hdr = 1.70cm
+    let x_layers_start = x0 + w_row_hdr // 1.90cm
+
+    // Columnas 1 a 5: Capas de Ejecución
     let carriles = (
-      ("Carril 1: UI Cliente", "P-CLI-01/02", 3.00cm, rgb("#ffffff")),
-      ("Carril 2: API Gateway", "P-SRV-01", 3.40cm, rgb("#f8fafc")),
-      ("Carril 3: Persistencia ACID", "P-DAT-01", 3.10cm, rgb("#ffffff")),
-      ("Carril 4: Tiempo Real", "P-SRV-02", 3.20cm, rgb("#f8fafc")),
-      ("Carril 5: Worker Async", "P-WRK-01", 3.90cm, rgb("#ffffff")),
+      ("Capa de Presentación", "UI Recepción / Tablet", 2.80cm, rgb("#ffffff")),
+      ("Capa de Aplicación", "API Gateway & Servicios", 3.00cm, rgb("#f8fafc")),
+      ("Capa de Persistencia", "Motor Relacional PostgreSQL", 2.70cm, rgb("#ffffff")),
+      ("Capa de Tiempo Real", "Servidor WebSocket (WSS)", 2.90cm, rgb("#f8fafc")),
+      ("Capa Asíncrona", "Workers & Servicios Cloud (S3)", 3.50cm, rgb("#ffffff")),
     )
 
-    // Dibujar fondos y encabezados de carriles
-    let curr_x = x0
+    // Dibujar encabezado de la Columna de Ilaciones
+    place(
+      dx: x0, dy: y_top,
+      block(
+        width: w_row_hdr, height: h_head,
+        fill: rgb("#1e293b"),
+        inset: (x: 2pt),
+        align(center + horizon, {
+          stack(
+            dir: ttb,
+            spacing: 1.8pt,
+            text(size: 5.6pt, weight: "bold", fill: white, [Ámbito]),
+            text(size: 4.6pt, fill: rgb("#cbd5e1"), [Ilación de Negocio]),
+          )
+        })
+      )
+    )
+
+    // Dibujar columnas de Capas
+    let curr_x = x_layers_start
     let centros = ()
     for c in carriles {
       let w = c.at(2)
       let cx = curr_x + w / 2
       centros.push(cx)
 
-      // Fondo del carril
       place(
         dx: curr_x, dy: y_top,
         rect(width: w, height: h_lane, fill: c.at(3), stroke: (paint: color-borde-carril, thickness: 0.40pt))
       )
-      // Encabezado del carril
       place(
         dx: curr_x, dy: y_top,
         block(
-          width: w, height: 0.58cm,
+          width: w, height: h_head,
           fill: rgb("#334155"),
           inset: (x: 2pt),
           align(center + horizon, {
-            set text(font: ("Arial", "Segoe UI"), lang: "es")
             stack(
               dir: ttb,
-              spacing: 2.0pt,
+              spacing: 1.8pt,
               text(size: 5.6pt, weight: "bold", fill: white, c.at(0)),
               text(size: 4.6pt, fill: rgb("#cbd5e1"), c.at(1)),
             )
@@ -245,237 +217,360 @@
       curr_x += w
     }
 
-    // Coordenadas de centro de cada carril
-    let c1 = centros.at(0) // 1.70cm
-    let c2 = centros.at(1) // 4.90cm
-    let c3 = centros.at(2) // 8.15cm
-    let c4 = centros.at(3) // 11.30cm
-    let c5 = centros.at(4) // 14.85cm
+    // Centros de cada capa
+    let c1 = centros.at(0) // 3.30cm (Presentación)
+    let c2 = centros.at(1) // 6.20cm (Aplicación)
+    let c3 = centros.at(2) // 9.05cm (Persistencia)
+    let c4 = centros.at(3) // 11.85cm (Tiempo Real)
+    let c5 = centros.at(4) // 15.05cm (Asíncrona)
 
-    let w_box1 = 2.65cm
-    let w_box2 = 3.00cm
-    let w_box3 = 2.70cm
-    let w_box4 = 2.70cm
-    let w_box5 = 3.10cm
-    let h_act  = 0.56cm
+    let w1 = 2.56cm
+    let w2 = 2.76cm
+    let w3 = 2.52cm
+    let w4 = 2.68cm
+    let w5 = 3.20cm
+    let h_act = 0.58cm
 
     // ============================================================
-    // FASE A: ADMISIÓN Y VERIFICACIÓN SÍNCRONA
+    // DEFINICIÓN DE FILAS (PARTICIONES HORIZONTALES DE ILACIÓN)
     // ============================================================
+    let y_r1_top = y_content_top // 1.33cm
+    let y_r1_bot = 5.20cm
+    let h_r1     = y_r1_bot - y_r1_top // 3.87cm
 
-    // 1. Nodo Inicial en Carril 1
-    let y_ini = 1.65cm
-    nodo-inicial(c1, y_ini, r: 0.15cm)
+    let y_r2_top = 5.20cm
+    let y_r2_bot = 9.20cm
+    let h_r2     = y_r2_bot - y_r2_top // 4.00cm
 
-    // Nota ILA-0020 en Carril 2 arriba de Action 2 (Conexión vertical directa)
-    nota-n2(c2, y_ini, 2.50cm, 0.52cm, "ILA-0020", "ESP-0030 · Check-in síncrono", c2, 2.35cm - h_act / 2)
+    let y_r3_top = 9.20cm
+    let y_r3_bot = y_top + h_lane // 15.90cm
+    let h_r3     = y_r3_bot - y_r3_top // 6.70cm
 
-    // 2. Solicitar Check-in (Carril 1)
-    let y_act1 = 2.35cm
-    accion-n2(c1, y_act1, w_box1, h_act, "1. Solicitar Check-in\n(Ingreso DNI en INT-06)")
-    place(dx: 0cm, dy: 0cm, line(start: (c1, y_ini + 0.15cm), end: (c1, y_act1 - h_act / 2), stroke: (paint: color-linea, thickness: trazo)))
-    punta-abajo(c1, y_act1 - h_act / 2)
+    // --- Tarjeta Lateral Fila 1: ILA-0020 (Gama Pizarra / Slate) ---
+    place(
+      dx: x0, dy: y_r1_top,
+      block(
+        width: w_row_hdr, height: h_r1,
+        fill: rgb("#f8fafc"),
+        stroke: (
+          left: (paint: rgb("#334155"), thickness: 2.5pt),
+          right: (paint: color-borde-carril, thickness: 0.5pt),
+          bottom: (paint: rgb("#94a3b8"), thickness: 0.8pt, dash: "dashed"),
+        ),
+        inset: (x: 3pt, y: 3pt),
+        align(center + horizon, {
+          stack(
+            dir: ttb,
+            spacing: 2.0pt,
+            text(size: 6.4pt, weight: "bold", fill: rgb("#0f172a"), [ILA-0020]),
+            text(size: 5.3pt, weight: "bold", fill: rgb("#1e293b"), [Control de Asistencia]),
+            text(size: 4.6pt, fill: rgb("#475569"), [(Check-in)]),
+            v(1pt),
+            text(size: 4.3pt, fill: rgb("#64748b"), [EDU-0029 \ ESP-0030/31]),
+          )
+        })
+      )
+    )
 
-    // 3. Validar JWT y verificar saldo (Carril 2)
-    let y_act2 = 2.35cm
-    accion-n2(c2, y_act2, w_box2, h_act, "2. Validar Token JWT y consultar\nsaldo a API Financiera (<= 3s)", fill: white, stroke: color-linea)
-    place(dx: 0cm, dy: 0cm, line(start: (c1 + w_box1 / 2, y_act1), end: (c2 - w_box2 / 2, y_act2), stroke: (paint: color-linea, thickness: trazo)))
-    punta-derecha(c2 - w_box2 / 2, y_act2)
+    // --- Tarjeta Lateral Fila 2: ILA-0019 (Gama Pizarra / Slate) ---
+    place(
+      dx: x0, dy: y_r2_top,
+      block(
+        width: w_row_hdr, height: h_r2,
+        fill: rgb("#f1f5f9"),
+        stroke: (
+          left: (paint: rgb("#475569"), thickness: 2.5pt),
+          right: (paint: color-borde-carril, thickness: 0.5pt),
+          bottom: (paint: rgb("#94a3b8"), thickness: 0.8pt, dash: "dashed"),
+        ),
+        inset: (x: 3pt, y: 3pt),
+        align(center + horizon, {
+          stack(
+            dir: ttb,
+            spacing: 2.0pt,
+            text(size: 6.4pt, weight: "bold", fill: rgb("#0f172a"), [ILA-0019]),
+            text(size: 5.3pt, weight: "bold", fill: rgb("#1e293b"), [Organización y Camillas]),
+            text(size: 4.6pt, fill: rgb("#475569"), [(Sincronización WSS)]),
+            v(1pt),
+            text(size: 4.3pt, fill: rgb("#64748b"), [EDU-0026 \ ESP-0027/28]),
+          )
+        })
+      )
+    )
 
-    // 4. Rombo de Decisión: ¿Saldo Válido? (Carril 2)
-    let y_dec1 = 3.30cm
-    rombo-n2(c2, y_dec1, 0.85cm, 0.35cm, texto: "¿Saldo?")
-    place(dx: 0cm, dy: 0cm, line(start: (c2, y_act2 + h_act / 2), end: (c2, y_dec1 - 0.35cm), stroke: (paint: color-linea, thickness: trazo)))
-    punta-abajo(c2, y_dec1 - 0.35cm)
+    // --- Tarjeta Lateral Fila 3: ILA-0017 (Gama Pizarra / Slate) ---
+    place(
+      dx: x0, dy: y_r3_top,
+      block(
+        width: w_row_hdr, height: h_r3,
+        fill: rgb("#f8fafc"),
+        stroke: (
+          left: (paint: rgb("#1e293b"), thickness: 2.5pt),
+          right: (paint: color-borde-carril, thickness: 0.5pt),
+          bottom: (paint: color-borde-carril, thickness: 0.5pt),
+        ),
+        inset: (x: 3pt, y: 5pt),
+        align(center + horizon, {
+          stack(
+            dir: ttb,
+            spacing: 2.2pt,
+            text(size: 6.4pt, weight: "bold", fill: rgb("#0f172a"), [ILA-0017]),
+            text(size: 5.3pt, weight: "bold", fill: rgb("#1e293b"), [Sesión Terapéutica]),
+            text(size: 4.6pt, fill: rgb("#475569"), [(Cierre & Cloud)]),
+            v(1pt),
+            text(size: 4.3pt, fill: rgb("#64748b"), [EDU-0025 \ ESP-0024/25]),
+          )
+        })
+      )
+    )
 
-    // Rama [No / Timeout] de Decisión 1 -> Notificar caja en Carril 1
-    let y_err1 = 3.30cm
-    accion-n2(c1, y_err1, w_box1, h_act, "Aviso: 'Pago Pendiente'\nen caja de cobro", fill: white, stroke: rgb("#475569"))
-    place(dx: 0cm, dy: 0cm, line(start: (c2 - 0.85cm, y_dec1), end: (c1 + w_box1 / 2, y_err1), stroke: (paint: color-linea, thickness: trazo)))
-    punta-izquierda(c1 + w_box1 / 2, y_err1)
-    guarda(3.10cm, y_dec1 - 0.28cm, "[No/Timeout]")
+    // Líneas divisoras horizontales entre Filas cruzando las Capas
+    let w_layers_total = 14.90cm
+    place(dx: x_layers_start, dy: y_r2_top, line(start: (0cm, 0cm), end: (w_layers_total, 0cm), stroke: (paint: rgb("#94a3b8"), thickness: 0.8pt, dash: "dashed")))
+    place(dx: x_layers_start, dy: y_r3_top, line(start: (0cm, 0cm), end: (w_layers_total, 0cm), stroke: (paint: rgb("#94a3b8"), thickness: 0.8pt, dash: "dashed")))
 
-    // Fin de flujo de error -> ActivityFinalNode
-    let y_fin_err = 4.10cm
-    nodo-final-actividad(c1, y_fin_err, r-ext: 0.18cm, r-int: 0.10cm)
-    place(dx: 0cm, dy: 0cm, line(start: (c1, y_err1 + h_act / 2), end: (c1, y_fin_err - 0.18cm), stroke: (paint: color-linea, thickness: trazo)))
-    punta-abajo(c1, y_fin_err - 0.18cm)
+    // Badges identificadores de cada Fila ubicados estratégicamente para no interceptar flujos
+    place(dx: 7.70cm, dy: y_r1_top + 0.08cm, block(
+      width: 8.80cm, height: 0.30cm,
+      fill: rgb("#f1f5f9"),
+      stroke: (paint: rgb("#e2e8f0"), thickness: 0.5pt),
+      radius: 2pt,
+      inset: (x: 5pt),
+      align(center + horizon, text(size: 4.8pt, weight: "bold", fill: rgb("#1e293b"), [ILA-0020 — Admisión, Verificación de Pago y Registro Transaccional de Check-in]))
+    ))
 
-    // Rama [Saldo verificado] hacia FORK 1
-    let y_fork1 = 4.25cm
-    barra-sincronizacion(6.50cm, y_fork1, 10.80cm) // Spans c1 (1.70cm) to c4 (11.30cm)
-    place(dx: 0cm, dy: 0cm, line(start: (c2, y_dec1 + 0.35cm), end: (c2, y_fork1 - 0.055cm), stroke: (paint: color-linea, thickness: trazo-grueso)))
+    place(dx: 7.70cm, dy: y_r2_top + 0.06cm, block(
+      width: 8.80cm, height: 0.30cm,
+      fill: rgb("#e2e8f0"),
+      stroke: (paint: rgb("#cbd5e1"), thickness: 0.5pt),
+      radius: 2pt,
+      inset: (x: 5pt),
+      align(center + horizon, text(size: 4.8pt, weight: "bold", fill: rgb("#0f172a"), [ILA-0019 — Asignación de Recursos, Persistencia y Telemetría Reactiva WSS (< 1s)]))
+    ))
+
+    place(dx: 5.50cm, dy: y_r3_top + 0.06cm, block(
+      width: 11.00cm, height: 0.30cm,
+      fill: rgb("#f1f5f9"),
+      stroke: (paint: rgb("#e2e8f0"), thickness: 0.5pt),
+      radius: 2pt,
+      inset: (x: 5pt),
+      align(center + horizon, text(size: 4.8pt, weight: "bold", fill: rgb("#1e293b"), [ILA-0017 — Registro de Sesión SOAP, Cierre Clínico y Pipeline Documental en Segundo Plano]))
+    ))
+
+    // ============================================================
+    // NODOS DE FILA 1: ILA-0020 (Admisión y Check-in)
+    // ============================================================
+    let y_ini = 1.95cm
+    nodo-inicial(c1, y_ini)
+
+    let y_1 = 2.45cm
+    accion-n2(c1, y_1, w1, h_act, "1. Ingresar DNI y registrar\nllegada del paciente")
+    place(dx: 0cm, dy: 0cm, line(start: (c1, y_ini + 0.14cm), end: (c1, y_1 - h_act / 2), stroke: (paint: color-linea, thickness: trazo)))
+    punta-abajo(c1, y_1 - h_act / 2)
+
+    let y_2 = 2.45cm
+    accion-n2(c2, y_2, w2, h_act, "2. Validar token y consultar\nsaldo financiero (<= 3s)")
+    place(dx: 0cm, dy: 0cm, line(start: (c1 + w1 / 2, y_1), end: (c2 - w2 / 2, y_2), stroke: (paint: color-linea, thickness: trazo)))
+    punta-derecha(c2 - w2 / 2, y_2)
+
+    let y_dec1 = 3.25cm
+    rombo-n2(c2, y_dec1, 0.85cm, 0.30cm, texto: "¿Saldo?")
+    place(dx: 0cm, dy: 0cm, line(start: (c2, y_2 + h_act / 2), end: (c2, y_dec1 - 0.30cm), stroke: (paint: color-linea, thickness: trazo)))
+    punta-abajo(c2, y_dec1 - 0.30cm)
+
+    // Rama No/Timeout -> Caja
+    let y_err1 = 3.25cm
+    accion-n2(c1, y_err1, w1, h_act, "Notificar saldo pendiente\ny derivar paciente a caja", fill: white, stroke: rgb("#475569"))
+    place(dx: 0cm, dy: 0cm, line(start: (c2 - 0.85cm, y_dec1), end: (c1 + w1 / 2, y_err1), stroke: (paint: color-linea, thickness: trazo)))
+    punta-izquierda(c1 + w1 / 2, y_err1)
+    guarda(4.60cm, y_dec1 - 0.28cm, "[No/Timeout]")
+
+    let y_fin_err = 3.85cm
+    nodo-final-flujo(c1, y_fin_err, r: 0.14cm)
+    place(dx: 0cm, dy: 0cm, line(start: (c1, y_err1 + h_act / 2), end: (c1, y_fin_err - 0.14cm), stroke: (paint: color-linea, thickness: trazo)))
+    punta-abajo(c1, y_fin_err - 0.14cm)
+
+    // Rama Saldo verificado -> Persistencia en BD
+    let y_3 = 4.05cm
+    accion-n2(c3, y_3, w3, h_act, "3. Bloquear cita y deducir\nsesión en BD (ACID)", fill: rgb("#f1f5f9"), stroke: rgb("#334155"))
+    place(dx: 0cm, dy: 0cm, line(start: (c2, y_dec1 + 0.30cm), end: (c2, y_3), stroke: (paint: color-linea, thickness: trazo-grueso)))
+    place(dx: 0cm, dy: 0cm, line(start: (c2, y_3), end: (c3 - w3 / 2, y_3), stroke: (paint: color-linea, thickness: trazo-grueso)))
+    punta-derecha(c3 - w3 / 2, y_3)
+    guarda(c2 + 0.10cm, y_dec1 + 0.45cm, "[Saldo verificado]")
+
+    // Retorno obligatorio de BD a Aplicación
+    let y_4 = 4.75cm
+    accion-n2(c2, y_4, w2, h_act, "4. Confirmar transacción ACID\ny comisionar asignación")
+    place(dx: 0cm, dy: 0cm, line(start: (c3, y_3 + h_act / 2), end: (c3, y_4), stroke: (paint: color-linea, thickness: trazo)))
+    place(dx: 0cm, dy: 0cm, line(start: (c3, y_4), end: (c2 + w2 / 2, y_4), stroke: (paint: color-linea, thickness: trazo)))
+    punta-izquierda(c2 + w2 / 2, y_4)
+
+    // ============================================================
+    // TRANSICIÓN Y NODOS DE FILA 2: ILA-0019 (Organización y Camillas)
+    // ============================================================
+    // Transición directa de Aplicación hacia Fila 2
+    let y_5 = 5.80cm
+    accion-n2(c2, y_5, w2, h_act, "5. Asignar camilla disponible\ny turno en agenda")
+    place(dx: 0cm, dy: 0cm, line(start: (c2, y_4 + h_act / 2), end: (c2, y_5 - h_act / 2), stroke: (paint: color-linea, thickness: trazo)))
+    punta-abajo(c2, y_5 - h_act / 2)
+
+    // 6. Persistir camilla y turno en BD (Persistencia)
+    let y_6 = 6.50cm
+    accion-n2(c3, y_6, w3, h_act, "6. Registrar en BD:\nCamilla 'Ocupada' y turno", fill: rgb("#f1f5f9"), stroke: rgb("#334155"))
+    place(dx: 0cm, dy: 0cm, line(start: (c2, y_5 + h_act / 2), end: (c2, y_6), stroke: (paint: color-linea, thickness: trazo)))
+    place(dx: 0cm, dy: 0cm, line(start: (c2, y_6), end: (c3 - w3 / 2, y_6), stroke: (paint: color-linea, thickness: trazo)))
+    punta-derecha(c3 - w3 / 2, y_6)
+
+    // 7. Retorno obligatorio de BD a Aplicación
+    let y_7 = 7.20cm
+    accion-n2(c2, y_7, w2, h_act, "7. Confirmar asignación en BD\ny autorizar difusión")
+    place(dx: 0cm, dy: 0cm, line(start: (c3, y_6 + h_act / 2), end: (c3, y_7), stroke: (paint: color-linea, thickness: trazo)))
+    place(dx: 0cm, dy: 0cm, line(start: (c3, y_7), end: (c2 + w2 / 2, y_7), stroke: (paint: color-linea, thickness: trazo)))
+    punta-izquierda(c2 + w2 / 2, y_7)
+    guarda(7.75cm, y_7 - 0.20cm, "[Turno persistido]")
+
+    // Bifurcación FORKNODE 1 (Disparo reactivo en ILA-0019)
+    let y_fork1 = 7.75cm
+    let x_fork1_center = (c1 + c4) / 2 // 7.575cm
+    let w_fork1 = (c4 - c1) + 0.80cm   // 9.35cm
+    barra-sincronizacion(x_fork1_center, y_fork1, w_fork1)
+    place(dx: 0cm, dy: 0cm, line(start: (c2, y_7 + h_act / 2), end: (c2, y_fork1 - 0.055cm), stroke: (paint: color-linea, thickness: trazo-grueso)))
     punta-abajo(c2, y_fork1 - 0.055cm)
-    guarda(c2 + 0.15cm, y_dec1 + 0.45cm, "[Saldo verificado]")
+
+    // Rama 8a: Cargar turno y desplegar en tableta del fisioterapeuta
+    let y_8a = 8.40cm
+    accion-n2(c1, y_8a, w1, h_act, "8a. Cargar turno y paciente\nen tableta (< 500ms)")
+    place(dx: 0cm, dy: 0cm, line(start: (c1, y_fork1 + 0.055cm), end: (c1, y_8a - h_act / 2), stroke: (paint: color-linea, thickness: trazo)))
+    punta-abajo(c1, y_8a - h_act / 2)
+
+    // Rama 8b: Broadcast Tiempo Real WSS a pantallas de sede
+    let y_8b = 8.40cm
+    accion-n2(c4, y_8b, w4, h_act, "8b. Transmitir por WSS:\nCamilla 'Ocupada' (< 1s)")
+    place(dx: 0cm, dy: 0cm, line(start: (c4, y_fork1 + 0.055cm), end: (c4, y_8b - h_act / 2), stroke: (paint: color-linea, thickness: trazo)))
+    punta-abajo(c4, y_8b - h_act / 2)
+
+    let y_fin_wss1 = 9.00cm
+    nodo-final-flujo(c4, y_fin_wss1, r: 0.14cm)
+    place(dx: 0cm, dy: 0cm, line(start: (c4, y_8b + h_act / 2), end: (c4, y_fin_wss1 - 0.14cm), stroke: (paint: color-linea, thickness: trazo)))
+    punta-abajo(c4, y_fin_wss1 - 0.14cm)
 
     // ============================================================
-    // FASE B: BIFURCACIÓN CONCURRENTE (FORKNODE 1)
+    // TRANSICIÓN Y NODOS DE FILA 3: ILA-0017 (Sesión Terapéutica y Cierre)
     // ============================================================
+    // Transición directa desde la tableta cargada (8a) hacia la sesión clínica (9)
+    let y_9 = 9.85cm
+    accion-n2(c1, y_9, w1, h_act, "9. Ejecutar sesión clínica y\ncapturar firma digital")
+    place(dx: 0cm, dy: 0cm, line(start: (c1, y_8a + h_act / 2), end: (c1, y_9 - h_act / 2), stroke: (paint: color-linea, thickness: trazo)))
+    punta-abajo(c1, y_9 - h_act / 2)
 
-    // Rama 1 (Carril 1 - UI): Confirmación recepción
-    let y_f1_ui = 5.10cm
-    accion-n2(c1, y_f1_ui, w_box1, h_act, "4a. Confirmar ingreso en\nrecepción (<= 500ms)")
-    place(dx: 0cm, dy: 0cm, line(start: (c1, y_fork1 + 0.055cm), end: (c1, y_f1_ui - h_act / 2), stroke: (paint: color-linea, thickness: trazo)))
-    punta-abajo(c1, y_f1_ui - h_act / 2)
+    let y_10 = 9.85cm
+    accion-n2(c2, y_10, w2, h_act, "10. Consolidar notas SOAP\ny emitir cierre de sesión")
+    place(dx: 0cm, dy: 0cm, line(start: (c1 + w1 / 2, y_9), end: (c2 - w2 / 2, y_10), stroke: (paint: color-linea, thickness: trazo)))
+    punta-derecha(c2 - w2 / 2, y_10)
 
-    // Rama 2 (Carril 3 - BD): Bloqueo ACID
-    let y_f1_db = 5.10cm
-    accion-n2(c3, y_f1_db, w_box3, h_act, "4b. Bloqueo de camilla y\ndeducción de sesión ACID", fill: rgb("#f1f5f9"), stroke: rgb("#334155"))
-    place(dx: 0cm, dy: 0cm, line(start: (c3, y_fork1 + 0.055cm), end: (c3, y_f1_db - h_act / 2), stroke: (paint: color-linea, thickness: trazo)))
-    punta-abajo(c3, y_f1_db - h_act / 2)
+    let y_11 = 10.55cm
+    accion-n2(c3, y_11, w3, h_act, "11. Registrar evolución y\nmarcar 'En Desinfección'", fill: rgb("#f1f5f9"), stroke: rgb("#334155"))
+    place(dx: 0cm, dy: 0cm, line(start: (c2, y_10 + h_act / 2), end: (c2, y_11), stroke: (paint: color-linea, thickness: trazo)))
+    place(dx: 0cm, dy: 0cm, line(start: (c2, y_11), end: (c3 - w3 / 2, y_11), stroke: (paint: color-linea, thickness: trazo)))
+    punta-derecha(c3 - w3 / 2, y_11)
 
-    // Rama 3 (Carril 4 - WSS): Difusión tiempo real
-    let y_f1_ws = 5.10cm
-    accion-n2(c4, y_f1_ws, w_box4, h_act, "4c. Broadcast WSS:\nCamilla 'Ocupada' (< 1s)", fill: white, stroke: color-linea)
-    place(dx: 0cm, dy: 0cm, line(start: (c4, y_fork1 + 0.055cm), end: (c4, y_f1_ws - h_act / 2), stroke: (paint: color-linea, thickness: trazo)))
-    punta-abajo(c4, y_f1_ws - h_act / 2)
+    // Retorno obligatorio de BD a Aplicación
+    let y_12 = 11.25cm
+    accion-n2(c2, y_12, w2, h_act, "12. Confirmar registro en BD\ny autorizar bifurcación")
+    place(dx: 0cm, dy: 0cm, line(start: (c3, y_11 + h_act / 2), end: (c3, y_12), stroke: (paint: color-linea, thickness: trazo)))
+    place(dx: 0cm, dy: 0cm, line(start: (c3, y_12), end: (c2 + w2 / 2, y_12), stroke: (paint: color-linea, thickness: trazo)))
+    punta-izquierda(c2 + w2 / 2, y_12)
+    guarda(7.75cm, y_12 - 0.20cm, "[Evolución persistida]")
 
-    // Nota ILA-0019 en Carril 5 a la altura de Fork 1 (Carril 5 está libre aquí)
-    nota-n2(c5, 5.10cm, 2.40cm, 0.65cm, "ILA-0019", "ESP-0027 · Broadcast WSS", c4 + w_box4 / 2, y_f1_ws)
-
-    // ============================================================
-    // SINCRONIZACIÓN DE CHECK-IN (JOINNODE 1) — OMG UML 2.5.1
-    // ============================================================
-    let y_join1 = 5.95cm
-    barra-sincronizacion(6.50cm, y_join1, 10.80cm) // Spans c1 (1.70cm) to c4 (11.30cm)
-    // 3 flujos entrantes al JoinNode 1
-    place(dx: 0cm, dy: 0cm, line(start: (c1, y_f1_ui + h_act / 2), end: (c1, y_join1 - 0.055cm), stroke: (paint: color-linea, thickness: trazo)))
-    punta-abajo(c1, y_join1 - 0.055cm)
-    place(dx: 0cm, dy: 0cm, line(start: (c3, y_f1_db + h_act / 2), end: (c3, y_join1 - 0.055cm), stroke: (paint: color-linea, thickness: trazo)))
-    punta-abajo(c3, y_join1 - 0.055cm)
-    place(dx: 0cm, dy: 0cm, line(start: (c4, y_f1_ws + h_act / 2), end: (c4, y_join1 - 0.055cm), stroke: (paint: color-linea, thickness: trazo)))
-    punta-abajo(c4, y_join1 - 0.055cm)
-
-    // ============================================================
-    // FASE C: ATENCIÓN CLÍNICA Y CIERRE CON FIRMA DIGITAL
-    // ============================================================
-
-    // 1 flujo saliente de JoinNode 1 hacia Ejecución en Carril 1
-    let y_act5 = 6.80cm
-    accion-n2(c1, y_act5, w_box1, h_act, "5. Ejecutar sesión física y\ncapturar firma en tablet")
-    place(dx: 0cm, dy: 0cm, line(start: (c1, y_join1 + 0.055cm), end: (c1, y_act5 - h_act / 2), stroke: (paint: color-linea, thickness: trazo)))
-    punta-abajo(c1, y_act5 - h_act / 2)
-
-    // Conector de Carril 1 a Carril 2 (Orquestar Cierre)
-    let y_act6 = 6.80cm
-    accion-n2(c2, y_act6, w_box2, h_act, "6. Orquestar cierre de sesión\ny payload de notas SOAP", fill: white, stroke: color-linea)
-    place(dx: 0cm, dy: 0cm, line(start: (c1 + w_box1 / 2, y_act5), end: (c2 - w_box2 / 2, y_act6), stroke: (paint: color-linea, thickness: trazo)))
-    punta-derecha(c2 - w_box2 / 2, y_act6)
-
-    // ============================================================
-    // FASE D: BIFURCACIÓN AL CIERRE (FORKNODE 2)
-    // ============================================================
-    let y_fork2 = 7.75cm
-    barra-sincronizacion(8.25cm, y_fork2, 14.30cm) // Spans c1 (1.70cm) to c5 (14.85cm)
-    place(dx: 0cm, dy: 0cm, line(start: (c2, y_act6 + h_act / 2), end: (c2, y_fork2 - 0.055cm), stroke: (paint: color-linea, thickness: trazo-grueso)))
+    // BIFURCACIÓN FORKNODE 2 (Disparo tripartito de cierre)
+    let y_fork2 = 11.85cm
+    let x_fork2_center = (c1 + c5) / 2 // 9.175cm
+    let w_fork2 = (c5 - c1) + 0.80cm   // 12.55cm
+    barra-sincronizacion(x_fork2_center, y_fork2, w_fork2)
+    place(dx: 0cm, dy: 0cm, line(start: (c2, y_12 + h_act / 2), end: (c2, y_fork2 - 0.055cm), stroke: (paint: color-linea, thickness: trazo-grueso)))
     punta-abajo(c2, y_fork2 - 0.055cm)
 
-    // 4 ramas concurrentes salientes de ForkNode 2:
+    // Rama 13a: Liberar tableta en Presentación
+    let y_13a = 12.50cm
+    accion-n2(c1, y_13a, w1, h_act, "13a. Confirmar cierre y\nliberar tableta (< 500ms)")
+    place(dx: 0cm, dy: 0cm, line(start: (c1, y_fork2 + 0.055cm), end: (c1, y_13a - h_act / 2), stroke: (paint: color-linea, thickness: trazo)))
+    punta-abajo(c1, y_13a - h_act / 2)
 
-    // Rama A (Carril 1 - UI): Liberar tablet de inmediato
-    let y_f2_ui = 8.60cm
-    accion-n2(c1, y_f2_ui, w_box1, h_act, "7a. Confirmar cierre en\ntablet (< 500ms)")
-    place(dx: 0cm, dy: 0cm, line(start: (c1, y_fork2 + 0.055cm), end: (c1, y_f2_ui - h_act / 2), stroke: (paint: color-linea, thickness: trazo)))
-    punta-abajo(c1, y_f2_ui - h_act / 2)
+    let y_fin_ui = 13.15cm
+    nodo-final-flujo(c1, y_fin_ui, r: 0.14cm)
+    place(dx: 0cm, dy: 0cm, line(start: (c1, y_13a + h_act / 2), end: (c1, y_fin_ui - 0.14cm), stroke: (paint: color-linea, thickness: trazo)))
+    punta-abajo(c1, y_fin_ui - 0.14cm)
 
-    // FlowFinalNode de UI en Carril 1 (UML 2.5.1 Cl. 15.3.3.5)
-    let y_fin_ui = 9.45cm
-    nodo-final-flujo(c1, y_fin_ui, r: 0.16cm)
-    place(dx: 0cm, dy: 0cm, line(start: (c1, y_f2_ui + h_act / 2), end: (c1, y_fin_ui - 0.16cm), stroke: (paint: color-linea, thickness: trazo)))
-    punta-abajo(c1, y_fin_ui - 0.16cm)
+    // Rama 13b: Transmitir Camilla Disponible en Tiempo Real
+    let y_13b = 12.50cm
+    accion-n2(c4, y_13b, w4, h_act, "13b. Transmitir por WSS:\nCamilla 'Disponible'")
+    place(dx: 0cm, dy: 0cm, line(start: (c4, y_fork2 + 0.055cm), end: (c4, y_13b - h_act / 2), stroke: (paint: color-linea, thickness: trazo)))
+    punta-abajo(c4, y_13b - h_act / 2)
 
-    // Rama B (Carril 3 - BD): Liberar Camilla en BD
-    let y_f2_db = 8.60cm
-    accion-n2(c3, y_f2_db, w_box3, h_act, "7b. Actualizar estado BD:\n'En Desinfección'", fill: rgb("#f1f5f9"), stroke: rgb("#334155"))
-    place(dx: 0cm, dy: 0cm, line(start: (c3, y_fork2 + 0.055cm), end: (c3, y_f2_db - h_act / 2), stroke: (paint: color-linea, thickness: trazo)))
-    punta-abajo(c3, y_f2_db - h_act / 2)
+    let y_fin_ws = 13.15cm
+    nodo-final-flujo(c4, y_fin_ws, r: 0.14cm)
+    place(dx: 0cm, dy: 0cm, line(start: (c4, y_13b + h_act / 2), end: (c4, y_fin_ws - 0.14cm), stroke: (paint: color-linea, thickness: trazo)))
+    punta-abajo(c4, y_fin_ws - 0.14cm)
 
-    // FlowFinalNode de BD en Carril 3 (UML 2.5.1 Cl. 15.3.3.5)
-    let y_fin_db = 9.45cm
-    nodo-final-flujo(c3, y_fin_db, r: 0.16cm)
-    place(dx: 0cm, dy: 0cm, line(start: (c3, y_f2_db + h_act / 2), end: (c3, y_fin_db - 0.16cm), stroke: (paint: color-linea, thickness: trazo)))
-    punta-abajo(c3, y_fin_db - 0.16cm)
+    // Rama 13c: Encolar tarea en Asíncrono
+    let y_13c = 12.50cm
+    accion-n2(c5, y_13c, w5, h_act, "13c. Encolar tarea en broker\nde procesamiento asíncrono", fill: rgb("#f8fafc"), stroke: rgb("#334155"))
+    place(dx: 0cm, dy: 0cm, line(start: (c5, y_fork2 + 0.055cm), end: (c5, y_13c - h_act / 2), stroke: (paint: color-linea, thickness: trazo)))
+    punta-abajo(c5, y_13c - h_act / 2)
 
-    // Rama C (Carril 4 - WSS): Difusión Camilla Liberada
-    let y_f2_ws = 8.60cm
-    accion-n2(c4, y_f2_ws, w_box4, h_act, "7c. Broadcast WSS:\nCamilla 'Disponible'", fill: white, stroke: color-linea)
-    place(dx: 0cm, dy: 0cm, line(start: (c4, y_fork2 + 0.055cm), end: (c4, y_f2_ws - h_act / 2), stroke: (paint: color-linea, thickness: trazo)))
-    punta-abajo(c4, y_f2_ws - h_act / 2)
+    // Pipeline Asíncrono
+    let y_14 = 13.25cm
+    accion-n2(c5, y_14, w5, h_act, "14. Compilar constancia PDF\ncon firma digital (<= 5s)", fill: rgb("#f8fafc"), stroke: rgb("#334155"))
+    place(dx: 0cm, dy: 0cm, line(start: (c5, y_13c + h_act / 2), end: (c5, y_14 - h_act / 2), stroke: (paint: color-linea, thickness: trazo)))
+    punta-abajo(c5, y_14 - h_act / 2)
 
-    // FlowFinalNode de WSS en Carril 4 (UML 2.5.1 Cl. 15.3.3.5)
-    let y_fin_ws = 9.45cm
-    nodo-final-flujo(c4, y_fin_ws, r: 0.16cm)
-    place(dx: 0cm, dy: 0cm, line(start: (c4, y_f2_ws + h_act / 2), end: (c4, y_fin_ws - 0.16cm), stroke: (paint: color-linea, thickness: trazo)))
-    punta-abajo(c4, y_fin_ws - 0.16cm)
+    let y_15 = 14.00cm
+    accion-n2(c5, y_15, w5, h_act, "15. Persistir constancia en\nAWS S3 (Cifrado AES-256)", fill: rgb("#f8fafc"), stroke: rgb("#334155"))
+    place(dx: 0cm, dy: 0cm, line(start: (c5, y_14 + h_act / 2), end: (c5, y_15 - h_act / 2), stroke: (paint: color-linea, thickness: trazo)))
+    punta-abajo(c5, y_15 - h_act / 2)
 
-    // ============================================================
-    // FASE E: PIPELINE ASÍNCRONO EN SEGUNDO PLANO (CARRIL 5)
-    // ============================================================
+    let y_16 = 14.75cm
+    accion-n2(c5, y_16, w5, h_act, "16. Despachar notificación\ny ticket por WhatsApp API", fill: rgb("#f8fafc"), stroke: rgb("#334155"))
+    place(dx: 0cm, dy: 0cm, line(start: (c5, y_15 + h_act / 2), end: (c5, y_16 - h_act / 2), stroke: (paint: color-linea, thickness: trazo)))
+    punta-abajo(c5, y_16 - h_act / 2)
 
-    // Rama D (Carril 5 - Worker): Encolamiento asíncrono
-    let y_f2_wrk = 8.60cm
-    accion-n2(c5, y_f2_wrk, w_box5, h_act, "7d. Encolar payload en\nQueue de Workers", fill: rgb("#f8fafc"), stroke: rgb("#334155"))
-    place(dx: 0cm, dy: 0cm, line(start: (c5, y_fork2 + 0.055cm), end: (c5, y_f2_wrk - h_act / 2), stroke: (paint: color-linea, thickness: trazo)))
-    punta-abajo(c5, y_f2_wrk - h_act / 2)
-
-    // 8. Renderizado PDF (Carril 5)
-    let y_act8 = 9.85cm
-    accion-n2(c5, y_act8, w_box5, h_act, "8. Compilar constancia PDF\ncon firma digital (<= 5s)", fill: rgb("#f8fafc"), stroke: rgb("#334155"))
-    place(dx: 0cm, dy: 0cm, line(start: (c5, y_f2_wrk + h_act / 2), end: (c5, y_act8 - h_act / 2), stroke: (paint: color-linea, thickness: trazo)))
-    punta-abajo(c5, y_act8 - h_act / 2)
-
-    // 9. Persistencia en AWS S3 (Carril 5)
-    let y_act9 = 11.05cm
-    accion-n2(c5, y_act9, w_box5, h_act, "9. Subir constancia a S3\n(Inmutable AES-256)", fill: rgb("#f8fafc"), stroke: rgb("#334155"))
-    place(dx: 0cm, dy: 0cm, line(start: (c5, y_act8 + h_act / 2), end: (c5, y_act9 - h_act / 2), stroke: (paint: color-linea, thickness: trazo)))
-    punta-abajo(c5, y_act9 - h_act / 2)
-
-    // 10. Despacho WhatsApp API (Carril 5)
-    let y_act10 = 12.25cm
-    accion-n2(c5, y_act10, w_box5, h_act, "10. Despachar ticket y cita\npor WhatsApp API", fill: rgb("#f8fafc"), stroke: rgb("#334155"))
-    place(dx: 0cm, dy: 0cm, line(start: (c5, y_act9 + h_act / 2), end: (c5, y_act10 - h_act / 2), stroke: (paint: color-linea, thickness: trazo)))
-    punta-abajo(c5, y_act10 - h_act / 2)
-
-    // 11. Nodo Final de Actividad Global (ActivityFinalNode)
-    let y_fin_global = 13.35cm
-    nodo-final-actividad(c5, y_fin_global, r-ext: 0.22cm, r-int: 0.12cm)
-    place(dx: 0cm, dy: 0cm, line(start: (c5, y_act10 + h_act / 2), end: (c5, y_fin_global - 0.22cm), stroke: (paint: color-linea, thickness: trazo)))
-    punta-abajo(c5, y_fin_global - 0.22cm)
+    let y_fin_global = 15.45cm
+    nodo-final-actividad(c5, y_fin_global, r-ext: 0.19cm, r-int: 0.10cm)
+    place(dx: 0cm, dy: 0cm, line(start: (c5, y_16 + h_act / 2), end: (c5, y_fin_global - 0.19cm), stroke: (paint: color-linea, thickness: trazo)))
+    punta-abajo(c5, y_fin_global - 0.19cm)
 
     // ============================================================
-    // NOTAS UML 2.5.1 (Ubicadas en Carril 4 alineadas a Actions 8 y 9)
+    // LEYENDA FORMAL EN MATRIZ 2D (OMG UML 2.5.1)
     // ============================================================
-    // ILA-0017 en Carril 4 a la altura exacta de Action 8
-    nota-n2(c4, y_act8, 2.40cm, 0.65cm, "ILA-0017", "ESP-0024 · Pipeline PDF S3", c5 - w_box5 / 2, y_act8)
-
-    // ILA-0017 (Persistencia inmutable) en Carril 4 a la altura exacta de Action 9
-    nota-n2(c4, y_act9, 2.55cm, 0.65cm, "ILA-0017", "ESP-0025 · S3 Inmutable AES-256", c5 - w_box5 / 2, y_act9)
-
-    // ============================================================
-    // LEYENDA FORMAL OMG UML 2.5.1 (Bottom Legend Bar)
-    // ============================================================
-    place(dx: 0.20cm, dy: 14.85cm, block(
+    place(dx: 0.20cm, dy: 16.05cm, block(
       width: 16.60cm,
-      height: 0.95cm,
+      height: 1.15cm,
       fill: rgb("#f8fafc"),
       stroke: (paint: rgb("#cbd5e1"), thickness: 0.6pt),
       radius: 3pt,
-      inset: (x: 8pt, y: 3pt),
+      inset: (x: 8pt, y: 3.5pt),
       {
-        set text(size: 5.2pt, font: ("Arial", "Segoe UI"))
-        set par(leading: 0.40em, spacing: 0pt)
+        set text(size: 4.9pt, font: ("Arial", "Segoe UI"))
+        set par(leading: 0.38em, spacing: 0pt)
         grid(
-          columns: (1fr, 1.1fr),
-          gutter: 8pt,
+          columns: (1.2fr, 1.2fr, 1.1fr),
+          gutter: 6pt,
           [
-            *Nodos de Control de Flujo:* \
-            • #text(weight: "bold", fill: color-fork, [●]) Inicio   • #text(weight: "bold", fill: color-fork, [◉]) Fin de actividad   • #text(weight: "bold", fill: color-linea, [(X)]) Fin de hilo local \
-            • #text(weight: "bold", fill: color-linea, [◇]) Decisión condicional con guardas #text(weight: "bold", fill: color-guarda, [[Condición]])
+            *Partición por Ilación (Flujo Asistencial):* \
+            • #text(weight: "bold", fill: rgb("#0f172a"), [ILA-0020]): Admisión y Check-in (EDU-0029) \
+            • #text(weight: "bold", fill: rgb("#0f172a"), [ILA-0019]): Sincronización Camillas WSS (EDU-0026) \
+            • #text(weight: "bold", fill: rgb("#0f172a"), [ILA-0017]): Sesión y Pipeline Cloud (EDU-0025)
           ],
           [
-            *Concurrencia y Sincronización:* \
-            • #text(weight: "bold", fill: color-fork, [▬]) Barra de bifurcación (Fork) y sincronización (Join) \
-            • #text(weight: "bold", fill: color-nota-br, [Nota]): Trazabilidad a Ilación / Especificación
+            *Capas de Ejecución (Arquitectura del Sistema):* \
+            • Presentación, Aplicación, Persistencia, Tiempo Real, Asíncrono \
+            • #text(weight: "bold", fill: rgb("#0f172a"), [Persistencia con Retorno Obligatorio]): Base de datos siempre devuelve confirmación a Capa de Aplicación.
+          ],
+          [
+            *Nodos de Control de Flujo (UML 2.5.1):* \
+            • #text(weight: "bold", fill: color-fork, [●]) Inicio   • #text(weight: "bold", fill: color-fork, [◉]) Fin actividad   • #text(weight: "bold", fill: color-linea, [(X)]) Fin local \
+            • #text(weight: "bold", fill: color-linea, [◇]) Decisión condicional #text(weight: "bold", fill: color-guarda, [[Guardas]]) \
+            • #text(weight: "bold", fill: color-fork, [▬]) Barras ForkNode de sincronización concurrente
           ]
         )
       }

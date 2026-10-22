@@ -3,7 +3,7 @@
 // Sistema: OmVital Physio Control
 // Enfoque: Orquestación de Macro-Procesos en Tiempo de Ejecución
 // Metodología: Trazabilidad y Cobertura Directa de ILACIONES (UML 2.5)
-// Nota: Vista de Procesos cubre ILACIONES (ILA-0020, ILA-0006, ILA-0017)
+// Nota: Vista de Procesos cubre ILACIONES (ILA-0020, ILA-0019, ILA-0017)
 // Primitivas vectoriales de Typst
 // ============================================================
 
@@ -302,9 +302,9 @@
           columns: (1fr, auto),
           align: (left + horizon, right + horizon),
           [
-            #text(size: 6.5pt, weight: "bold", fill: rgb("#0f172a"), [DIA-PRC-0001 · Orquestación Macroscópica de Procesos (Nivel 1)])
+            #text(size: 6.5pt, weight: "bold", fill: rgb("#0f172a"), [DIA-FLU-0001 · Diagrama de Flujo de Procesos (Visión General de Ilaciones)])
             #h(4pt)
-            #text(size: 5.0pt, fill: rgb("#64748b"), [Vista de Procesos en Tiempo de Ejecución · Cobertura Directa de Ilaciones])
+            #text(size: 5.0pt, fill: rgb("#64748b"), [Flujo asistencial unificado: ILA-0020, ILA-0019, ILA-0017])
           ],
           [
             #text(size: 5.8pt, weight: "bold", fill: rgb("#475569"), [OmVital Physio Control])
@@ -375,12 +375,12 @@
     let y_p1_alt = y_p1_row + 1.00cm   // 2.75cm (Rama No Pagado)
     let x_p1_caja = 8.95cm             // Derivar Pago a Caja
 
-    accion(x_p1_n1, y_p1_row, 2.20cm, 0.60cm, [Consultar Cita y DNI], subtitulo: [Bandeja INT-06 (TABLE_CITAS)], stroke: c-p1-br)
+    accion(x_p1_n1, y_p1_row, 2.20cm, 0.60cm, [Consultar Cita y DNI], subtitulo: [Verificar agenda clínica], stroke: c-p1-br)
     accion(x_p1_n2, y_p1_row, 2.20cm, 0.60cm, [Verificar Saldo en Caja], subtitulo: [API Finanzas · Timeout 3 s], stroke: c-p1-br)
     rombo(x_p1_d1, y_p1_row, 0.50cm, 0.28cm, texto: [¿Pagado?], size: 4.6pt)
     accion(x_p1_n3, y_p1_row, 2.70cm, 0.62cm, [Transacción ACID Check-in], subtitulo: [Deduce sesión & Cita 'En Sala'], stroke: c-p1-br)
 
-    accion(x_p1_caja, y_p1_alt, 2.20cm, 0.52cm, [Derivar Pago a Caja], subtitulo: [Cierre modal INT-20-BTN-001], stroke: rgb("#475569"))
+    accion(x_p1_caja, y_p1_alt, 2.20cm, 0.52cm, [Derivar Pago a Caja], subtitulo: [Notificar caja y anular], stroke: rgb("#475569"))
     nodo-final-flujo(6.85cm, y_p1_alt, r: 0.12cm)
 
     // Nota ILA-0020 vinculada limpiamente a Consultar Cita y DNI sin cruzar flujos
@@ -412,10 +412,10 @@
     accion(x_p2_n1, y_p2_r1, 3.10cm, 0.58cm, [Evaluar Asignación de Camilla], subtitulo: [Consulta disponibilidad en sede], stroke: c-p2-br)
     accion(x_p2_rec, y_p2_r1, 1.80cm, 0.58cm, [Reciclar Camilla], subtitulo: [Desinfección ➔ Disponible], stroke: c-loop-br, fill: rgb("#f8fafc"))
 
-    // Nota ILA-0006 con conexión exacta al borde izquierdo de Evaluar Camilla (sin penetrar el nodo)
+    // Nota ILA-0019 con conexión exacta al borde izquierdo de Evaluar Camilla (sin penetrar el nodo)
     nota-uml(
       6.20cm, y_p2_r1, 4.60cm, 0.65cm,
-      [ILA-0006: Sincronización de Recursos],
+      [ILA-0019: Sincronización de Recursos],
       [Canales WSS (RFC 6455). Supervisa Libre ↔ Ocupada ↔ En Desinfección en tiempo real.],
       tx: x_p2_n1 - 1.55cm, ty: y_p2_r1
     )
@@ -425,7 +425,7 @@
     nodo-final-flujo(6.20cm, y_p2_d1, r: 0.12cm)
 
     barra-sincronizacion(x_p2_n1, y_p2_fork, w_p2_bar, grosor: 0.09cm, fill: color-linea)
-    accion(x_p2_b1, y_p2_sync, 2.90cm, 0.52cm, [Broadcast WSS a Recepción], subtitulo: [Bandeja INT-06 · EDU-0032], stroke: c-p2-br)
+    accion(x_p2_b1, y_p2_sync, 2.90cm, 0.52cm, [Broadcast WSS a Recepción], subtitulo: [Bandeja Recepción · EDU-0032], stroke: c-p2-br)
     accion(x_p2_b2, y_p2_sync, 2.90cm, 0.52cm, [Push WSS a Tablet Clínica], subtitulo: [Panel Terapeuta · EDU-0026], stroke: c-p2-br)
     barra-sincronizacion(x_p2_n1, y_p2_join, w_p2_bar, grosor: 0.09cm, fill: color-linea)
 
@@ -452,12 +452,12 @@
     let x_p3_w    = 10.95cm             // Worker en Fondo
     let x_p3_fb   = 13.45cm             // Disparar Desinfección
 
-    accion(x_p3_n1, y_p3_row, 2.20cm, 0.60cm, [Registrar Notas SOAP], subtitulo: [Campo INT-17-INP-01], stroke: c-p3-br)
-    accion(x_p3_n2, y_p3_row, 2.20cm, 0.60cm, [Capturar Firma Digital], subtitulo: [Tableta clínica · INT-17-BTN-01], stroke: c-p3-br)
+    accion(x_p3_n1, y_p3_row, 2.20cm, 0.60cm, [Registrar Notas SOAP], subtitulo: [Evolución y mapa de dolor], stroke: c-p3-br)
+    accion(x_p3_n2, y_p3_row, 2.20cm, 0.60cm, [Capturar Firma Digital], subtitulo: [Validar conformidad clínica], stroke: c-p3-br)
     rombo(x_p3_d1, y_p3_row, 0.50cm, 0.28cm, texto: [¿Conforme?], size: 4.4pt)
-    accion(x_p3_n3, y_p3_row, 2.70cm, 0.62cm, [Consolidar Cierre Clínico], subtitulo: [TABLE_SESION & Estado 'Atendida'], stroke: c-p3-br)
+    accion(x_p3_n3, y_p3_row, 2.70cm, 0.62cm, [Consolidar Cierre Clínico], subtitulo: [Persistir y marcar 'Atendida'], stroke: c-p3-br)
 
-    accion(6.85cm, y_p3_alt, 2.40cm, 0.52cm, [Descartar Edición], subtitulo: [Retorno a INT-18 (Sin cambios)], stroke: rgb("#475569"))
+    accion(6.85cm, y_p3_alt, 2.40cm, 0.52cm, [Descartar Edición], subtitulo: [Retornar a lista sin cambios], stroke: rgb("#475569"))
     nodo-final-flujo(4.80cm, y_p3_alt, r: 0.12cm)
 
     // Nota ILA-0017 vinculada limpiamente a Registrar Notas SOAP sin cruzar flujos
@@ -660,7 +660,7 @@
           [
             *Eventos y Trazabilidad de Ilaciones:* \
             • #text(weight: "bold", fill: c-p1-badge, [ILA-0020]): Admisión y check-in transaccional \
-            • #text(weight: "bold", fill: c-p2-badge, [ILA-0006]): Sincronización reactiva WSS multi-pantalla \
+            • #text(weight: "bold", fill: c-p2-badge, [ILA-0019]): Sincronización reactiva WSS multi-pantalla \
             • #text(weight: "bold", fill: c-p3-badge, [ILA-0017]): Cierre clínico y pipeline en background \
             • #text(weight: "bold", fill: c-loop-br, [Línea discontinua (- - ►)]): Bucle de recursos (#text(weight: "bold")[EVT-03])
           ]

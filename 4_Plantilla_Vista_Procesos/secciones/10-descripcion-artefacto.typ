@@ -11,31 +11,21 @@
 
 = Descripción del artefacto
 
-El presente artefacto corresponde a la *Vista de Procesos* del sistema clínico *OmVital Physio Control*, identificado formalmente con el código _DIA-PRC-0001_. El modelado ha sido elaborado conforme al estándar internacional *UML 2.5* para la representación de los aspectos dinámicos del sistema, modelando la concurrencia, la distribución de tareas, la sincronización de hilos y la tolerancia a fallos en tiempo de ejecución.
+La *Vista de Procesos* (_DIA-PRC-0001_) modela la dinámica en tiempo de ejecución de *OmVital Physio Control* bajo el estándar *UML 2.5*. Describe la concurrencia entre hilos, la sincronización reactiva de camillas entre sedes, el aislamiento transaccional en la base de datos relacional y el desacoplamiento de tareas mediante colas en segundo plano.
 
-El propósito central de este artefacto es formalizar la arquitectura en tiempo de ejecución del sistema en sus tres sedes operativas: la coordinación de hilos de ejecución concurrentes, la sincronización en tiempo real de recursos físicos compartidos (camillas y consultorios), el desacoplamiento de tareas intensivas de entrada/salida mediante colas de trabajadores en segundo plano (_background workers_), la preservación de la consistencia transaccional ACID en bases de datos relacionales y la resiliencia operativa ante la integración con servicios externos.
+La sección estructura los insumos mediante las matrices de *Educción*, *Ilación* y *Especificación técnica*, seguidas de la *Arquitectura en Capas de Ejecución*, el *Diagrama de Procesos Integrado* y los *Diagramas de Procesos Específicos* para las ilaciones base (`ILA-0020`, `ILA-0019` e `ILA-0017`).
 
-Para asegurar trazabilidad rigurosa y apego a la metodología de ingeniería de software del curso, la presente sección expone en primer lugar los insumos analíticos estructurados en las matrices de *Educción*, *Ilación* y *Especificación técnica*, culminando con la presentación de los *Diagramas de Procesos en Nivel 1 (Orquestación macroscópica de procesos)* y *Nivel 2 (Concurrencia en detalle y carriles de actividad)*.
-
-#v(0.6em)
+#v(0.4em)
 
 == Educción
 
-La estructura del flujo y las restricciones arquitectónicas del artefacto se derivan directamente del repositorio oficial de requisitos del proyecto (*Catálogo de Requisitos de OmVital Physio Control*, Versión 1.0.1 Oficial consolidada de Google Drive), articulando las necesidades funcionales del negocio con los requerimientos no funcionales (RNF) y los atributos de calidad del sistema:
+Los requisitos se derivan del catálogo consolidado del proyecto, asociando las necesidades clínicas con los requerimientos no funcionales (RNF):
 
-- *Control de asistencia y check-in síncrono:* Verificación síncrona de saldo financiero y registro atómico de asistencia en recepción clínica (`EDU-0029`).
-- *Sincronización reactiva de camillas y organización interna:* Supervisión y telemetría de camillas y turnos en tiempo real entre recepción y consultorios (`EDU-0026`, `EDU-0032`).
-- *Cierre asistencial y registro de sesión terapéutica:* Registro de atención, evolución clínica SOAP, captura de firma digital y actualización de historial (`EDU-0025`).
+- *Control de asistencia (`EDU-0029`):* Verificación síncrona de saldo y check-in en recepción ($t <= 3$ s, _RNF-0002_).
+- *Sincronización de camillas (`EDU-0026`, `EDU-0032`):* Actualización reactiva vía WebSockets entre recepción y consultorios con latencia menor a 1 segundo (_RNF-0006_).
+- *Registro de sesión y constancias (`EDU-0025`):* Registro de notas SOAP, firma digital, compilación de PDF en segundo plano ($t <= 5$ s, _RNF-0007_) y persistencia inmutable en AWS S3 con cifrado AES-256 (_RNF-0010_).
 
-Los atributos de calidad y requerimientos no funcionales (RNF) vinculados formalmente al artefacto son:
-
-- _RNF-0002_ (*Tiempo de respuesta*): Búsqueda de pacientes por DNI en tiempo $t <= 500$ ms; check-in de recepción completado en $t <= 3$ s.
-- _RNF-0006_ (*Sincronización en tiempo real*): Propagación del estado de camillas vía WebSockets con latencia menor a 1 segundo entre recepción y consultorios.
-- _RNF-0007_ (*Generación documental*): Emisión y compilación de constancias de atención en formato PDF en tiempo $t <= 5$ s ejecutada en segundo plano.
-- _RNF-0010_ (*Persistencia inmutable*): Almacenamiento seguro de constancias firmadas en la nube (AWS S3) con cifrado AES-256 sin posibilidad de sobrescritura.
-- _RNF-0001_ (*Alta disponibilidad*): Operación multi-sede ininterrumpida soportada por infraestructura distribuida en la nube.
-
-A continuación se presentan las matrices de educción que sustentan formalmente las decisiones de la Vista de Procesos, extraídas en su versión oficial vigente:
+A continuación se presentan las fichas de educción aplicables:
 
 #v(0.4em)
 
@@ -145,15 +135,9 @@ A continuación se presentan las matrices de educción que sustentan formalmente
 
 == Ilación
 
-La etapa de ilación traduce las necesidades de educción en reglas formales de secuencia procedimental, control de concurrencia y pre/postcondiciones técnicas. El modelado se apega a la sintaxis y semántica de *UML 2.5* (OMG):
+La etapa de ilación define la secuencia de ejecución de los procesos clínicos, el control de concurrencia y las condiciones operativas de cada flujo:
 
-- #text(weight: "bold")[Particiones de Actividad (`ActivityPartitions`):] Carriles que agrupan acciones bajo unidades de ejecución independientes (hilos de interfaz, proceso API Gateway, motor WebSocket, workers asíncronos y motor relacional).
-- #text(weight: "bold")[Nodo de Bifurcación (`ForkNode`):] Barra horizontal continua de sincronización que divide un flujo de control entrante en múltiples flujos paralelos concurrentes mediante la multiplicación de tokens de ejecución.
-- #text(weight: "bold")[Nodo de Sincronización (`JoinNode`):] Barra de sincronización que bloquea el flujo saliente hasta que todos los flujos concurrentes entrantes hayan completado su procesamiento.
-- #text(weight: "bold")[Nodos de Acción (`ActionNode`):] Rectángulos de esquinas redondeadas que representan operaciones atómicas de software.
-- #text(weight: "bold")[Nodos de Decisión y Fusión (`DecisionNode` / `MergeNode`):] Rombos formales con guardas disjuntas para control condicional y convergencia de rutas alternativas.
-
-A continuación se presentan las fichas técnicas formales de ilación en su versión oficial consolidada:
+A continuación se presentan las fichas de ilación correspondientes:
 
 #v(0.4em)
 
@@ -196,7 +180,7 @@ A continuación se presentan las fichas técnicas formales de ilación en su ver
   importancia: "Vital",
   estado: "Concluido",
   comentario: [
-    Sustenta el flujo síncrono inicial de check-in y el primer nodo de bifurcación concurrente (ForkNode 1) del diagrama de procesos.
+    Sustenta el flujo síncrono inicial de check-in y la activación concurrente del flujo de asignación de camillas en el diagrama de procesos.
   ],
 )
 
@@ -298,7 +282,7 @@ A continuación se presentan las fichas técnicas formales de ilación en su ver
   importancia: "Vital",
   estado: "Concluido",
   comentario: [
-    Sustenta el segundo nodo de bifurcación concurrente (ForkNode 2) y el desacoplamiento de workers asíncronos para el cierre de atención asistencial.
+    Sustenta el procesamiento concurrente y el desacoplamiento de workers asíncronos para el cierre de atención asistencial.
   ],
 )
 
@@ -416,7 +400,7 @@ La fase de especificación consolida las reglas algorítmicas, estructuras de da
   importancia: "Vital",
   estado: "Concluido",
   comentario: [
-    Especificación del procedimiento atómico orquestado entre el Carril 2 (API Gateway), Carril 3 (Persistencia ACID) y Carril 4 (Tiempo Real).
+    Especificación del procedimiento atómico orquestado entre la Capa de Aplicación (API Gateway), Capa de Persistencia (ACID) y Capa de Tiempo Real.
   ],
 )
 
@@ -582,93 +566,171 @@ La fase de especificación consolida las reglas algorítmicas, estructuras de da
   ],
 )
 
+#pagebreak(weak: true)
+
 == Especificación técnica del artefacto `DIA-PRC-0001`
 
 #v(0.4em)
 
-#plantilla_especificacion(
-  codigo: "DIA-PRC-0001",
-  nombre: "Vista de Procesos de OmVital Physio Control",
-  version: "1.0.0",
-  fecha: "08/10/2026",
-  autor-plantilla: "AUT-0001, AUT-0002, AUT-0003, AUT-0005, AUT-0008",
-  actor: "ACT-0001, ACT-0002, ACT-0003",
-  fuente: "ENT-0001, ENT-0002, ENT-0004",
-  experto: "EXP-001",
-  codigo-ilacion: "ILA-0020, ILA-0019, ILA-0006, ILA-0017, ILA-0026",
-  inset: (x: 6pt, y: 3.2pt),
-  tamano_letra: 9.0pt,
-  precondicion: [
-    Infraestructura multi-sede interconectada sobre red WAN segura. \
-    Servidor de base de datos relacional PostgreSQL con soporte de transacciones ACID y aislamiento Read Committed. \
-    Broker de mensajería asíncrona operativo para desacoplamiento de workers.
-  ],
-  procedimiento: [
-    El artefacto formaliza la arquitectura en tiempo de ejecución en dos niveles de descomposición gráfica: \
-    - Nivel 1 (Macroscópico): Orquestación en tiempo de ejecución de las Ilaciones del sistema (ILA-0020, ILA-0019 / ILA-0006 e ILA-0017), modelando los macro-procesos, sus eventos de disparo reactivo y el ciclo de retroalimentación de recursos. \
-    - Nivel 2 (Concurrencia en Detalle): Descomposición en 5 carriles de actividad (ActivityPartitions) que formaliza la ejecución multihilo, los puntos de bifurcación concurrente (ForkNode 1 y ForkNode 2) y la barrera de sincronización (JoinNode 1).
-  ],
-  postcondicion: [
-    Garantía de cumplimiento verificable de los procedimientos de las ilaciones: admisión y deducción atómica de sesiones (ILA-0020), sincronización reactiva de ocupación y liberación de camillas (ILA-0019 / ILA-0006), y cierre asistencial con desacoplamiento asíncrono en segundo plano (ILA-0017).
-  ],
-  codigo-artefactos-asociados: "PRC-01, PRC-02, PRC-03, ILA-0020, ILA-0019, ILA-0006, ILA-0017, ESP-0030, ESP-0027, ESP-0025, EVT-01, EVT-02, EVT-03",
-  importancia: "Vital",
-  estado: "Concluido",
-  comentario: [
-    Artefacto de arquitectura de software correspondiente a la Evaluación Continua 2 (Segunda Fase) del curso DAS 2026-B.
-  ],
-)
+#align(center)[
+  #block(width: 95%)[
+    #set text(size: 8.5pt)
+    #table(
+      columns: (4.5cm, 1fr),
+      inset: (x: 6pt, y: 3.8pt),
+      align: (left + horizon, left + horizon),
+      stroke: 0.5pt + luma(140),
+      table.header(
+        table.cell(fill: rgb("#ffe599"))[*Elemento / Campo*],
+        table.cell(fill: rgb("#ffe599"))[*Ficha Técnica: Diagrama de Vista de Procesos*],
+      ),
+      [*Código del diagrama:*], [DIA-PRC-0001],
+      [*Tipo de artefacto:*], [Diagrama de Procesos / Actividades en Capas (UML 2.5)],
+      [*Dominio funcional:*], [Gestión clínica, check-in, monitoreo de camillas y sesión terapéutica],
+      [*Requisitos no funcionales:*], [RNF-0002 (Rendimiento $t <= 500$ ms), RNF-0006 (Tiempo real $< 1$ s), RNF-0007 (Constancias $t <= 5$ s), RNF-0010 (Seguridad AES-256)],
+      [*Capas de ejecución:*], [Presentación, Aplicación, Persistencia, Tiempo Real, Asíncrona e Integración],
+      [*Mecanismos de concurrencia:*], [Transacciones ACID (Read Committed), WebSockets dúplex (RFC 6455), ejecución multihilo paralela y colas de workers],
+      [*Precondición:*], [Conectividad de red operativa, PostgreSQL disponible y broker de tareas activo],
+      [*Poscondición:*], [Asistencia registrada, camillas sincronizadas y constancia médica archivada en la nube],
+      [*Ilaciones asociadas:*], [ILA-0020, ILA-0019, ILA-0017, ILA-0026],
+      [*Versión:*], [2.0.0],
+      [*Autor:*], [AUT-0001, AUT-0002, AUT-0003, AUT-0005, AUT-0008],
+      [*Fecha:*], [20/10/2026],
+      [*Estado:*], [Concluido],
+    )
+  ]
+]
 
 #pagebreak(weak: true)
 
-== Diagramas de la Vista de Procesos
+== Capas de ejecución del sistema
 
-=== DIA-PRC-0001: Nivel 1 (Orquestación macroscópica de procesos en tiempo de ejecución)
+Los procesos se organizan en cinco capas de ejecución según sus responsabilidades transaccionales y de comunicación:
 
-El diagrama de Nivel 1 expresa la orquestación general de los procesos del sistema en tiempo de ejecución, atacando directamente la cobertura procedural de las ilaciones clave del sistema (ILA-0020, ILA-0019 / ILA-0006 e ILA-0017), delimitando las entradas de los actores, los eventos de transición de estado y los canales de retroalimentación de recursos:
+#align(center)[
+  #block(width: 95%)[
+    #set text(size: 9pt)
+    #table(
+      columns: (3.0cm, 4.3cm, 1fr),
+      inset: (x: 6pt, y: 5pt),
+      align: (center + horizon, left + horizon, left + horizon),
+      stroke: 0.5pt + luma(140),
+      table.header(
+        table.cell(fill: rgb("#e5e7eb"))[*Capa de ejecución*],
+        table.cell(fill: rgb("#e5e7eb"))[*Componentes asociados*],
+        table.cell(fill: rgb("#e5e7eb"))[*Función en el flujo asistencial*],
+      ),
+      [Presentación],
+      [Recepción web (`INT-06`, `INT-20`), tableta de consultorio (`INT-17`, `INT-18`) y monitores (`INT-26`).],
+      [Captura de datos en recepción, registro de check-in, visualización de agenda y firma digital sobre la tableta.],
+
+      [Aplicación],
+      [API Gateway, controladores REST y orquestador de flujos clínicos.],
+      [Validación de reglas de negocio, control de acceso por roles y coordinación del flujo asistencial entre capas.],
+
+      [Persistencia],
+      [Base de datos relacional PostgreSQL (`TABLE_CITAS`, `TABLE_PACIENTE`, `TABLE_SESION`).],
+      [Registro transaccional de asistencia, actualización de saldo de sesiones y almacenamiento inmutable de notas SOAP.],
+
+      [Tiempo Real],
+      [Servidor WebSocket (RFC 6455).],
+      [Sincronización instantánea del estado de camillas hacia recepción y consultorios con latencia menor a 1 segundo (_RNF-0006_).],
+
+      [Asíncrona e Integración],
+      [Broker de mensajería, AWS S3 y servicio WhatsApp API.],
+      [Compilación de constancias médicas en PDF ($t <= 5$ s, _RNF-0007_), archivo inmutable en la nube (_RNF-0010_) y notificación al paciente.],
+    )
+  ]
+]
+
+#pagebreak(weak: true)
+
+== DIA-PRC-0001: Diagrama de Procesos Integrado del Sistema
+
+El diagrama integra las tres ilaciones principales en un solo flujo continuo:
+
+1. *Admisión y asignación de camilla (`ILA-0020` e `ILA-0019`):* La recepcionista valida el saldo del paciente ($t <= 3$ s). Al confirmarse, el sistema descuenta la sesión en PostgreSQL bajo una transacción ACID y pasa el control a la gestión de camillas. La aplicación asigna una camilla libre y la registra como «Ocupada».
+
+2. *Sincronización en tiempo real e inicio de atención:* Con la camilla asignada, el sistema despacha dos acciones en paralelo:
+   - Despliega el turno y los datos del paciente en la tableta del consultorio ($t < 500$ ms), habilitando el inicio de la atención médica en `ILA-0017`.
+   - Difunde el estado «Ocupada» vía WebSocket ($t < 1$ s) a las pantallas de recepción y monitores de la sede.
+
+3. *Cierre asistencial y procesamiento en segundo plano (`ILA-0017`):* Tras registrar notas SOAP y firma digital, PostgreSQL persiste la sesión y cambia la camilla a «En Desinfección». La tableta se libera de inmediato ($t <= 500$ ms), recepción se actualiza por WebSocket y un worker en segundo plano compila la constancia médica en PDF ($t <= 5$ s), la almacena en AWS S3 con cifrado AES-256 y envía el enlace al paciente por WhatsApp.
 
 #pagebreak(weak: true)
 
 #figure(
-  image("../imagenes/diagramas/diagrama-procesos-nivel-1.png", width: 100%),
+  image("../imagenes/diagramas/diagrama-procesos-integrado.png", width: 100%),
   kind: image,
   supplement: [Figura],
-  caption: [_DIA-PRC-0001_: Diagrama de procesos del sistema OmVital Physio Control (Nivel 1). Orquestación macroscópica de procesos en tiempo de ejecución, cobertura de ilaciones y eventos transaccionales.],
+  caption: [_DIA-PRC-0001_: Diagrama de procesos integrado del sistema OmVital Physio Control.],
 )
 
 #pagebreak(weak: true)
 
-=== Análisis de macro-procesos, ilaciones y eventos del Nivel 1:
+== Diagramas de Procesos Específicos por Ilación
 
-1. *`PRC-01` (Admisión y Control de Asistencia — Cobertura: `ILA-0020`):*
-   Iniciado por la recepcionista (`ACT-0003`) al ingresar el DNI del paciente. Ejecuta la verificación síncrona de saldo financiero ante el servicio externo (con límite estricto de 3 segundos), inicia la transacción relacional atómica ACID con bloqueo de fila para decrementar el contador de sesiones contratadas y transiciona la cita a estado «En Sala». Al completarse, genera el disparo reactivo `EVT-01`.
+Cada ilación base cuenta con un diagrama de procesos propio que detalla la secuencia de ejecución, la interacción entre capas y la trazabilidad hacia las tablas relacionales.
 
-2. *`PRC-02` (Sincronización Reactiva de Recursos y Camillas — Cobertura: `ILA-0019` / `ILA-0006`):*
-   Gestiona la retención continua de canales WebSocket dúplex (RFC 6455) segmentados por sede clínica. Al recibir la señal `EVT-01` desde `PRC-01`, retransmite instantáneamente (*Broadcast* con latencia inferior a 1 segundo) el cambio de estado de la camilla a «Ocupada», sincronizando en tiempo real la Bandeja de Agenda en Recepción (`INT-26` / `INT-06`) y las tablets en consultorios (`INT-008` / `INT-19`). Emite la habilitación `EVT-02` para el inicio de la atención médica.
+=== DIA-PRC-ILA-0020: Proceso de Registro de Asistencia (`EDU-0029` · `ESP-0030`/`31`)
 
-3. *`PRC-03` (Cierre Asistencial y Desacoplamiento en Fondo — Cobertura: `ILA-0017`):*
-   Operado por el fisioterapeuta (`ACT-0001`) al culminar la terapia física. Registra las notas de evolución clínica (SOAP) y captura la firma digital del paciente sobre la tablet. Orquesta el cierre asistencial liberando la interfaz táctil en menos de 500 ms y dispara en paralelo dos flujos: el evento de retroalimentación `EVT-03` que transiciona la camilla a estado «En Desinfección» hacia `PRC-02`, y el encolamiento asíncrono en segundo plano para compilación de constancia PDF inmutable en AWS S3 y despacho del ticket por WhatsApp API.
+Modela el flujo de check-in operado desde recepción. Articula la validación financiera síncrona con la persistencia transaccional en la base de datos:
 
-=== DIA-PRC-0001: Nivel 2 (Concurrencia en detalle y descomposición en carriles)
-
-El diagrama de Nivel 2 modela el flujo concurrente y la sincronización temporal del proceso asistencial y de check-in, descomponiendo la ejecución en carriles de responsabilidad y coordinando la atención clínica con las tareas en segundo plano:
+1. *Ingreso y Verificación:* La recepcionista captura la llegada del paciente con su DNI. La Capa de Aplicación consulta la disponibilidad de saldo ante la API financiera con un tiempo límite de 3 segundos.
+2. *Decisión de Saldo:* Si la cita registra saldo pendiente o expira el tiempo límite, el sistema notifica el estado y deriva al paciente a caja, finalizando el flujo local.
+3. *Transacción ACID y Retorno:* Ante saldo verificado, la aplicación inicia una transacción con aislamiento Read Committed, aplica bloqueo pesimista en la cita y descuenta la sesión del paciente. La base de datos ejecuta el commit y retorna obligatoriamente la confirmación a la aplicación, la cual actualiza la interfaz de recepción y concluye la admisión.
 
 #pagebreak(weak: true)
 
 #figure(
-  image("../imagenes/diagramas/diagrama-procesos-nivel-2.png", width: 100%),
+  image("../imagenes/diagramas/diagrama-procesos-ila-0020.png", width: 100%),
   kind: image,
   supplement: [Figura],
-  caption: [_DIA-PRC-0001_: Diagrama de procesos del sistema OmVital Physio Control (Nivel 2). Descomposición del flujo concurrente en carriles de actividad, sincronización de hilos y procesamiento en segundo plano.],
+  caption: [_DIA-PRC-ILA-0020_: Diagrama de procesos del registro de asistencia.],
 )
 
 #pagebreak(weak: true)
 
-=== Secuencia analítica de las fases del flujo concurrente:
+=== DIA-PRC-ILA-0019: Proceso de Visualización de Organización Interna y Sincronización de Camillas (`EDU-0026` · `ESP-0027`/`28`/`29`)
 
-- *Fase A (Admisión y verificación síncrona):* Inicia en el _Nodo Inicial_ (Carril 1) al ingresar el DNI del paciente. El API Gateway (Carril 2) valida el JWT y consulta la API Financiera (timeout 3 s). Ante saldo insuficiente o expiración, bifurca a notificación de pago en caja y culmina en el nodo final.
-- *Fase B (Bifurcación en Check-in y sincronización):* Verificado el saldo, se activa la bifurcación concurrente en tres ramas paralelas: bloqueo de camilla y deducción de sesión en BD (Carril 3, `ILA-0020` · `EDU-0029`), emisión WSS de camilla ocupada (Carril 4, `ILA-0019` / `ILA-0006` · `ESP-0027`) y confirmación HTTP a recepción (Carril 1, `ESP-0030`). Las tres ramas convergen en una barrera de sincronización, garantizando el bloqueo de datos antes de habilitar la atención clínica.
-- *Fase C (Atención asistencial y firma digital):* Desde la sincronización, el control transita a la tableta del terapeuta (Carril 1), quien ejecuta la sesión física, registra notas SOAP y captura la firma digital (`ILA-0017` · `EDU-0025`). El payload consolidado se remite al API Gateway (Carril 2).
-- *Fase D (Bifurcación en cierre de sesión):* El API Gateway activa la bifurcación paralela, derivando cuatro flujos concurrentes: confirmación inmediata a la tableta liberando la interfaz en $< 500$ ms, actualización del estado a «En Desinfección» en base de datos (Carril 3), difusión vía WebSocket de camilla disponible (Carril 4) y encolamiento asíncrono del comprobante en la cola de trabajadores (Carril 5).
-- *Fase E (Pipeline asíncrono en segundo plano):* El worker (Carril 5) compila la constancia PDF en segundo plano (`ILA-0017` · `ESP-0024`), la persiste con cifrado AES-256 en AWS S3 (`ESP-0025`) y despacha el comprobante por WhatsApp API. El ciclo transaccional culmina formalmente en el _Nodo Final de Actividad_.
+Modela la actualización reactiva del panel de consultorios y la telemetría de camillas operada por el fisioterapeuta:
+
+1. *Carga Inicial y Sesión:* El fisioterapeuta accede al sistema; la Capa de Aplicación recupera la agenda y el paciente en turno desde la base de datos, desplegando el panel operativo.
+2. *Canal WebSocket y Flujos en Paralelo:* Se establece la conexión WSS persistente (RFC 6455), atendiendo dos flujos simultáneos:
+   - *Telemetría Reactiva:* El servidor transmite eventos de cambio de estado de camillas a todas las pantallas de la sede en menos de 1 segundo (_RNF-0006_).
+   - *Consulta de Historial Clínico:* Al solicitar la evolución del paciente, la aplicación consulta la base de datos, la cual devuelve la serie temporal de atenciones previas para su renderizado en pantalla.
+
+#pagebreak(weak: true)
+
+#figure(
+  image("../imagenes/diagramas/diagrama-procesos-ila-0019.png", width: 100%),
+  kind: image,
+  supplement: [Figura],
+  caption: [_DIA-PRC-ILA-0019_: Diagrama de procesos de visualización de organización interna y sincronización de camillas.],
+)
+
+#pagebreak(weak: true)
+
+=== DIA-PRC-ILA-0017: Proceso de Edición de Sesión Terapéutica (`EDU-0025` · `ESP-0024`/`25`)
+
+Modela la evolución clínica, el cierre de consulta y el desacoplamiento de tareas documentales pesadas:
+
+1. *Carga y Edición Clínica:* Al iniciar la atención, la aplicación recupera la sesión desde la base de datos para precargar el formulario. El fisioterapeuta registra los agentes físicos, escala EVA, notas SOAP y captura la firma digital.
+2. *Persistencia Transaccional:* La aplicación comisiona la actualización atómica en PostgreSQL. La base de datos persiste la evolución, actualiza el historial clínico y retorna la confirmación a la aplicación.
+3. *Cierre Asistencial y Procesamiento en Paralelo:* Con la persistencia confirmada, el sistema despacha dos flujos simultáneos:
+   - *Respuesta a Usuario:* Cierra el formulario y libera la tableta clínica en menos de 500 ms (_RNF-0002_).
+   - *Pipeline en Segundo Plano:* Encola la tarea en el broker de mensajería; un worker compila la constancia médica en PDF ($t <= 5$ s, _RNF-0007_), almacena el archivo con cifrado AES-256 en AWS S3 (_RNF-0010_) y despacha el enlace de descarga por WhatsApp API.
+
+#pagebreak(weak: true)
+
+#figure(
+  image("../imagenes/diagramas/diagrama-procesos-ila-0017.png", width: 100%),
+  kind: image,
+  supplement: [Figura],
+  caption: [_DIA-PRC-ILA-0017_: Diagrama de procesos de edición de sesión terapéutica.],
+)
+
+#pagebreak(weak: true)
+
+
 
