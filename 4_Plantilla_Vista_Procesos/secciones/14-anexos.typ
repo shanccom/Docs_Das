@@ -72,7 +72,7 @@ _*Ficha técnica — DIA-PRC-0001 (Diagrama de Vista de Procesos en Capas de Eje
       [*Capas de ejecución*], [Presentación, Aplicación, Persistencia, Tiempo Real, Asíncrona e Integración],
       [*Mecanismos de concurrencia*], [Transacciones ACID (Read Committed en PostgreSQL), WebSockets dúplex (RFC 6455), ejecución multihilo paralela y colas de tareas en segundo plano],
       [*Versión*], [2.0.0],
-      [*Autor*], [AUT-0001, AUT-0002, AUT-0003, AUT-0005, AUT-0008],
+      [*Autor*], [AUT-0002, AUT-0007, AUT-0010],
       [*Fecha*], [22/10/2026],
       [*Justificación*], [Formaliza la arquitectura dinámica en tiempo de ejecución conforme al estándar UML 2.5 y el Modelo 4+1 de Kruchten. Separa explícitamente las responsabilidades mediante capas y carriles de ejecución paralela, resolviendo cuellos de botella en admisión y optimizando la latencia del fisioterapeuta en consultorio mediante procesamiento asíncrono y comunicación reactiva.],
       [*Estado*], [Vigente / Concluido],

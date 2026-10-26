@@ -594,7 +594,7 @@ La fase de especificación consolida las reglas algorítmicas, estructuras de da
       [*Poscondición:*], [Asistencia registrada, camillas sincronizadas y constancia médica archivada en la nube],
       [*Ilaciones asociadas:*], [ILA-0020, ILA-0019, ILA-0017, ILA-0026],
       [*Versión:*], [2.0.0],
-      [*Autor:*], [AUT-0001, AUT-0002, AUT-0003, AUT-0005, AUT-0008],
+      [*Autor:*], [AUT-0002, AUT-0007, AUT-0010],
       [*Fecha:*], [22/10/2026],
       [*Estado:*], [Concluido],
     )
