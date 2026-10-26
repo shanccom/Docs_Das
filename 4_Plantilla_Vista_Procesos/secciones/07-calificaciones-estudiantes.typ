@@ -1,6 +1,6 @@
 = Tabla resumen de las calificaciones de los estudiantes
 
-Insertar la tabla resumen donde de muestre la calificación del estudiante según la apreciación del jefe de proyecto.
+La calificación individual debe ser consolidada por el jefe de proyecto. Mientras se incorpora el registro oficial, se deja identificada la participación del equipo sin asignar notas ficticias.
 
 #table(
   columns: (1fr, 3cm, 2.5cm, 2.5cm),
@@ -8,6 +8,14 @@ Insertar la tabla resumen donde de muestre la calificación del estudiante segú
   table.header(
     [*Estudiante*], [*Rol / Tarea*], [*Apreciación*], [*Calificación*]
   ),
-  [Estudiante 1], [Desarrollador], [Excelente], [20],
-  [Estudiante 2], [Analista], [Excelente], [20],
+  [Barrios Medina Mathias Alonso], [Equipo OmVital], [Pendiente], [Pendiente],
+  [Boza Portilla Yordano Hernan], [Equipo OmVital], [Pendiente], [Pendiente],
+  [Cuno Salazar Eduardo Joel], [Equipo OmVital], [Pendiente], [Pendiente],
+  [Hancco Mullisaca Sergio Danilo], [Equipo OmVital], [Pendiente], [Pendiente],
+  [Huacani Jara Denise Andrea], [Equipo OmVital], [Pendiente], [Pendiente],
+  [Mollo Chuquicaña Dolly Yadhira], [Equipo OmVital], [Pendiente], [Pendiente],
+  [Nina Calizaya Rafael Diego], [Equipo OmVital], [Pendiente], [Pendiente],
+  [Pacheco Palo Fabiana Francinet], [Equipo OmVital], [Pendiente], [Pendiente],
+  [Quispe Madariaga Jeferson Jofre], [Equipo OmVital], [Pendiente], [Pendiente],
+  [Suclle Suca Michael Benjamin], [Equipo OmVital], [Pendiente], [Pendiente],
 )

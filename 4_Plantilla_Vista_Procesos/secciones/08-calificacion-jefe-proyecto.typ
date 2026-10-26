@@ -1,6 +1,6 @@
 = Tabla resumen de la calificación obtenida por el jefe de proyecto
 
-Insertar la tabla con las calificaciones del jefe de proyecto desde el punto de vista de los integrantes.
+La evaluación del jefe de proyecto debe ser completada por los integrantes. Se conserva la estructura de la tabla, pero no se asignan valores hasta contar con las respuestas reales.
 
 #table(
   columns: (1fr, 3.5cm, 2.5cm, 2.5cm),
@@ -8,6 +8,6 @@ Insertar la tabla con las calificaciones del jefe de proyecto desde el punto de 
   table.header(
     [*Integrante Evaluador*], [*Criterio Evaluado*], [*Apreciación*], [*Calificación*]
   ),
-  [Integrante 1], [Liderazgo y gestión], [Excelente], [20],
-  [Integrante 2], [Comunicación y apoyo], [Excelente], [20],
+  [Equipo OmVital], [Liderazgo y gestión], [Pendiente], [Pendiente],
+  [Equipo OmVital], [Comunicación y apoyo], [Pendiente], [Pendiente],
 )

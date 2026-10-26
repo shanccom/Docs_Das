@@ -10,5 +10,8 @@
   table.header(
     [*FECHA*], [*VERSIÓN*], [*DESCRIPCIÓN*], [*AUTORES*]
   ),
-  [-- / -- / ----], [1.0.0], [Creación inicial y estructuración del documento.], [Apellidos y Nombres],
+  [19/09/2026], [1.0.0], [Creación inicial y estructuración del documento de la Vista de Procesos.], [Equipo OmVital],
+  [09/10/2026], [1.1.0], [Incorporación de la descripción del artefacto y de los diagramas de procesos de nivel 1 y nivel 2.], [Equipo OmVital],
+  [20/10/2026], [1.2.0], [Actualización de tablas, trazabilidad y diagramas de procesos.], [Equipo OmVital],
+  [22/10/2026], [2.0.0], [Reestructuración final con las ilaciones ILA-0017, ILA-0019 e ILA-0020, diagrama integrado y anexos.], [Equipo OmVital],
 )

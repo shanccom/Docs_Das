@@ -3,7 +3,7 @@
 
 #let informe(cuerpo) = {
   // ---------- Ajustes generales ----------
-  set document(title: titulo, author: integrantes)
+  set document(title: titulo)
   // El logo se ajusta a la altura indicada respetando su proporción
   let logo(ruta, alin, alto: altura-logo) = if ruta != none {
     align(alin + horizon, context {
@@ -132,7 +132,7 @@
         v(0.6cm)
         align(center, text(weight: "bold", "ARQUITECTURA GENÉRICA"))
         v(0.2cm)
-        align(center, text(weight: "bold", "VERSIÓN VDD.DD"))
+        align(center, text(weight: "bold", "VERSIÓN " + version-documento))
 
         v(2cm)
 
