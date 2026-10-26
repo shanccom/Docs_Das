@@ -1,0 +1,358 @@
+digraph D_FIS_002 {
+    compound=true;
+    rankdir=TB;
+    splines=true;
+    nodesep=0.35;
+    ranksep=0.45;
+    fontname="Helvetica,Arial,sans-serif";
+    fontsize=12;
+    dpi=300;
+    margin=0.15;
+
+    // Configuración global en Blanco y Negro / Escala de Grises
+    node [fontname="Helvetica,Arial,sans-serif", fontsize=9.5, shape=box3d, style="filled", fillcolor="#ffffff", color="#000000", penwidth=1.0];
+    edge [fontname="Helvetica,Arial,sans-serif", fontsize=8, color="#000000", penwidth=1.0];
+
+    // ==========================================
+    // NOTAS UML Y LEYENDA (MONOCROMÁTICO)
+    // ==========================================
+    subgraph cluster_top_header {
+        rank=same;
+        style=invis;
+
+        subgraph cluster_legend {
+            label=<<font point-size="9.5"><b>Convenciones del Diagrama</b></font>>;
+            style="dashed,rounded";
+            color="#000000";
+            fillcolor="#ffffff";
+
+            leg_exist [label=<<table border="0" cellborder="0" cellspacing="1" cellpadding="2">
+                <tr><td align="center"><b>[Existente]</b> Dispositivo disponible</td></tr>
+            </table>>, shape=box, style="filled", fillcolor="#ffffff", color="#000000", penwidth=1.0, width=2.4];
+
+            leg_adq [label=<<table border="0" cellborder="0" cellspacing="1" cellpadding="2">
+                <tr><td align="center"><b>[A Adquirir / Nube]</b> Justificado por RNF</td></tr>
+            </table>>, shape=box, style="filled", fillcolor="#f1f5f9", color="#000000", penwidth=1.8, width=2.4];
+        }
+
+        nota_rnfs [label=<<table border="0" cellborder="0" cellspacing="2" cellpadding="3">
+            <tr><td align="left"><b>Trazabilidad con Requisitos No Funcionales (RNF):</b></td></tr>
+            <tr><td align="left">• <b>RNF-0001 (Disponibilidad 99.8%):</b> Multi-AZ, Réplica Standby DB y Doble ISP por sede</td></tr>
+            <tr><td align="left">• <b>RNF-0002 (Rendimiento &lt; 3s):</b> Búsqueda por DNI acelerada con caché Redis en RAM</td></tr>
+            <tr><td align="left">• <b>RNF-0003 (Firma &lt; 10s):</b> Tableta digitalizadora + S3 Object Lock (Modo Compliance)</td></tr>
+            <tr><td align="left">• <b>RNF-0006 (Camillas Tiempo Real):</b> Canal WebSocket bidireccional (WSS:443)</td></tr>
+            <tr><td align="left">• <b>RNF-0007 (Eficiencia &lt; 5s):</b> Generador de constancias PDF en servidor de aplicación</td></tr>
+            <tr><td align="left">• <b>RNF-0010 (Integridad &amp; Seguridad):</b> Túneles VPN IPsec, VPC Privada y Cifrado TLS 1.3</td></tr>
+        </table>>, shape=note, fillcolor="#ffffff", color="#000000", fontsize=8.5, penwidth=1.0];
+    }
+
+    // ==========================================
+    // SUCURSALES (3 SEDES OMVITAL)
+    // ==========================================
+    subgraph cluster_sucursales {
+        label=<<font point-size="11.5"><b>Red de Sucursales OmVital (3 Sedes Interconectadas)</b></font>>;
+        style="rounded";
+        color="#000000";
+        fillcolor="#ffffff";
+        penwidth=1.5;
+
+        // --- SUCURSAL 1 ---
+        subgraph cluster_sede1 {
+            label=<<font point-size="9.5"><b>Sucursal 1 (Cercado - Sede Principal)</b></font>>;
+            style="rounded";
+            fillcolor="#ffffff";
+            color="#000000";
+
+            s1_laptop [label=<<table border="0" cellborder="0" cellspacing="1" cellpadding="2">
+                <tr><td align="center"><b>&laquo;device&raquo;</b></td></tr>
+                <tr><td align="center"><b>Laptop Recepción</b></td></tr>
+                <tr><td align="center"><font point-size="7">[Existente] 4-8 GB RAM</font></td></tr>
+                <hr/>
+                <tr><td align="left">&laquo;artifact&raquo; Navegador Web (UI Recepción)</td></tr>
+                <tr><td align="left">&laquo;artifact&raquo; Cliente WSS (Camillas)</td></tr>
+            </table>>, fillcolor="#ffffff", color="#000000", penwidth=1.0];
+
+            s1_tab_firma [label=<<table border="0" cellborder="0" cellspacing="1" cellpadding="2">
+                <tr><td align="center"><b>&laquo;device&raquo;</b></td></tr>
+                <tr><td align="center"><b>Tableta de Firma</b></td></tr>
+                <tr><td align="center"><font point-size="7">[A Adquirir] RNF-0003</font></td></tr>
+            </table>>, fillcolor="#f1f5f9", color="#000000", penwidth=1.6];
+
+            s1_tab_fisio [label=<<table border="0" cellborder="0" cellspacing="1" cellpadding="2">
+                <tr><td align="center"><b>&laquo;device&raquo;</b></td></tr>
+                <tr><td align="center"><b>Tableta Consultorio</b></td></tr>
+                <tr><td align="center"><font point-size="7">[A Adquirir] Fisioterapeuta</font></td></tr>
+                <hr/>
+                <tr><td align="left">&laquo;artifact&raquo; Web App (Notas SOAP)</td></tr>
+            </table>>, fillcolor="#f1f5f9", color="#000000", penwidth=1.6];
+
+            s1_router [label=<<table border="0" cellborder="0" cellspacing="1" cellpadding="2">
+                <tr><td align="center"><b>&laquo;device&raquo;</b></td></tr>
+                <tr><td align="center"><b>Router VPN &amp; Firewall</b></td></tr>
+                <tr><td align="center"><font point-size="7">[A Adquirir] RNF-0010</font></td></tr>
+                <hr/>
+                <tr><td align="left">• ISP Fibra [Existente]</td></tr>
+                <tr><td align="left">• ISP 4G/5G [RNF-0001]</td></tr>
+            </table>>, fillcolor="#f1f5f9", color="#000000", penwidth=1.6];
+
+            s1_laptop -> s1_tab_firma [label="USB", style="dashed", dir="both"];
+            s1_laptop -> s1_router [label="LAN"];
+            s1_tab_fisio -> s1_router [label="Wi-Fi WPA3"];
+        }
+
+        // --- SUCURSAL 2 ---
+        subgraph cluster_sede2 {
+            label=<<font point-size="9.5"><b>Sucursal 2 (Yanahuara)</b></font>>;
+            style="rounded";
+            fillcolor="#ffffff";
+            color="#000000";
+
+            s2_laptop [label=<<table border="0" cellborder="0" cellspacing="1" cellpadding="2">
+                <tr><td align="center"><b>&laquo;device&raquo; Laptop Recepción</b></td></tr>
+                <tr><td align="center"><font point-size="7">[Existente] Navegador Web</font></td></tr>
+            </table>>, fillcolor="#ffffff", color="#000000", penwidth=1.0];
+
+            s2_tab_firma [label=<<table border="0" cellborder="0" cellspacing="1" cellpadding="2">
+                <tr><td align="center"><b>&laquo;device&raquo; Tableta Firma</b></td></tr>
+                <tr><td align="center"><font point-size="7">[A Adquirir] RNF-0003</font></td></tr>
+            </table>>, fillcolor="#f1f5f9", color="#000000", penwidth=1.6];
+
+            s2_router [label=<<table border="0" cellborder="0" cellspacing="1" cellpadding="2">
+                <tr><td align="center"><b>&laquo;device&raquo; Router VPN</b></td></tr>
+                <tr><td align="center"><font point-size="7">[A Adquirir] Doble ISP</font></td></tr>
+            </table>>, fillcolor="#f1f5f9", color="#000000", penwidth=1.6];
+
+            s2_laptop -> s2_tab_firma [label="USB", style="dashed", dir="both"];
+            s2_laptop -> s2_router [label="LAN"];
+        }
+
+        // --- SUCURSAL 3 ---
+        subgraph cluster_sede3 {
+            label=<<font point-size="9.5"><b>Sucursal 3 (Cayma)</b></font>>;
+            style="rounded";
+            fillcolor="#ffffff";
+            color="#000000";
+
+            s3_laptop [label=<<table border="0" cellborder="0" cellspacing="1" cellpadding="2">
+                <tr><td align="center"><b>&laquo;device&raquo; Laptop Recepción</b></td></tr>
+                <tr><td align="center"><font point-size="7">[Existente] Navegador Web</font></td></tr>
+            </table>>, fillcolor="#ffffff", color="#000000", penwidth=1.0];
+
+            s3_tab_firma [label=<<table border="0" cellborder="0" cellspacing="1" cellpadding="2">
+                <tr><td align="center"><b>&laquo;device&raquo; Tableta Firma</b></td></tr>
+                <tr><td align="center"><font point-size="7">[A Adquirir] RNF-0003</font></td></tr>
+            </table>>, fillcolor="#f1f5f9", color="#000000", penwidth=1.6];
+
+            s3_router [label=<<table border="0" cellborder="0" cellspacing="1" cellpadding="2">
+                <tr><td align="center"><b>&laquo;device&raquo; Router VPN</b></td></tr>
+                <tr><td align="center"><font point-size="7">[A Adquirir] Doble ISP</font></td></tr>
+            </table>>, fillcolor="#f1f5f9", color="#000000", penwidth=1.6];
+
+            s3_laptop -> s3_tab_firma [label="USB", style="dashed", dir="both"];
+            s3_laptop -> s3_router [label="LAN"];
+        }
+    }
+
+    // ==========================================
+    // INFRAESTRUCTURA EN LA NUBE (CONTRATADA)
+    // ==========================================
+    subgraph cluster_cloud {
+        label=<<font point-size="12"><b>Infraestructura en la Nube (AWS / Azure / GCP) — [Infraestructura Contratada]</b></font>>;
+        style="rounded";
+        color="#000000";
+        fillcolor="#ffffff";
+        penwidth=1.8;
+
+        // --- BORDE Y BALANCEO ---
+        subgraph cluster_dmz {
+            label=<<font point-size="9.5"><b>Capa de Borde y Balanceo (DMZ Pública)</b></font>>;
+            style="rounded";
+            fillcolor="#ffffff";
+            color="#000000";
+
+            gateway_vpn [label=<<table border="0" cellborder="0" cellspacing="1" cellpadding="2">
+                <tr><td align="center"><b>&laquo;device&raquo;</b></td></tr>
+                <tr><td align="center"><b>Cloud VPN Gateway</b></td></tr>
+                <tr><td align="center"><font point-size="7">Túnel IPsec / TLS 1.3</font></td></tr>
+            </table>>, fillcolor="#f1f5f9", color="#000000", penwidth=1.6];
+
+            load_balancer [label=<<table border="0" cellborder="0" cellspacing="1" cellpadding="2">
+                <tr><td align="center"><b>&laquo;device&raquo;</b></td></tr>
+                <tr><td align="center"><b>Application Load Balancer (ALB)</b></td></tr>
+                <tr><td align="center"><font point-size="7">[B2] RNF-0001, RNF-0002</font></td></tr>
+                <hr/>
+                <tr><td align="left">• SSL/TLS Termination (HTTPS:443)</td></tr>
+                <tr><td align="left">• WebSocket Gateway (WSS:443)</td></tr>
+                <tr><td align="left">• Balanceo Round-Robin &amp; Failover</td></tr>
+            </table>>, fillcolor="#f1f5f9", color="#000000", penwidth=1.6];
+
+            gateway_vpn -> load_balancer [label="Tráfico Seguro"];
+        }
+
+        // --- CLUSTER DE APLICACIÓN ---
+        subgraph cluster_app {
+            label=<<font point-size="9.5"><b>Capa de Aplicación (Subred Privada Multi-AZ) [Cluster 2..N Nodos]</b></font>>;
+            style="rounded";
+            fillcolor="#ffffff";
+            color="#000000";
+
+            app_node1 [label=<<table border="0" cellborder="0" cellspacing="1" cellpadding="2">
+                <tr><td align="center"><b>&laquo;device&raquo;</b></td></tr>
+                <tr><td align="center"><b>Servidor de Aplicación - Nodo 1 (AZ-1)</b></td></tr>
+                <tr><td align="center"><font point-size="7">[B1] RNF-0001, RNF-0002, RNF-0007</font></td></tr>
+                <hr/>
+                <tr><td align="left"><b>&laquo;executionEnvironment&raquo; Docker / Node.js Runtime</b></td></tr>
+                <tr><td align="left">&laquo;component&raquo; API Gateway &amp; Control Acceso (EDU-0032)</td></tr>
+                <tr><td align="left">&laquo;component&raquo; Módulo Pacientes (EDU-0001)</td></tr>
+                <tr><td align="left">&laquo;component&raquo; Módulo Citas &amp; Check-in (EDU-0002, 0029)</td></tr>
+                <tr><td align="left">&laquo;component&raquo; Módulo Recursos &amp; Camillas (EDU-0025)</td></tr>
+                <tr><td align="left">&laquo;component&raquo; Módulo Documentos &amp; Evaluaciones (EDU-0006)</td></tr>
+                <tr><td align="left">&laquo;component&raquo; Generador de Constancias PDF (RNF-0007)</td></tr>
+                <tr><td align="left">&laquo;component&raquo; Servicio WebSocket Camillas (RNF-0006)</td></tr>
+            </table>>, fillcolor="#f1f5f9", color="#000000", penwidth=1.6];
+
+            app_node2 [label=<<table border="0" cellborder="0" cellspacing="1" cellpadding="2">
+                <tr><td align="center"><b>&laquo;device&raquo;</b></td></tr>
+                <tr><td align="center"><b>Servidor de Aplicación - Nodo 2..N (AZ-2)</b></td></tr>
+                <tr><td align="center"><font point-size="7">[B1] Réplica Activa / Auto-escalado</font></td></tr>
+                <hr/>
+                <tr><td align="left"><b>&laquo;executionEnvironment&raquo; Docker / Node.js Runtime</b></td></tr>
+                <tr><td align="left">&laquo;component&raquo; API Gateway &amp; Módulos Funcionales</td></tr>
+                <tr><td align="left">&laquo;component&raquo; Generador PDF &amp; WebSocket Server</td></tr>
+            </table>>, fillcolor="#f1f5f9", color="#000000", penwidth=1.6];
+        }
+
+        // --- DATOS Y ALMACENAMIENTO ---
+        subgraph cluster_data {
+            label=<<font point-size="9.5"><b>Capa de Datos y Persistencia (Subred Privada Aislada)</b></font>>;
+            style="rounded";
+            fillcolor="#ffffff";
+            color="#000000";
+
+            cache_server [label=<<table border="0" cellborder="0" cellspacing="1" cellpadding="2">
+                <tr><td align="center"><b>&laquo;device&raquo;</b></td></tr>
+                <tr><td align="center"><b>Cluster Caché en Memoria</b></td></tr>
+                <tr><td align="center"><font point-size="7">[B4] Redis / ElastiCache (RNF-0002)</font></td></tr>
+                <hr/>
+                <tr><td align="left">• Caché búsqueda DNI (&lt; 3s)</td></tr>
+                <tr><td align="left">• Sesiones y tokens JWT</td></tr>
+            </table>>, fillcolor="#f1f5f9", color="#000000", penwidth=1.6];
+
+            db_primary [label=<<table border="0" cellborder="0" cellspacing="1" cellpadding="2">
+                <tr><td align="center"><b>&laquo;device&raquo;</b></td></tr>
+                <tr><td align="center"><b>Servidor BD Principal (PostgreSQL)</b></td></tr>
+                <tr><td align="center"><font point-size="7">[B3] RNF-0001, RNF-0010 (ACID)</font></td></tr>
+                <hr/>
+                <tr><td align="left"><b>&laquo;database&raquo; OMVITAL_DB_PACIENTES</b></td></tr>
+                <tr><td align="left">• paciente, cita, sesion, camilla</td></tr>
+                <tr><td align="left">• consentimiento, historial_clinico</td></tr>
+                <tr><td align="left">• auditoria_log</td></tr>
+            </table>>, fillcolor="#f1f5f9", color="#000000", penwidth=1.8];
+
+            db_replica [label=<<table border="0" cellborder="0" cellspacing="1" cellpadding="2">
+                <tr><td align="center"><b>&laquo;device&raquo;</b></td></tr>
+                <tr><td align="center"><b>Servidor BD Réplica (Standby AZ-2)</b></td></tr>
+                <tr><td align="center"><font point-size="7">[B3] Alta Disponibilidad (RNF-0001)</font></td></tr>
+                <hr/>
+                <tr><td align="left"><b>&laquo;database&raquo; Réplica de Lectura</b></td></tr>
+                <tr><td align="left">• Replicación streaming continua</td></tr>
+            </table>>, fillcolor="#f1f5f9", color="#000000", penwidth=1.6];
+
+            storage_s3 [label=<<table border="0" cellborder="0" cellspacing="1" cellpadding="2">
+                <tr><td align="center"><b>&laquo;device&raquo;</b></td></tr>
+                <tr><td align="center"><b>Almacenamiento Objetos / S3</b></td></tr>
+                <tr><td align="center"><font point-size="7">[B5] RNF-0003, RNF-0007, RNF-0010</font></td></tr>
+                <hr/>
+                <tr><td align="left">• Object Lock (WORM / Inmutable)</td></tr>
+                <tr><td align="left">• Firmas digitales capturadas (PNG)</td></tr>
+                <tr><td align="left">• Consentimientos firmados (PDF)</td></tr>
+                <tr><td align="left">• Constancias de atención (PDF)</td></tr>
+            </table>>, fillcolor="#f1f5f9", color="#000000", penwidth=1.6];
+        }
+
+        // --- SERVICIOS TRANSVERSALES NUBE ---
+        subgraph cluster_transversal {
+            label=<<font point-size="9.5"><b>Servicios Transversales</b></font>>;
+            style="rounded";
+            fillcolor="#ffffff";
+            color="#000000";
+
+            srv_backup [label=<<table border="0" cellborder="0" cellspacing="1" cellpadding="2">
+                <tr><td align="center"><b>&laquo;device&raquo; Servicio Respaldo</b></td></tr>
+                <tr><td align="center"><font point-size="7">[B6] Snapshots diarios (ESP-0043)</font></td></tr>
+            </table>>, fillcolor="#f1f5f9", color="#000000", penwidth=1.4];
+
+            srv_audit [label=<<table border="0" cellborder="0" cellspacing="1" cellpadding="2">
+                <tr><td align="center"><b>&laquo;device&raquo; Auditoría &amp; Monitoreo</b></td></tr>
+                <tr><td align="center"><font point-size="7">[B7] Métricas y Alertas (ESP-0041)</font></td></tr>
+            </table>>, fillcolor="#f1f5f9", color="#000000", penwidth=1.4];
+        }
+    }
+
+    // ==========================================
+    // SERVICIOS EXTERNOS E INTEGRACIONES
+    // ==========================================
+    subgraph cluster_external {
+        label=<<font point-size="10.5"><b>Servicios Externos Integrados (SaaS / API Providers)</b></font>>;
+        style="rounded";
+        color="#000000";
+        fillcolor="#ffffff";
+        penwidth=1.3;
+
+        ext_finanzas [label=<<table border="0" cellborder="0" cellspacing="1" cellpadding="2">
+            <tr><td align="center"><b>&laquo;external system&raquo;</b></td></tr>
+            <tr><td align="center"><b>Módulo Financiero &amp; Facturación</b></td></tr>
+            <tr><td align="center"><font point-size="7">Verificación síncrona de saldo / pagos</font></td></tr>
+        </table>>, fillcolor="#ffffff", color="#000000", penwidth=1.2];
+
+        ext_msg [label=<<table border="0" cellborder="0" cellspacing="1" cellpadding="2">
+            <tr><td align="center"><b>&laquo;external system&raquo;</b></td></tr>
+            <tr><td align="center"><b>WhatsApp Cloud API &amp; SMTP</b></td></tr>
+            <tr><td align="center"><font point-size="7">Confirmaciones y recordatorios</font></td></tr>
+        </table>>, fillcolor="#ffffff", color="#000000", penwidth=1.2];
+
+        ext_firma [label=<<table border="0" cellborder="0" cellspacing="1" cellpadding="2">
+            <tr><td align="center"><b>&laquo;external system&raquo;</b></td></tr>
+            <tr><td align="center"><b>Firma Perú / RENIEC</b></td></tr>
+            <tr><td align="center"><font point-size="7">Certificación de firma digital oficial</font></td></tr>
+        </table>>, fillcolor="#ffffff", color="#000000", penwidth=1.2];
+    }
+
+    // ==========================================
+    // ENLACES Y COMUNICACIÓN ENTRE NODOS (B&W)
+    // ==========================================
+
+    // Sucursales a Nube
+    s1_router -> gateway_vpn [label="Túnel VPN IPsec (HTTPS/WSS:443)", color="#000000", penwidth=1.4];
+    s2_router -> gateway_vpn [label="VPN IPsec", color="#000000"];
+    s3_router -> gateway_vpn [label="VPN IPsec", color="#000000"];
+
+    // Balanceador a Servidores de Aplicación
+    load_balancer -> app_node1 [label="HTTPS / WSS (Proxy:443)", color="#000000", penwidth=1.2];
+    load_balancer -> app_node2 [label="HTTPS / WSS (Proxy:443)", color="#000000", penwidth=1.2];
+
+    // Servidores de Aplicación a Caché y BD
+    app_node1 -> cache_server [label="TCP (6379)", color="#000000"];
+    app_node2 -> cache_server [label="TCP (6379)", color="#000000"];
+
+    app_node1 -> db_primary [label="TCP (5432) Privado", color="#000000", penwidth=1.4];
+    app_node2 -> db_primary [label="TCP (5432) Privado", color="#000000", penwidth=1.4];
+
+    // Replicación DB
+    db_primary -> db_replica [label="Streaming Sync", color="#000000", style="dashed", penwidth=1.2];
+
+    // Servidores de Aplicación a Storage S3
+    app_node1 -> storage_s3 [label="HTTPS:443 (Object Lock)", color="#000000"];
+    app_node2 -> storage_s3 [label="HTTPS:443", color="#000000"];
+
+    // Servicios Transversales
+    srv_backup -> db_primary [label="Snapshots", style="dashed", color="#000000"];
+    srv_backup -> storage_s3 [label="Copias", style="dashed", color="#000000"];
+    srv_audit -> app_node1 [label="Métricas", style="dashed", color="#000000"];
+    srv_audit -> db_primary [label="Audit Log", style="dashed", color="#000000"];
+
+    // Integraciones Externas
+    app_node1 -> ext_finanzas [label="REST API (HTTPS)", color="#000000"];
+    app_node1 -> ext_msg [label="Webhooks / SMTP", color="#000000"];
+    app_node1 -> ext_firma [label="REST API (Firma)", color="#000000"];
+}

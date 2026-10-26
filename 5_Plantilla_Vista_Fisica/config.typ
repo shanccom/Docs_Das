@@ -3,27 +3,31 @@
 // --- Portada: datos ---
 #let universidad = "UNIVERSIDAD NACIONAL DE SAN AGUSTÍN"
 #let curso    = "DISEÑO Y ARQUITECTURA DE SOFTWARE"
-#let semestre = "2025-B"
-#let resultado-estudiante = "7.2"
-#let titulo   = "Prueba de Titulo"   // nombre real del sistema (aparece en grande bajo «NOMBRE DEL SISTEMA A CONSTRUIR»)
+#let semestre = "2026-B"
+#let resultado-estudiante = "OmVital Physio Control"
+#let titulo   = "OmVital Physio Control"   // nombre real del sistema (aparece en grande bajo «NOMBRE DEL SISTEMA A CONSTRUIR»)
+#let version-documento = "1.0.0"
+
+#let color-seccion-a = rgb("#fff59d") // Amarillo
+#let color-seccion-b = rgb("#a4d8f0") // Azul como celeste
 
 // Integrantes: la portada los reparte en 2 columnas (hasta 5 por columna).
 // Agrega o quita líneas; cada uno va en su propia línea.
 #let integrantes = (
-  "APELLIDOS Y NOMBRES 1",
-  "APELLIDOS Y NOMBRES 2",
-  "APELLIDOS Y NOMBRES 3",
-  "APELLIDOS Y NOMBRES 4",
-  "APELLIDOS Y NOMBRES 5",
-  "APELLIDOS Y NOMBRES 6",
-  "APELLIDOS Y NOMBRES 7",
-  "APELLIDOS Y NOMBRES 8",
-  "APELLIDOS Y NOMBRES 9",
-  "APELLIDOS Y NOMBRES 10",
+  highlight(fill: color-seccion-b)[Barrios Medina Mathias Alonso (B)],
+  highlight(fill: color-seccion-b)[Boza Portilla Yordano Hernan (B)],
+  highlight(fill: color-seccion-a)[Cuno Salazar Eduardo Joel (A)],
+  highlight(fill: color-seccion-b)[Hancco Mullisaca Sergio Danilo (B)],
+  highlight(fill: color-seccion-b)[Huacani Jara Denise Andrea (B)],
+  highlight(fill: color-seccion-a)[Mollo Chuquicaña Dolly Yadhira (A)],
+  highlight(fill: color-seccion-b)[Nina Calizaya Rafael Diego (B)],
+  highlight(fill: color-seccion-b)[Pacheco Palo Fabiana Francinet (B)],
+  highlight(fill: color-seccion-a)[Quispe Madariaga Jeferson Jofre (A)],
+  highlight(fill: color-seccion-b)[Suclle Suca Michael Benjamin (B)],
 )
-#let docente = "Nombre Docente Apellido Nombre"
-#let lugar   = "AREQUIPA"
-#let fecha   = "14 - 07 - 2026"
+#let docente = "Mg. Percy Huertas Niquen"
+#let lugar   = "Arequipa - Perú"
+#let fecha   = "08 - 10 - 2026"
 // Para que la fecha sea la del día de compilación, usa:
 // #let fecha = datetime.today().display("[day] - [month] - [year]")
 

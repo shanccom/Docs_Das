@@ -183,6 +183,10 @@
         nivel = 0
       }
       c
+    } else if c.func() == figure {
+      vaciar(bloque, nivel)
+      bloque = ()
+      c
     } else {
       bloque.push(c)
     }
