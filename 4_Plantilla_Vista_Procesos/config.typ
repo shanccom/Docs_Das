@@ -8,22 +8,19 @@
 #let titulo   = "OmVital Physio Control"   // nombre real del sistema (aparece en grande bajo «NOMBRE DEL SISTEMA A CONSTRUIR»)
 #let version-documento = "2.0.0"
 
-#let color-seccion-a = rgb("#fff59d") // Amarillo
-#let color-seccion-b = rgb("#a4d8f0") // Azul como celeste
-
 // Integrantes: la portada los reparte en 2 columnas (hasta 5 por columna).
 // Agrega o quita líneas; cada uno va en su propia línea.
 #let integrantes = (
-  highlight(fill: color-seccion-b)[Barrios Medina Mathias Alonso (B)],
-  highlight(fill: color-seccion-b)[Boza Portilla Yordano Hernan (B)],
-  highlight(fill: color-seccion-a)[Cuno Salazar Eduardo Joel (A)],
-  highlight(fill: color-seccion-b)[Hancco Mullisaca Sergio Danilo (B)],
-  highlight(fill: color-seccion-b)[Huacani Jara Denise Andrea (B)],
-  highlight(fill: color-seccion-a)[Mollo Chuquicaña Dolly Yadhira (A)],
-  highlight(fill: color-seccion-b)[Nina Calizaya Rafael Diego (B)],
-  highlight(fill: color-seccion-b)[Pacheco Palo Fabiana Francinet (B)],
-  highlight(fill: color-seccion-a)[Quispe Madariaga Jeferson Jofre (A)],
-  highlight(fill: color-seccion-b)[Suclle Suca Michael Benjamin (B)],
+  "Barrios Medina Mathias Alonso",
+  "Boza Portilla Yordano Hernan",
+  "Cuno Salazar Eduardo Joel",
+  "Hancco Mullisaca Sergio Danilo",
+  "Huacani Jara Denise Andrea",
+  "Mollo Chuquicaña Dolly Yadhira",
+  "Nina Calizaya Rafael Diego",
+  "Pacheco Palo Fabiana Francinet",
+  "Quispe Madariaga Jeferson Jofre",
+  "Suclle Suca Michael Benjamin",
 )
 #let docente = "Mg. Percy Huertas Niquen"
 #let lugar   = "Arequipa - Perú"
