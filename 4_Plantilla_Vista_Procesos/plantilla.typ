@@ -127,10 +127,10 @@
         v(2cm)
 
         // Sistema
-        align(center, etiqueta("NOMBRE DEL SISTEMA A CONSTRUIR"))
+        align(center, etiqueta(titulo))
         v(0.7cm)
         v(0.6cm)
-        align(center, text(weight: "bold", "ARQUITECTURA GENÉRICA"))
+        align(center, text(weight: "bold", "VISTA DE PROCESOS"))
         v(0.2cm)
         align(center, text(weight: "bold", "VERSIÓN " + version-documento))
 
