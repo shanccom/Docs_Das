@@ -1,3 +1,7 @@
 = Observaciones
 
-Incluir las observaciones al modelo es decir aquellos juicios que no son convincentes del modelo conceptual o aquellos RNF que son preocupantes porque no se puedan cumplir.
+- Dependencia de la conectividad (RNF-0001): La disponibilidad de los documentos en la nube depende de la conectividad a Internet y del proveedor. Ante una falla de red o del proveedor, la institución quedaría sin acceso a la información crítica. La vista lógica no define aún un mecanismo de respaldo local que mitigue esta situación.
+- Acoplamiento con el módulo financiero (EDU-0031, RNF-0002): La clase Cita depende de la verificación síncrona del saldo con el servicio financiero externo. La ausencia de un mecanismo de operación degradada podría generar retrasos en el check-in ante una falla del servicio, comprometiendo el tiempo de respuesta.
+- Integridad e inmutabilidad de la información clínica (RNF-0010): La inmutabilidad del consentimiento y del expediente se contempla como responsabilidad de las clases, pero no se ha definido un patrón concreto (por ejemplo, registro de solo-append o versionado) que garantice la no modificación de los datos clínicos.
+- Concurrencia en la asignación de camillas (RNF-0006): La actualización del estado de la camilla en tiempo real debe considerar mecanismos de control de concurrencia para evitar la doble asignación del mismo recurso entre recepcionistas de distintas sedes.
+- Nivel de abstracción frente a decisiones posteriores: La vista lógica difiere la selección de tecnologías y patrones de implementación. Los componentes definidos deberán refinarse al adoptar tecnologías concretas, lo que podría requerir ajustes en la granularidad de las clases y en las relaciones representadas.
