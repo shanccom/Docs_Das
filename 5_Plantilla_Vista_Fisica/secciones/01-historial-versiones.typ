@@ -8,7 +8,12 @@
   table.header(
     [*FECHA*], [*OBSERVACIONES*], [*VERSIÓN*], [*NOTA*], [*V°B°*]
   ),
-  [08/10/2026], [Versión inicial: inventario de dispositivos existentes y propuestos, diagramas D-FIS-001 y D-FIS-002.], [1.0.0], [], [], [20/10/2026], [Diagramas considerando Procesos.],[1.1.0]
+  [08/10/2026], [Versión inicial: inventario de dispositivos existentes y propuestos, diagramas D-FIS-001 y D-FIS-002.], [1.0.0], [], [], 
+  
+  [20/10/2026], [Diagramas considerando Procesos.],[1.1.0], [], [], 
+  
+  [26/10/2026], [ Reestructuración del documento de Vista Física: eliminación de diagramas de flujo no pertinentes y ajustes],[1.2.0], [], [], 
+
 )
 
 #pagebreak()

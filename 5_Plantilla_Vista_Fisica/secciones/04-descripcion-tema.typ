@@ -16,6 +16,6 @@ A diferencia de la Arquitectura Genérica, que se mantiene independiente de la t
 
 + Inventariar los dispositivos y servicios con los que cuenta actualmente la clínica.
 + Identificar los dispositivos y servicios que deben adquirirse o contratarse, justificados por los RNF.
-+ Representar la situación actual y la propuesta mediante dos diagramas de despliegue.
++ Representar la situación actual y la propuesta mediante dos diagramas.
 + Describir la separación en capas, la separación de servidores y la comunicación entre nodos, incluido el acceso a la base de datos.
 + Mostrar cómo se representan los RNF (disponibilidad, rendimiento, tiempo real, seguridad, escalabilidad) en la infraestructura.
