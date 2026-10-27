@@ -47,13 +47,13 @@ Tomados del análisis del Diagrama de Comportamiento (valores referenciales): tr
 
 Servicios externos ya disponibles, que no son dispositivos del sistema: WhatsApp y correo electrónico (confirmaciones y recordatorios), módulo financiero y de facturación, y servicio de firma digital (Firma Perú).
 
-=== Diagrama de despliegue 1: situación actual
+=== Diagrama de Vista Fisica 1: situación actual
 
 #figure(
   rect(width: 100%, height: 7cm)[
     #align(center + horizon)[#image("/assets/image-1.png")]
   ],
-  caption: [D-FIS-001: Diagrama de despliegue de #sistema – situación actual.],
+  caption: [D-FIS-001: Diagrama de vista fisica de #sistema – situación actual.],
 )
 
 #table(
@@ -93,7 +93,7 @@ Servicios externos ya disponibles, que no son dispositivos del sistema: WhatsApp
 === Infraestructura en la nube (contratada)
 
 #table(
-  columns: (auto, 1.3fr, 2fr, auto),
+  columns: (auto, 3fr, 5fr, 3fr),
   align: (center, left, left, center),
   table.header(
     [*N.°*], [*Componente*], [*Justificación*], [*RNF*],
@@ -106,22 +106,13 @@ Servicios externos ya disponibles, que no son dispositivos del sistema: WhatsApp
   [B6], [Respaldo y replicación], [Copias de seguridad periódicas de la base de datos y los archivos (ESP-0043).], [RNF-0001],
   [B7], [Registro de auditoría y monitoreo con alertas], [Trazabilidad de operaciones clínicas (ESP-0041) y detección de fallas.], [RNF-0001, RNF-0010],
 )
-=== Propuesta de Vista Fisica 1: 
+=== Diagrama de Vista Fisica: situacion propuesta
 
 #figure(
-  rect(width: 100%, height: 7cm)[
+  rect(width: 100%, height: 15cm)[
     #align(center + horizon)[#image("/assets/image-5.png")]
   ],
   caption: [D-FIS-002: Diagrama de despliegue de #sistema – situación propuesta.],
-)
-
-=== Propuesta de Vista Fisica 2: 
-
-#figure(
-  rect(width: 100%, height: 7cm)[
-    #align(center + horizon)[#image("/assets/image-6.png")]
-  ],
-  caption: [D-FIS-002: Diagrama de vista fisica de #sistema – situación propuesta.],
 )
 
 #table(
@@ -133,10 +124,10 @@ Servicios externos ya disponibles, que no son dispositivos del sistema: WhatsApp
   [Código del diagrama], [D-FIS-002],
   [Requisitos no funcionales], [RNF-0001 (Disponibilidad), RNF-0002 (Rendimiento), RNF-0003 (Seguridad), RNF-0006 (Tiempo real), RNF-0007 (Eficiencia), RNF-0010 (Integridad)],
   [Contexto / módulo], [Vista Física de #sistema – situación propuesta],
-  [Proceso representado], [Acceso de las tres sucursales a una infraestructura centralizada en la nube mediante HTTPS/VPN, con servidores replicables, base de datos con réplica, caché, almacenamiento de archivos, respaldo y monitoreo. Distingue con otro color los dispositivos existentes de los que deben adquirirse.],
-  [Versión], [1.0.0],
-  [Autor], [AUT-0008],
-  [Fecha], [08/10/2026],
+  [Proceso representado], [Acceso de las terminales y dispositivos de cliente (Navegador Web y Tablet) a un Servidor de Aplicaciones contenedorizado en Docker, el cual interactúa con una base de datos PostgreSQL centralizada y servicios externos (AWS S3, WhatsApp Gateway y API Financiera)],
+  [Versión], [1.1.0],
+  [Autor], [AUT-0005],
+  [Fecha], [26/10/2026],
   [Justificación], [Concreta en infraestructura los componentes de D-DP-001 y cumple los RNF aprobados.],
   [Estado], [Concluido],
   [Código de artefactos], [RNF-0001, RNF-0002, RNF-0003, RNF-0006, RNF-0007, RNF-0010, EDU-0027],
@@ -149,21 +140,21 @@ Servicios externos ya disponibles, que no son dispositivos del sistema: WhatsApp
   columns: (1fr, 2fr, 1.4fr),
   align: left,
   table.header(
-    [*Capa*], [*Contenido (según D-DP-001)*], [*Nodo físico*],
+    [*Capa*], [*Contenido (según D-DP-001)*], [*Nodo físico / Contenedor*],
   ),
-  [Presentación], [Interfaz web según rol: formularios, dashboard y reportes.], [Laptop o tableta de cada sucursal],
-  [API y control de acceso], [Controladores, endpoints, validación, autenticación y autorización.], [Servidores de aplicación (B1)],
-  [Servicios de aplicación], [Módulos de Pacientes, Citas y Atenciones, Documentos y Evaluaciones y Recursos; lógica de dominio y servicio de eventos.], [Servidores de aplicación (B1)],
-  [Datos y almacenamiento], [Base de datos principal, caché, archivos y objetos.], [Servidor de BD (B3), caché (B4), almacenamiento (B5)],
-  [Servicios transversales], [Respaldo, auditoría y monitoreo.], [Servicios B6 y B7],
-  [Integraciones externas], [Finanzas y facturación, WhatsApp, correo y Firma Perú.], [Proveedores externos],
+  [Presentación], [Interfaz web según rol: formularios, dashboard y reportes.], [Dispositivos Cliente (Terminal y Tablet)],
+  [API y control de acceso], [Endpoints REST, validación, autenticación y lógica principal.], [Contenedor: API Gateway (P-SRV-01)],
+  [Tiempo Real], [Difusión de eventos y estados asistenciales en tiempo real.], [Contenedor: WebSocket Engine (P-SRV-02)],
+  [Procesamiento asíncrono], [Generación de PDF y notificaciones en segundo plano.], [Contenedor: Async Worker (P-WRK-01)],
+  [Datos y almacenamiento], [Persistencia de datos del sistema.], [Instancia PostgreSQL (P-DAT-01)],
+  [Integraciones externas], [API Financiera, Gateway de WhatsApp y Almacenamiento S3.], [Servicios externos en la nube],
 )
 
-Los servidores se separan por responsabilidad: los servidores de aplicación no almacenan datos de forma permanente y la base de datos está en un nodo propio dentro de una red privada. Así se escala cada capa por separado y se protege el acceso a la información clínica.
+Los servidores se separan por responsabilidad utilizando virtualización a nivel de contenedor (Docker). Los servicios de aplicación e integración no almacenan datos de forma permanente y la base de datos está en un nodo propio dentro de una red privada. Así se escala cada capa por separado y se protege el acceso a la información clínica.
 
 == Comunicación entre nodos y acceso a la base de datos
 
-Los puertos son *referenciales* y deben confirmarse al elegir la tecnología.
+Los puertos son *referenciales* y deben confirmarse al desplegar la infraestructura.
 
 #table(
   columns: (1.3fr, 1.3fr, auto, auto, 1.5fr),
@@ -171,25 +162,21 @@ Los puertos son *referenciales* y deben confirmarse al elegir la tecnología.
   table.header(
     [*Origen*], [*Destino*], [*Protocolo*], [*Puerto*], [*Observación*],
   ),
-  [Navegador (laptop o tableta)], [Balanceador], [HTTPS], [443], [Cifrado en tránsito],
-  [Navegador], [Servidor de aplicación], [WSS], [443], [Estado de camillas en tiempo real (RNF-0006)],
-  [Router de sede], [Nube], [VPN], [[CONFIRMAR]], [Túnel entre sede y nube],
-  [Servidor de aplicación], [Servidor de BD], [TCP], [[5432 si es PostgreSQL]], [Único origen autorizado; BD sin acceso desde Internet],
-  [Servidor de aplicación], [Caché], [TCP], [[CONFIRMAR]], [Red privada],
-  [Servidor de aplicación], [Almacenamiento de archivos], [HTTPS], [443], [Firmas, consentimientos y PDF],
-  [Servidor de aplicación], [Servicios externos], [HTTPS], [443], [Finanzas, WhatsApp, Firma Perú],
-  [Servidor de BD], [Réplica y respaldo], [TCP], [[CONFIRMAR]], [Replicación continua],
-  [Administración], [Servidores], [SSH], [22], [Solo por VPN o IP autorizadas],
+  [Terminal Web / Tablet], [API Gateway (P-SRV-01)], [HTTPS], [443], [Consultas REST y cifrado en tránsito],
+  [Terminal Web], [WebSocket Engine (P-SRV-02)], [WSS], [443], [Difusión en tiempo real (RNF-0006)],
+  [API Gateway (P-SRV-01)], [PostgreSQL (P-DAT-01)], [TCP], [5432], [Acceso a datos persistentes],
+  [WebSocket Engine (P-SRV-02)], [PostgreSQL (P-DAT-01)], [TCP], [5432], [Consulta de estado para eventos],
+  [Async Worker (P-WRK-01)], [PostgreSQL (P-DAT-01)], [TCP], [5432], [Lectura y actualización de tareas],
+  [Async Worker (P-WRK-01)], [AWS S3 (S-EXT-02)], [HTTPS], [443], [Almacenamiento de archivos y PDF],
+  [Async Worker (P-WRK-01)], [WhatsApp (S-EXT-03)], [HTTPS], [443], [Envío de notificaciones],
+  [API Gateway (P-SRV-01)], [API Financiera (S-EXT-01)], [HTTPS], [443], [Integración de pagos y facturación],
 )
 
-El servidor de aplicación es el único nodo que se conecta con `OMVITAL_DB_PACIENTES`, mediante un usuario de privilegios mínimos. El acceso del cliente a los datos siempre pasa por la API, que valida la sesión y el rol (recepción, clínico, administración).
+El servidor de base de datos recibe conexiones únicamente desde los contenedores autorizados del servidor de aplicaciones mediante un usuario de privilegios mínimos. El acceso de los clientes a los datos pasa obligatoriamente por la API Gateway o el Motor WebSocket.
 
-== Representación de la escalabilidad y de otros RNF
+== Representación de los RNF en la arquitectura
 
-- *Escalabilidad:* los servidores de aplicación se dibujan como un grupo de multiplicidad 2..N detrás del balanceador, de modo que se agregan nodos sin rediseñar.
-- *Disponibilidad (RNF-0001):* se muestran la réplica de la base de datos, el respaldo y el enlace de Internet secundario.
-- *Rendimiento (RNF-0002):* se muestra el nodo de caché entre la aplicación y la base de datos.
-- *Tiempo real (RNF-0006):* se marca el canal WebSocket entre el cliente y el servidor.
-- *Seguridad e integridad (RNF-0003, RNF-0010):* se marcan los túneles VPN, el firewall y el almacenamiento con control de versiones.
-
-Cada RNF se anota en el diagrama mediante notas UML asociadas a los nodos que lo satisfacen, junto con las secciones de requisitos funcionales y no funcionales exigidas en las revisiones anteriores.
+- *Seguridad e Integridad (RNF-0003, RNF-0010):* Cifrado en tránsito mediante HTTPS/WSS entre los clientes y los contenedores de aplicación, aislando la base de datos en su propio nodo.
+- *Tiempo real (RNF-0006):* Canal dedicado via WebSocket (`P-SRV-02`) para la difusión instantánea de eventos a los clientes web.
+- *Eficiencia y Rendimiento (RNF-0002, RNF-0007):* Desacoplamiento de tareas pesadas (PDF y notificaciones) hacia un worker asíncrono (`P-WRK-01`) para evitar bloquear el API Gateway.
+- *Disponibilidad y Modularidad (RNF-0001):* Despliegue modular basado en Docker, permitiendo la gestión independiente de cada servicio backend.

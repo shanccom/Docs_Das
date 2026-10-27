@@ -11,4 +11,6 @@
     [*FECHA*], [*VERSIÓN*], [*DESCRIPCIÓN*], [*AUTORES*]
   ),
   [20/10/2026], [1.1.0], [El orientador nos recomendo introducir caracteristicas propias del Diagrama Lógico en el Diagrama de Vista Fisica: Incluyendo Software, Hardware y comunicaciones], [AUT-0008],
+
+  [26/10/2026], [1.2.0], [El orientador nos  indico borrar el diagrama porque era un diagrama de flujo, podemos colocarlo como anexo o eliminarlo.], [AUT-0005],
 )
