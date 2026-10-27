@@ -40,9 +40,11 @@ Tomados del análisis del Diagrama de Comportamiento (valores referenciales): tr
     [*N.°*], [*Dispositivo*], [*Función en el sistema*], [*Cant.*], [*Fuente*],
   ),
   [1], [Laptop estándar de oficina (4 a 8 GB de RAM)], [Cliente de la aplicación web en recepción: registro, check-in, carga de firma en PDF.], [1], [Observaciones de DIA-CMP-0001],
+  
+
   [2], [Conexión a Internet de la clínica (router o módem)], [Acceso de cada sucursal a la nube.], [3], [Observaciones de la Arquitectura Genérica (RNF-0001)],
-  [3], [Equipo del fisioterapeuta en consultorio (PC, laptop o celular)], [Registro de notas de evolución (SOAP) y consulta de la ficha del paciente.], [0], [Entrevista 05, se tiene previsto una tableta en el futuro],
-  [4], [Impresora para constancias], [Impresión de la constancia de atención.], [0], [Entrevista 05],
+  [3], [Equipo del fisioterapeuta en consultorio (PC, laptop o celular)], [Registro de notas de evolución (SOAP) y consulta de la ficha del paciente.], [0], [Inexistente en la situación actual. Se incorporará como Tablet en el plan propuesto],
+  [4], [Impresora para constancias], [Impresión de la constancia de atención.], [0], [Inexistente en la situación actual. Se excluye del plan propuesto por digitalización del proceso (envío vía WhatsApp/Email)],
 )
 
 Servicios externos ya disponibles, que no son dispositivos del sistema: WhatsApp y correo electrónico (confirmaciones y recordatorios), módulo financiero y de facturación, y servicio de firma digital (Firma Perú).
@@ -80,14 +82,15 @@ Servicios externos ya disponibles, que no son dispositivos del sistema: WhatsApp
 === Dispositivos físicos por sucursal
 
 #table(
-  columns: (auto, 1.3fr, 2fr, auto, auto),
+  columns: (auto, 1.3fr, 4fr, 2fr, 2fr),
   align: (center, left, left, center, center),
   table.header(
     [*N.°*], [*Dispositivo*], [*Justificación*], [*RNF*], [*Cant.*],
   ),
   [A1], [Tableta de captura de firma], [Captura de firma del paciente en menos de 10 s. En el análisis de DIA-CMP-0001 la captura en laptop toma 2 a 4 s frente a menos de 1 s con tableta dedicada, lo que importa en los picos de afluencia.], [RNF-0003], [1],
-  [A2], [Router con VPN y firewall], [Enlace seguro entre cada sede y la nube (HTTPS/VPN) y filtrado del tráfico.], [RNF-0010], [3],
-  [A3], [Enlace de Internet secundario], [Reduce la dependencia de un único proveedor de conectividad (observación de RNF-0001).], [RNF-0001], [3],
+  [A2], [Tableta para Fisioterapeuta, con lapiz optico], [Dispositivo móvil/asistencial para la atención clínica, consulta de expedientes y registro de notas SOAP en consultorio.], [RNF-0002, RNF-0006], [1 por consultorio],
+  [A3], [Router con VPN y firewall], [Enlace seguro entre cada sede y la nube (HTTPS/VPN) y filtrado del tráfico.], [RNF-0010], [3],
+  [A4], [Enlace de Internet secundario], [Reduce la dependencia de un único proveedor de conectividad (observación de RNF-0001).], [RNF-0001], [3],
 )
 
 === Infraestructura en la nube (contratada)
