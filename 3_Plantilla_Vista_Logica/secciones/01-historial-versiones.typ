@@ -8,7 +8,7 @@
   table.header(
     [*FECHA*], [*OBSERVACIONES*], [*VERSIÓN*], [*NOTA*], [*V°B°*]
   ),
-  [25/09/2026], [Creación inicial del documento correspondiente a la vista lógica del sistema: se estructura el documento, se completa la portada, los historiales y las secciones administrativas, y se redacta la descripción del tema, la metodología de proceso y el estado del arte. Pendiente la incorporación de los diagramas de clases (Nivel 1 y Nivel 2).], [1.0.0], [Ninguno], [Aprobado],
+  [25/09/2026], [Creación y estructuración del documento de la vista lógica del sistema: portada, historiales, descripción del tema, metodología de proceso, actas de trabajo, calificaciones, estado del arte, diagramas de clases (Nivel 1 y Nivel 2), conclusiones, observaciones y anexos con el versionamiento de los diagramas.], [1.0.0], [Ninguno], [Aprobado],
 )
 
 #pagebreak()

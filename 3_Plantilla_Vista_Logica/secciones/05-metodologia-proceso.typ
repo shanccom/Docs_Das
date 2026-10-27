@@ -4,7 +4,7 @@
 
 Para la concepción, análisis y diseño del artefacto Vista Lógica se implementó un marco metodológico híbrido. Este combina los principios ágiles del marco de trabajo Scrum para la gestión y coordinación del equipo con el rigor analítico de la Ingeniería de Requisitos con la herramienta Jira y el estándar UML 2.5 para el modelado orientado a objetos.
 
-El principio rector del proceso es la trazabilidad estricta y verificable: cada clase, atributo, método y relación del modelo lógico responde a una educción (`EDU`), una ilación (`ILA`), una especificación funcional (`ESP`) y un conjunto de atributos de calidad (`RNF`).
+El principio rector del proceso es la trazabilidad verificable: cada clase, atributo, método y relación del modelo lógico responde a una educción (`EDU`), una ilación (`ILA`), una especificación funcional (`ESP`) y un conjunto de atributos de calidad (`RNF`).
 
 == Organización del trabajo en equipo mediante Scrum
 
@@ -38,7 +38,7 @@ Como soporte para la gestión ágil del proyecto se utilizó la plataforma Jira,
 
 == Proceso sistemático de construcción de la Vista Lógica
 
-La construcción técnica del artefacto se ejecutó siguiendo una secuencia metodológica de ingeniería de software, articulada en cinco fases:
+La construcción del artefacto se ejecutó siguiendo una secuencia metodológica de ingeniería de software, articulada en cinco fases:
 
 === Fase 1: Extracción y análisis de requisitos
 El equipo analiza las educciones, ilaciones y especificaciones con impacto en la estructura lógica: `EDU-0001` (gestión de pacientes), `EDU-0002` (agenda y citas), `EDU-0005` (seguimiento clínico), `EDU-0006` (registro clínico), `EDU-0025` (sesión terapéutica y camillas), `EDU-0029` (control de asistencia), `EDU-0031` (paquetes terapéuticos), `EDU-0032` (control de acceso) y `EDU-0033` (auditoría).
@@ -73,7 +73,7 @@ El proceso completo puede sintetizarse en la siguiente secuencia:
 
 == Relación entre el proceso de trabajo y la construcción del artefacto
 
-El marco colaborativo Scrum y la plataforma Jira actuaron como los mecanismos habilitadores para organizar y fiscalizar el esfuerzo del equipo, mientras que el modelado UML 2.5 proveyó el rigor técnico. La correspondencia entre ambas dimensiones se detalla a continuación:
+El marco Scrum y la plataforma Jira permitieron organizar y fiscalizar el esfuerzo del equipo, mientras que el modelado UML 2.5 aportó el rigor técnico. La correspondencia entre ambas dimensiones se detalla a continuación:
 
 #table(
   columns: (1fr, 1fr),
@@ -90,4 +90,4 @@ El marco colaborativo Scrum y la plataforma Jira actuaron como los mecanismos ha
   [Scrum: Aprobación y V° B° del Jefe de Proyecto], [Validación final, compilación del informe en PDF y cierre del artefacto],
 )
 
-En consecuencia, la metodología permitió organizar el trabajo colaborativo mediante Scrum y Jira, mientras que el modelado UML transformó los requisitos del sistema clínico en un modelo lógico de clases trazable y estructurado.
+En consecuencia, la metodología permitió organizar el trabajo colaborativo mediante Scrum y Jira, mientras que el modelado UML transformó los requisitos del sistema clínico en un modelo lógico de clases trazable.
