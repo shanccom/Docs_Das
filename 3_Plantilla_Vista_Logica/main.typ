@@ -7,6 +7,7 @@
 #include "secciones/03-indice.typ"
 #include "secciones/04-descripcion-tema.typ"
 #include "secciones/05-metodologia-proceso.typ"
+#include "secciones/06-actas-trabajo.typ"
 #include "secciones/07-calificaciones-estudiantes.typ"
 #include "secciones/08-calificacion-jefe-proyecto.typ"
 #include "secciones/09-estado-del-arte.typ"
