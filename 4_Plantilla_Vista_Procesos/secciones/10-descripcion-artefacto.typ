@@ -585,7 +585,7 @@ La fase de especificación consolida las reglas algorítmicas, estructuras de da
         table.cell(fill: rgb("#ffe599"))[*Ficha Técnica: Diagrama de Vista de Procesos*],
       ),
       [*Código del diagrama:*], [DIA-PRC-0001],
-      [*Tipo de artefacto:*], [Diagrama de Procesos / Actividades en Capas (UML 2.5)],
+      [*Tipo de artefacto:*], [Diagrama de Procesos / Actividades en Capas (UML 2.5.1)],
       [*Dominio funcional:*], [Gestión clínica, check-in, monitoreo de camillas y sesión terapéutica],
       [*Requisitos no funcionales:*], [RNF-0002 (Rendimiento $t <= 500$ ms), RNF-0006 (Tiempo real $< 1$ s), RNF-0007 (Constancias $t <= 5$ s), RNF-0010 (Seguridad AES-256)],
       [*Capas de ejecución:*], [Presentación, Aplicación, Persistencia, Tiempo Real, Asíncrona e Integración],
@@ -594,8 +594,8 @@ La fase de especificación consolida las reglas algorítmicas, estructuras de da
       [*Poscondición:*], [Asistencia registrada, camillas sincronizadas y constancia médica archivada en la nube],
       [*Ilaciones asociadas:*], [ILA-0020, ILA-0019, ILA-0017, ILA-0026],
       [*Versión:*], [2.0.0],
-      [*Autor:*], [AUT-0001, AUT-0002, AUT-0003, AUT-0005, AUT-0008],
-      [*Fecha:*], [20/10/2026],
+      [*Autor:*], [AUT-0002, AUT-0007, AUT-0010],
+      [*Fecha:*], [22/10/2026],
       [*Estado:*], [Concluido],
     )
   ]

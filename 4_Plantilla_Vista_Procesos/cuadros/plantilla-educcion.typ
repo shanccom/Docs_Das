@@ -1,8 +1,8 @@
 // =============================================================================
 // PLANTILLA DE EDUCCIÓN (DAS - UNSA)
 // =============================================================================
-// Formato estilo Google Docs:
-// - Encabezado verde pastel (#b7e1cd) con texto negro en negrita.
+// Formato institucional sobrio:
+// - Encabezado verde grisáceo con texto oscuro en negrita.
 // - Cuadro centrado en la página con márgenes a izquierda y derecha.
 // - Texto interior alineado a la izquierda.
 // =============================================================================
@@ -21,15 +21,15 @@
   importancia: "Vital / Opcional",
   estado: "Pendiente / Concluido",
   comentario: "Detalles relevantes / Ninguno",
-  // Opciones de personalización y estilo Google Docs
-  color_encabezado: rgb("#93c47d"), // Verde Google Docs más oscuro (Medium green)
+  // Opciones de personalización y estilo institucional
+  color_encabezado: rgb("#dfe8df"),
   color_texto_encabezado: black,
   ancho_tabla: 100%,                // Ancho completo aprovechando los márgenes
   ancho_columna_1: 4.0cm,           // Ancho adecuado para los nombres de campos
   ancho_columna_2: 1fr,             // Ancho restante para los valores
   alineacion: (left + top, left + top),
-  inset: (x: 7pt, y: 5pt),
-  stroke: 0.5pt + luma(140),
+  inset: (x: 7pt, y: 4.5pt),
+  stroke: 0.45pt + rgb("#aeb8b0"),
   tamano_letra: 9.5pt,              // Tamaño de letra óptimo
   ..args,
 ) = {
