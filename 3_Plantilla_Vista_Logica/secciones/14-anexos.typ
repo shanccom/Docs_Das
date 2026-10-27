@@ -48,12 +48,14 @@ _Ficha técnica — D-LOG-001, versión 1.0.0_
 
 El diagrama de Nivel 1 en su versión inicial se presenta a continuación:
 
-#figure(
-  image("../diagrama/diagrama-logica-nivel-1-1.0.0.png", width: 13cm),
-  kind: image,
-  supplement: [Figura],
-  caption: [_D-LOG-001_ versión 1.0.0 (inicial): Diagrama de paquetes lógicos — Nivel 1.],
-)
+#pad(left: -4.8cm)[
+  #figure(
+    align(center, image("../diagrama/diagrama-logica-nivel-1-1.0.0.png", width: 13cm)),
+    kind: image,
+    supplement: [Figura],
+    caption: [_D-LOG-001_ versión 1.0.0 (inicial): Diagrama de paquetes lógicos — Nivel 1.],
+  )
+]
 
 #pagebreak(weak: true)
 
@@ -90,12 +92,14 @@ _Ficha técnica — D-LOG-001, versión 1.1.0_
 
 El diagrama de Nivel 1 en su versión vigente se presenta a continuación:
 
-#figure(
-  image("../diagrama/diagrama-logica-nivel-1-1.1.0.png", width: 15cm),
-  kind: image,
-  supplement: [Figura],
-  caption: [_D-LOG-001_ versión 1.1.0 (vigente): Diagrama de paquetes lógicos — Nivel 1.],
-)
+#pad(left: -4.8cm)[
+  #figure(
+    align(center, image("../diagrama/diagrama-logica-nivel-1-1.1.0.png", width: 15cm)),
+    kind: image,
+    supplement: [Figura],
+    caption: [_D-LOG-001_ versión 1.1.0 (vigente): Diagrama de paquetes lógicos — Nivel 1.],
+  )
+]
 
 #pagebreak(weak: true)
 
@@ -134,12 +138,14 @@ _Ficha técnica — D-LOG-002, versión 1.0.0_
 
 El diagrama de Nivel 2 en su versión inicial se presenta a continuación:
 
-#figure(
-  image("../diagrama/diagrama-logica-nivel-2-1.0.0.png", width: 15cm),
-  kind: image,
-  supplement: [Figura],
-  caption: [_D-LOG-002_ versión 1.0.0 (inicial): Diagrama de clases — Nivel 2.],
-)
+#pad(left: -4.8cm)[
+  #figure(
+    align(center, image("../diagrama/diagrama-logica-nivel-2-1.0.0.png", width: 15cm)),
+    kind: image,
+    supplement: [Figura],
+    caption: [_D-LOG-002_ versión 1.0.0 (inicial): Diagrama de clases — Nivel 2.],
+  )
+]
 
 #pagebreak(weak: true)
 
@@ -176,11 +182,13 @@ _Ficha técnica — D-LOG-002, versión 2.0.0_
 
 El diagrama de Nivel 2 en su versión vigente se presenta a continuación:
 
-#figure(
-  image("../diagrama/diagrama-logica-nivel-2-2.0.0.png", width: 15cm),
-  kind: image,
-  supplement: [Figura],
-  caption: [_D-LOG-002_ versión 2.0.0 (vigente): Diagrama de clases — Nivel 2.],
-)
+#pad(left: -4.8cm)[
+  #figure(
+    align(center, image("../diagrama/diagrama-logica-nivel-2-2.0.0.png", width: 15cm)),
+    kind: image,
+    supplement: [Figura],
+    caption: [_D-LOG-002_ versión 2.0.0 (vigente): Diagrama de clases — Nivel 2.],
+  )
+]
 
 #pagebreak(weak: true)

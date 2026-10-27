@@ -8,7 +8,7 @@ La vista lógica cumple este rol al traducir los requisitos del sistema en un mo
 
 == Contexto del sistema OmVital Physio Control
 
-El centro asistencial de fisioterapia atiende diariamente a un flujo continuo de pacientes con patologías traumatológicas, afecciones neurológicas, lesiones deportivas y necesidades de acondicionamiento geronto-psicomotriz. La operación clínica se distribuye en tres sucursales interconectadas, con almacenamiento compartido en la nube, lo que exige una coordinación de alta disponibilidad y consistencia en los ámbitos de gestión de pacientes, agenda de citas, recursos clínicos, protocolo asistencial y cierre de sesión.
+El centro asistencial de fisioterapia atiende diariamente a un flujo de pacientes con patologías traumatológicas, afecciones neurológicas, lesiones deportivas y necesidades de acondicionamiento geronto-psicomotriz. La operación clínica se distribuye en tres sucursales interconectadas, con almacenamiento compartido en la nube, lo que exige una coordinación de alta disponibilidad y consistencia en los ámbitos de gestión de pacientes, agenda de citas, recursos clínicos, protocolo asistencial y cierre de sesión.
 
 La vista lógica organiza estos ámbitos en módulos funcionales que se corresponden con los definidos en la arquitectura genérica: Pacientes, Citas y Atenciones, Recursos, Documentos y Evaluaciones, API y control de acceso y Plataforma de datos.
 

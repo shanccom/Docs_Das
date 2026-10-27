@@ -2,7 +2,7 @@
 
 == La vista lógica en el diseño arquitectónico
 
-La vista lógica es una de las perspectivas fundamentales del modelo de vistas de arquitectura. Describe la estructura funcional del sistema en términos de clases o componentes, sus responsabilidades y las relaciones entre ellos, con independencia de la plataforma de despliegue. Sommerville (2011) señala que los modelos de clases y de objetos permiten representar las entidades del dominio del problema, sus atributos y las operaciones que encapsulan, sirviendo de base para el diseño e implementación del software #cite(<sommerville2011>).
+La vista lógica es una de las perspectivas del modelo de vistas de arquitectura. Describe la estructura funcional del sistema en términos de clases o componentes, sus responsabilidades y las relaciones entre ellos, con independencia de la plataforma de despliegue. Sommerville (2011) señala que los modelos de clases y de objetos permiten representar las entidades del dominio del problema, sus atributos y las operaciones que encapsulan, sirviendo de base para el diseño e implementación del software #cite(<sommerville2011>).
 
 Pressman y Maxim (2014) destacan que el diseño arquitectónico y el modelado de clases responden a la separación de responsabilidades y al bajo acoplamiento, principios que facilitan la comprensión, la reutilización y el mantenimiento del sistema #cite(<pressman2014>). En este sentido, la vista lógica de OmVital se construye a partir de las responsabilidades identificadas en las etapas previas del proyecto.
 
@@ -14,7 +14,7 @@ En el presente proyecto, el modelado UML se complementa con diagramas de paquete
 
 == Arquitecturas de sistemas de información en salud
 
-Casanova, Villa-Garzon y Branch-Bedoya (2025) realizaron una revisión sistemática de patrones arquitectónicos en sistemas de información en salud, identificando una presencia importante de arquitecturas basadas en servicios y diseños modulares, orientados a la interoperabilidad y a la integración mediante contratos estandarizados #cite(<casanova2025>). Estos resultados refuerzan la conveniencia de un modelo lógico organizado en módulos y paquetes con responsabilidades bien delimitadas.
+Casanova, Villa-Garzon y Branch-Bedoya (2025) realizaron una revisión sistemática de patrones arquitectónicos en sistemas de información en salud, identificando arquitecturas basadas en servicios y diseños modulares, orientados a la interoperabilidad y a la integración mediante contratos estandarizados #cite(<casanova2025>). Estos resultados refuerzan la conveniencia de un modelo lógico organizado en módulos y paquetes con responsabilidades delimitadas.
 
 == Historias clínicas electrónicas en fisioterapia
 

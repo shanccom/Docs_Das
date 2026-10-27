@@ -2,58 +2,52 @@
 
 = Actas de trabajo
 
-== Acta de Trabajo 1
-
 #v(0.3em)
 
 #align(center)[
-  #image("../Acta 4.pdf", page: 1, width: 90%)
+  #image("../imagenes/actas/acta-1.png", width: 90%)
 ]
 
 #pagebreak(weak: true)
 
 #align(center)[
-  #image("../Acta 4.pdf", page: 2, width: 90%)
+  #image("../imagenes/actas/acta-2.png", width: 90%)
 ]
 
 #pagebreak(weak: true)
 
 #align(center)[
-  #image("../Acta 4.pdf", page: 3, width: 90%)
+  #image("../imagenes/actas/acta-3.png", width: 90%)
 ]
 
 #pagebreak(weak: true)
 
 #align(center)[
-  #image("../Acta 4.pdf", page: 4, width: 90%)
-]
-
-#pagebreak(weak: true)
-
-== Acta de Trabajo 2
-
-#v(0.3em)
-
-#align(center)[
-  #image("../Acta 5.pdf", page: 1, width: 90%)
+  #image("../imagenes/actas/acta-4.png", width: 90%)
 ]
 
 #pagebreak(weak: true)
 
 #align(center)[
-  #image("../Acta 5.pdf", page: 2, width: 90%)
+  #image("../imagenes/actas/acta-5.png", width: 90%)
 ]
 
 #pagebreak(weak: true)
 
 #align(center)[
-  #image("../Acta 5.pdf", page: 3, width: 90%)
+  #image("../imagenes/actas/acta-6.png", width: 90%)
 ]
 
 #pagebreak(weak: true)
 
 #align(center)[
-  #image("../Acta 5.pdf", page: 4, width: 90%)
+  #image("../imagenes/actas/acta-7.png", width: 90%)
+]
+
+#pagebreak(weak: true)
+
+#align(center)[
+  #image("../imagenes/actas/acta-8.png", width: 90%)
 ]
 
 #pagebreak(weak: true)

@@ -1,14 +1,14 @@
 = Descripción del artefacto
 
-El presente artefacto corresponde a la Vista Lógica del sistema clínico OmVital Physio Control, identificado formalmente con los códigos _D-LOG-001_ (Nivel 1: paquetes lógicos) y _D-LOG-002_ (Nivel 2: modelo de clases). El modelado se basa en los principios del diseño orientado a objetos y del estándar UML 2.5, representando las clases del sistema, sus responsabilidades, atributos, métodos y relaciones, en correspondencia con los módulos definidos en la arquitectura genérica.
+El presente artefacto corresponde a la Vista Lógica del sistema clínico OmVital Physio Control, identificado con los códigos _D-LOG-001_ (Nivel 1: paquetes lógicos) y _D-LOG-002_ (Nivel 2: modelo de clases). El modelado se basa en los principios del diseño orientado a objetos y del estándar UML 2.5, representando las clases del sistema, sus responsabilidades, atributos, métodos y relaciones, en correspondencia con los módulos definidos en la arquitectura genérica.
 
-El propósito central de este artefacto es formalizar la estructura lógica del software: la organización de las clases de dominio en paquetes (Pacientes, Citas y Atenciones, Recursos, Documentos y Evaluaciones, API y control de acceso y Plataforma de datos), la definición de sus atributos y métodos, y el establecimiento de las relaciones estructurales que reflejan la colaboración entre componentes.
+El propósito de este artefacto es formalizar la estructura lógica del software: la organización de las clases de dominio en paquetes (Pacientes, Citas y Atenciones, Recursos, Documentos y Evaluaciones, API y control de acceso y Plataforma de datos), la definición de sus atributos y métodos, y el establecimiento de las relaciones estructurales que reflejan la colaboración entre componentes.
 
-Para garantizar la trazabilidad, la presente sección expone en primer lugar la fundamentación analítica basada en las matrices de Educción, Ilación y Especificación técnica. La presentación de los diagramas de clases (Nivel 1 y Nivel 2) se incorpora en la sección de construcción del artefacto.
+Para garantizar la trazabilidad, la presente sección expone en primer lugar la fundamentación basada en las matrices de Educción, Ilación y Especificación técnica. La presentación de los diagramas de clases (Nivel 1 y Nivel 2) se incorpora en la sección de construcción del artefacto.
 
 == Insumos para la construcción de la vista lógica
 
-El diseño lógico se fundamenta en la trazabilidad de los requisitos del proyecto, transformando las necesidades de la clínica en especificaciones técnicas verificables a través de tres etapas: Educción, Ilación y Especificación.
+El diseño lógico se fundamenta en la trazabilidad de los requisitos del proyecto, transformando las necesidades de la clínica en especificaciones verificables a través de tres etapas: Educción, Ilación y Especificación.
 
 === Educción
 
@@ -147,12 +147,14 @@ A partir de los requisitos establecidos, se identificaron las clases de dominio 
 
 El diagrama de Nivel 1 representa los paquetes lógicos del sistema y sus dependencias, organizados en las capas de presentación, módulos de negocio, servicios de soporte y servicios externos:
 
-#figure(
-  image("../diagrama/diagrama-logica-nivel-1-1.1.0.png", width: 15cm),
-  kind: image,
-  supplement: [Figura],
-  caption: [_D-LOG-001_ (versión 1.1.0): Diagrama de paquetes lógicos — Nivel 1 de la Vista Lógica del sistema OmVital Physio Control.],
-)
+#pad(left: -3.6cm)[
+  #figure(
+    align(center, image("../diagrama/diagrama-logica-nivel-1-1.1.0.png", width: 15cm)),
+    kind: image,
+    supplement: [Figura],
+    caption: [_D-LOG-001_ (versión 1.1.0): Diagrama de paquetes lógicos — Nivel 1 de la Vista Lógica del sistema OmVital Physio Control.],
+  )
+]
 
 #v(0.6em)
 
@@ -188,12 +190,14 @@ El diagrama de Nivel 1 representa los paquetes lógicos del sistema y sus depend
 
 El diagrama de Nivel 2 detalla el modelo de clases del sistema: clases, atributos, métodos, relaciones y enumeraciones de estado por módulo, vinculando los requisitos no funcionales con las clases que los implementan:
 
-#figure(
-  image("../diagrama/diagrama-logica-nivel-2-2.0.0.png", width: 15cm),
-  kind: image,
-  supplement: [Figura],
-  caption: [_D-LOG-002_ (versión 2.0.0): Diagrama de clases — Nivel 2 de la Vista Lógica del sistema OmVital Physio Control.],
-)
+#pad(left: -3.6cm)[
+  #figure(
+    align(center, image("../diagrama/diagrama-logica-nivel-2-2.0.0.png", width: 15cm)),
+    kind: image,
+    supplement: [Figura],
+    caption: [_D-LOG-002_ (versión 2.0.0): Diagrama de clases — Nivel 2 de la Vista Lógica del sistema OmVital Physio Control.],
+  )
+]
 
 #v(0.6em)
 
