@@ -152,7 +152,7 @@ El diagrama de Nivel 1 representa los paquetes lógicos del sistema y sus depend
     align(center, image("../diagrama/diagrama-logica-nivel-1-1.1.0.png", width: 15cm)),
     kind: image,
     supplement: [Figura],
-    caption: [_D-LOG-001_ (versión 1.1.0): Diagrama de paquetes lógicos — Nivel 1 de la Vista Lógica del sistema OmVital Physio Control.],
+    caption: [_D-LOG-001_ (versión 1.1.0): Diagrama de paquetes lógicos, Nivel 1 de la Vista Lógica del sistema OmVital Physio Control.],
   )
 ]
 
@@ -171,7 +171,7 @@ El diagrama de Nivel 1 representa los paquetes lógicos del sistema y sus depend
       ),
       [*Código del diagrama:*], [D-LOG-001],
       [*Requisitos no funcionales:*], [RNF-0001 (Disponibilidad), RNF-0002 (Rendimiento), RNF-0003 (Seguridad), RNF-0006 (Tiempo real), RNF-0007 (Eficiencia)],
-      [*Contexto / Módulo:*], [Vista Lógica del sistema clínico OmVital — Nivel 1 (paquetes lógicos)],
+      [*Contexto / Módulo:*], [Vista Lógica del sistema clínico OmVital, Nivel 1 (paquetes lógicos)],
       [*Proceso representado:*], [Organización de los paquetes lógicos del sistema (presentación, módulos de negocio, servicios de soporte y servicios externos) y sus dependencias.],
       [*Versión:*], [1.1.0],
       [*Autor:*], [AUT-0009],
@@ -195,7 +195,7 @@ El diagrama de Nivel 2 detalla el modelo de clases del sistema: clases, atributo
     align(center, image("../diagrama/diagrama-logica-nivel-2-2.0.0.png", width: 15cm)),
     kind: image,
     supplement: [Figura],
-    caption: [_D-LOG-002_ (versión 2.0.0): Diagrama de clases — Nivel 2 de la Vista Lógica del sistema OmVital Physio Control.],
+    caption: [_D-LOG-002_ (versión 2.0.0): Diagrama de clases, Nivel 2 de la Vista Lógica del sistema OmVital Physio Control.],
   )
 ]
 
@@ -214,7 +214,7 @@ El diagrama de Nivel 2 detalla el modelo de clases del sistema: clases, atributo
       ),
       [*Código del diagrama:*], [D-LOG-002],
       [*Requisitos no funcionales:*], [RNF-0001 (Disponibilidad), RNF-0002 (Rendimiento), RNF-0003 (Seguridad), RNF-0006 (Tiempo real), RNF-0007 (Eficiencia)],
-      [*Contexto / Módulo:*], [Vista Lógica del sistema clínico OmVital — Nivel 2 (modelo de clases)],
+      [*Contexto / Módulo:*], [Vista Lógica del sistema clínico OmVital, Nivel 2 (modelo de clases)],
       [*Proceso representado:*], [Modelo de clases del sistema con atributos, métodos, relaciones (asociación, agregación, composición, herencia y dependencia) y enumeraciones de estado por módulo.],
       [*Versión:*], [2.0.0],
       [*Autor:*], [AUT-0005],
