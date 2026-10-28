@@ -8,7 +8,9 @@
   table.header(
     [*FECHA*], [*OBSERVACIONES*], [*VERSIÓN*], [*NOTA*], [*V°B°*]
   ),
-  [25/09/2026], [Creación y estructuración del documento de la vista lógica del sistema: portada, historiales, descripción del tema, metodología de proceso, actas de trabajo, calificaciones, estado del arte, diagramas de clases (Nivel 1 y Nivel 2), conclusiones, observaciones y anexos con el versionamiento de los diagramas.], [1.0.0], [Ninguno], [Aprobado],
+  [25/09/2026], [Creación y estructuración del documento: portada, historiales, descripción del tema, metodología de proceso, calificaciones, estado del arte, conclusiones y observaciones.], [1.0.0], [Ninguno], [Aprobado],
+  [26/10/2026], [Incorporación de los diagramas de clases (Nivel 1 y Nivel 2) con sus fichas técnicas y de la sección de anexos con el versionamiento de los diagramas.], [1.1.0], [Ninguno], [Aprobado],
+  [27/10/2026], [Estandarización de las actas de trabajo y ajustes de coherencia: centrado de los diagramas, actualización de los historiales y corrección de estilo.], [1.2.0], [Ninguno], [Aprobado],
 )
 
 #pagebreak()

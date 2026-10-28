@@ -4,9 +4,9 @@
 #let universidad = "UNIVERSIDAD NACIONAL DE SAN AGUSTÍN"
 #let curso    = "DISEÑO Y ARQUITECTURA DE SOFTWARE"
 #let semestre = "2026-B"
-#let resultado-estudiante = "7.2"
+#let resultado-estudiante = "OmVital Physio Control"
 #let titulo   = "OmVital Physio Control"   // nombre real del sistema (aparece en grande bajo «NOMBRE DEL SISTEMA A CONSTRUIR»)
-#let version-documento = "1.0.0"           // versión vigente del documento (se muestra en la portada y en el historial de versiones)
+#let version-documento = "1.2.0"           // versión vigente del documento (se muestra en la portada y en el historial de versiones)
 
 // Integrantes: la portada los reparte en 2 columnas (hasta 5 por columna).
 // Agrega o quita líneas; cada uno va en su propia línea.
