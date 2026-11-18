@@ -1,6 +1,61 @@
-# Diagrama C4 — Nivel 1: Contexto del Sistema
+### Especificaciones de Contexto, Fronteras de Red y Trazabilidad (C4 Nivel 1)
 
-Vista de máximo nivel del **Sistema Integral de Pacientes, asistencias y citas*, mostrando quiénes operan la plataforma y con qué dispositivos externos interactúa, conforme a clean Arquiteture, Diagrama C4, y Arquitectura Hibrida.
+#### 1. Delimitación de Fronteras de Red y Despliegue Físico
+* **Capa 1 — Usuarios y Actores del Negocio:** Comprende los 3 roles operativos internos (`ACT-0001` Gerente General, `ACT-0002` Recepcionista y `ACT-0003` Fisioterapeuta) que interactúan desde la red de sucursal, junto con el actor externo receptor (`ACT-0004` Paciente de Rehabilitación).
+* **Capa 2 — Frontera de Red Local Clínica (`LAN Sede`):** Equipos físicos desplegados en cada sede clínica:
+  * **PC Recepción y Admin (`DEV_PC`):** Estación de trabajo bajo Windows 11 con navegador seguro HTTPS ejecutando la interfaz SPA para admisión, caja, agenda y monitoreo (`EDU-0001`, `EDU-0032`, `RNF-0017`).
+  * **Tablet Móvil Box (`DEV_TAB`):** Dispositivo táctil Android (App nativa Kotlin) utilizado por el fisioterapeuta en camilla para el registro clínico y llenado de plantillas (`EDU-0006`, `EDU-0031`, `RNF-0016`).
+  * **Buffer Local Offline (`BUF_BIO`):** Almacenamiento local integrado en SQLite con capacidad de retención de hasta `100,000 marcas` para garantizar continuidad en el registro de asistencia ante cortes de internet en sede (`EDU-0029`, `RNF-0012`).
+* **Capa 3 — Frontera del Sistema Central (`VPS Autoalojado Linux + Docker`):** Infraestructura centralizada que aloja el núcleo transaccional de **OMVITAL** compuesto por el API Gateway en FastAPI (`SYS_API`), el motor de sincronización en tiempo real por WebSockets (`SYS_WS`), el procesador de colas asíncronas en Celery (`SYS_WRK`) y la base de datos relacional transaccional en PostgreSQL 15 (`BD_PG`).
+* **Capa 4 — Frontera de Servicios Externos (`Cloud / Terceros`):** Ecosistema de 4 plataformas de terceros consumidas mediante canales cifrados HTTPS para pagos (`EXT_FIN`), firma digital (`EXT_FIRMA`), custodia documental (`EXT_S3`) y mensajería móvil (`EXT_WSP`).
+
+---
+
+#### 2. Matriz de Interacciones de Contexto y Protocolos de Red
+
+| Origen | Destino | Protocolo / Canal | Propósito en el Contexto del Negocio y Trazabilidad |
+| :--- | :--- | :--- | :--- |
+| `ACT_GER` (Gerente) | `DEV_PC` (PC Sede) | `HTTPS / RBAC` | Supervisión administrativa, auditoría y control multi-sede (`EDU-0033`, `ILA-0027`). |
+| `ACT_REC` (Recepcionista) | `DEV_PC` (PC Sede) | `HTTPS / Interfaz Web` | Admisión de pacientes, programación de citas y cobros en caja (`EDU-0001`, `ILA-0001..05`). |
+| `ACT_FIS` (Fisioterapeuta) | `DEV_TAB` (Tablet Box) | `Touch / App Android` | Atención clínica en box, evolución terapéutica y fichas (`EDU-0006`, `ILA-0011..14`). |
+| `DEV_PC` (PC Sede) | `SYS_API` (API Gateway) | `HTTPS / TLS 1.3 + JWT` | Peticiones REST para registro de pacientes, cobros y agenda (`EDU-0001`, `EDU-0002`). |
+| `BUF_BIO` (Buffer Local) | `SYS_API` (API Gateway) | `TLS / Sync por Lotes` | Sincronización de registros de asistencia de personal en tiempo real o diferido (`EDU-0029`, `ILA-0020..21`). |
+| `DEV_TAB` (Tablet Box) | `SYS_API` (API Gateway) | `HTTPS / TLS 1.3 + JWT` | Envío de evoluciones clínicas, sesiones terapéuticas y firmas (`EDU-0006`, `EDU-0025`). |
+| `DEV_PC` (PC Sede) | `SYS_WS` (WebSockets) | `WSS / TLS` | Suscripción en vivo al panel de monitoreo de turnos y recepción (`EDU-0032`, `ILA-0026`). |
+| `DEV_TAB` (Tablet Box) | `SYS_WS` (WebSockets) | `WSS / TLS` | Sincronización en tiempo real del estado de camillas y organización interna (`EDU-0026`, `ILA-0019`). |
+| `SYS_API` (API Gateway) | `SYS_WRK` (Worker Celery) | `IPC / Cola Interna` | Delegación de tareas pesadas en segundo plano para no bloquear la API (`RNF-0007`). |
+| `SYS_API` / `WS` / `WRK` | `BD_PG` (OMVITAL_DB) | `TCP/IP (Pool ACID / Pub-Sub)` | Persistencia clínica multi-esquema, lectura de colas y auditoría inmutable (`RNF-0001`, `RNF-0002`, `RNF-0006`). |
+| `SYS_API` (API Gateway) | `EXT_FIN` (Pasarela Pagos) | `HTTPS REST (<= 3s)` | Validación bancaria en línea de transacciones y cobros de citas (`EDU-0002`, `ILA-0006..08`). |
+| `SYS_API` (API Gateway) | `EXT_FIRMA` (Firma Digital) | `HTTPS / PKI REST` | Certificación legal criptográfica de consentimientos informados (`EDU-0025`, `ILA-0015..18`, `RNF-0003`). |
+| `SYS_WRK` (Worker Celery) | `EXT_S3` (AWS S3 Storage) | `HTTPS / PutObject` | Custodia externa de historias clínicas, plantillas y reportes PDF (`EDU-0031`, `ILA-0022..25`, `RNF-0001`). |
+| `SYS_WRK` (Worker Celery) | `EXT_WSP` (Gateway WhatsApp) | `HTTPS / Webhook API` | Despacho automatizado de constancias de atención y recordatorios (`EDU-0005`, `ILA-0009..10`). |
+| `EXT_WSP` (Gateway WhatsApp) | `ACT_PAC` (Paciente) | `Notificación Móvil` | Recepción en el teléfono del paciente de alertas de citas y constancias PDF (`EDU-0005`). |
+
+---
+
+#### 3. Catálogo de Trazabilidad de Educciones e Ilaciones (Nivel 1)
+* **Educciones e Ilaciones Activas en la Vista de Contexto (11 de 33):**
+  1. **`EDU-0001` (`ILA-0001..0005`):** Gestión integral de pacientes y admisión desde terminal web de recepción.
+  2. **`EDU-0002` (`ILA-0006..0008`):** Gestión de citas y validación de cobros integrada con pasarela financiera externa.
+  3. **`EDU-0005` (`ILA-0009..0010`):** Seguimiento al paciente y envío automatizado de recordatorios/constancias vía WhatsApp.
+  4. **`EDU-0006` (`ILA-0011..0014`):** Registro de atención clínica y evolución terapéutica desde tablet en box.
+  5. **`EDU-0025` (`ILA-0015..0018`):** Ejecución de sesión terapéutica y certificación mediante plataforma de firma digital.
+  6. **`EDU-0026` (`ILA-0019`):** Organización interna de boxes y disponibilidad de camillas en tiempo real.
+  7. **`EDU-0027` (Transversal):** Intercambio de información y sincronización operativa entre sedes clínicas.
+  8. **`EDU-0029` (`ILA-0020..0021`):** Control de asistencia de personal con soporte de almacenamiento local offline.
+  9. **`EDU-0031` (`ILA-0022..0025`):** Uso de plantillas clínicas estandarizadas y resguardo documental en almacenamiento cloud.
+  10. **`EDU-0032` (`ILA-0026`):** Monitoreo en vivo de turnos y estado de atención desde la recepción.
+  11. **`EDU-0033` (`ILA-0027`):** Control de acceso basado en roles (`RBAC`), seguridad de ingreso y supervisión gerencial.
+* **Requisitos No Funcionales Representados (10):** `RNF-0001` (Persistencia ACID y custodia S3), `RNF-0002` (Trazabilidad de logs), `RNF-0003` (Validez legal PKI), `RNF-0006` (Tiempo real WebSockets), `RNF-0007` (Procesamiento asíncrono de PDFs), `RNF-0012` (Continuidad offline de 100k marcas), `RNF-0015` (Seguridad RBAC/JWT), `RNF-0016` (Cliente móvil Android), `RNF-0017` (Cliente web SPA) y `RNF-0018` (Auditoría inmutable).
+
+---
+
+#### 4. Justificación de Educciones Depuradas / Fuera de Vista (22 de 33)
+Para conservar la fidelidad del alcance clínico y administrativo actual del sistema, se excluyeron del diagrama de contexto **22 educciones** y **1 RNF**:
+* **Depuradas en Fase de Refinamiento (2):** `EDU-0003` y `EDU-0004`.
+* **Eliminación de Módulos Legacy Fuera de Alcance (18):** `EDU-0007` al `EDU-0024`, correspondientes a antiguos submódulos de compras, proveeduría e inventario contable que no forman parte del núcleo de rehabilitación.
+* **Absorbidas por Consolidación Funcional (2):** `EDU-0028` (depurada por duplicidad con el flujo de gestión clínica `EDU-0006`) y `EDU-0030` (absorbida dentro del módulo de programación de citas `EDU-0002`).
+* **RNF Depurado (1):** `RNF-0010` (eliminado durante la consolidación de requerimientos tecnológicos de clientes web).
 
 ```mermaid
 ---
