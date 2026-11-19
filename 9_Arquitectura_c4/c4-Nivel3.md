@@ -1,8 +1,3 @@
-Aquí tienes el **Diagrama C4 Nivel 3 (Componentes Internos de `P-SRV-01`)** junto con su documentación `.md` de acompañamiento.
-
-Para evitar que 11 controladores individuales saturen el lienzo o crucen sus flechas, los **11 componentes se agruparon por cohesión funcional en 4 carriles verticales paralelos** (Admisión/Citas, Atención Clínica, Sedes/Operaciones, y Asistencia/Seguridad) que convergen en el **Núcleo de Dominio Puro** (igual que en tu referencia de *Payments*), usando fondos transparentes (`fill:transparent`) y bordes suaves (`#93C5FD` / `#3B82F6`) para que las líneas de flujo destaquen con total nitidez y sin un solo cruce:
-
-```markdown
 # Diagrama C4 — Nivel 3 (Backend Core): Componentes Internos (Clean Architecture)
 
 Descompone el interior del contenedor **`P-SRV-01: OMVITAL API Gateway & Backend (FastAPI / Python)`** siguiendo **Clean Architecture / Hexagonal**, integrando los 11 módulos activos del sistema (`EDU-0001` a `EDU-0033`), los 3 esquemas relacionales en `OMVITAL_DB` y los adaptadores secundarios hacia servicios externos y colas asíncronas.
@@ -412,7 +407,3 @@ flowchart TB
 * **`EDU-0028` (Presupuestos Comerciales Externos):** Unificado directamente dentro del flujo de admisión y caja en recepción (`EDU-0001` / `EDU-0002`).
 * **`EDU-0030` (Encuestas de Satisfacción Post-Atención):** Excluido de la fase *core* transaccional para priorizar la trazabilidad clínica y el seguimiento terapéutico (`EDU-0005`).
 * **`RNF-0010` (Soporte para Internet Explorer 11):** Eliminado por directriz de seguridad y modernización tecnológica (`RNF-0018`).
-
-```
-
-```
