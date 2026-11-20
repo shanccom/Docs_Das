@@ -23,7 +23,7 @@ flowchart TB
     classDef ctrl fill:#85BBF0,stroke:#397BC1,stroke-width:1.5px,color:#0F172A
     classDef uc fill:#559CE1,stroke:#2769B4,stroke-width:1.5px,color:#071D3C
     classDef dom fill:#1168BD,stroke:#0B4884,stroke-width:2px,color:#FFFFFF
-    classDef port fill:#E5F1FF,stroke:#397BC1,stroke-width:1.5px,stroke-dasharray:5 3,color:#123F70
+    classDef port fill:#E5F1FF,stroke:#397BC1,st2roke-width:1.5px,stroke-dasharray:5 3,color:#123F70
     classDef infra fill:#85BBF0,stroke:#397BC1,stroke-width:1.5px,color:#0F172A
     classDef ext fill:#64748B,stroke:#475569,stroke-width:1.5px,color:#FFFFFF
     classDef db fill:#1168BD,stroke:#0B4884,stroke-width:2px,color:#FFFFFF
