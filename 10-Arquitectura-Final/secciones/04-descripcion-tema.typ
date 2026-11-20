@@ -36,17 +36,16 @@ De las 33 necesidades identificadas inicialmente en el estudio de campo, el alca
 
 #align(center)[
   #block(width: 100%)[
-    #set text(size: 8.5pt)
+    #set text(size: 9.5pt)
     #table(
       columns: (2cm, 4cm, 1.8cm, 2cm, 1fr),
       align: (center + horizon, left + horizon, center + horizon, center + horizon, left + horizon),
-      stroke: 0.5pt + luma(140),
       table.header(
-        table.cell(fill: rgb("#93c47d"))[*Código*],
-        table.cell(fill: rgb("#93c47d"))[*Nombre de la Educción*],
-        table.cell(fill: rgb("#93c47d"))[*Prioridad*],
-        table.cell(fill: rgb("#93c47d"))[*Actor*],
-        table.cell(fill: rgb("#93c47d"))[*Requisito Esencial y Alcance Clínico*],
+        [*Código*],
+        [*Nombre de la Educción*],
+        [*Prioridad*],
+        [*Actor*],
+        [*Requisito Esencial y Alcance Clínico*],
       ),
       [*EDU-0001*], [Gestión de datos del paciente], [Vital], [ACT-0003], [Gestión integral de filiación, antecedentes e inmutabilidad de la historia clínica. Prohíbe borrado físico y aplica baja lógica.],
       [*EDU-0002*], [Gestión de citas de pacientes], [Vital], [ACT-0003], [Ciclo de vida de la agenda médica multi-sede: programación, reprogramación, cancelación y detección de colisiones horarias.],
@@ -69,15 +68,14 @@ Con el propósito de mantener la alta cohesión arquitectónica y evitar el sobr
 
 #align(center)[
   #block(width: 100%)[
-    #set text(size: 8.5pt)
+    #set text(size: 9.5pt)
     #table(
       columns: (3cm, 3.5cm, 1fr),
       align: (center + horizon, left + horizon, left + horizon),
-      stroke: 0.5pt + luma(140),
       table.header(
-        table.cell(fill: rgb("#93c47d"))[*Educciones Excluidas*],
-        table.cell(fill: rgb("#93c47d"))[*Dominio Funcional*],
-        table.cell(fill: rgb("#93c47d"))[*Fundamentación Técnica y Arquitectónica de Exclusión*],
+        [*Educciones Excluidas*],
+        [*Dominio Funcional*],
+        [*Fundamentación Técnica y Arquitectónica de Exclusión*],
       ),
       [*EDU-0003*], [Farmacia e Insumos], [El centro médico no comercializa medicamentos sujetos a receta. Los consumibles kinesiológicos (cintas, geles) se gestionan mediante caja chica administrativa.],
       [*EDU-0004*], [Facturación Electrónica SUNAT], [La emisión y timbrado tributario de boletas/facturas electrónicas se delega al software contable corporativo externo, evitando acoplar el backend clínico a normativas tributarias.],
@@ -94,17 +92,16 @@ Las 11 educciones activas se descomponen procedimentalmente en 27 ilaciones de n
 
 #align(center)[
   #block(width: 100%)[
-    #set text(size: 8pt)
+    #set text(size: 9.5pt)
     #table(
       columns: (1.8cm, 4.2cm, 1.8cm, 1.6cm, 1fr),
       align: (center + horizon, left + horizon, center + horizon, center + horizon, left + horizon),
-      stroke: 0.5pt + luma(140),
       table.header(
-        table.cell(fill: rgb("#cfe2f3"))[*Código*],
-        table.cell(fill: rgb("#cfe2f3"))[*Nombre del Procedimiento*],
-        table.cell(fill: rgb("#cfe2f3"))[*Educción*],
-        table.cell(fill: rgb("#cfe2f3"))[*Prioridad*],
-        table.cell(fill: rgb("#cfe2f3"))[*Propósito Operativo y Regla de Negocio*],
+        [*Código*],
+        [*Nombre del Procedimiento*],
+        [*Educción*],
+        [*Prioridad*],
+        [*Propósito Operativo y Regla de Negocio*],
       ),
       [*ILA-0001*], [Registro inicial de paciente], [EDU-0001], [Vital], [Captura de datos de filiación obligatorios y creación del identificador único de expediente.],
       [*ILA-0002*], [Consulta de perfil de paciente], [EDU-0001], [Vital], [Búsqueda indexada por DNI con tiempo de respuesta inferior a 3 segundos (`RNF-0002`).],
@@ -143,17 +140,16 @@ El catálogo de Requerimientos No Funcionales formaliza los atributos de calidad
 
 #align(center)[
   #block(width: 100%)[
-    #set text(size: 8pt)
+    #set text(size: 9.5pt)
     #table(
       columns: (1.8cm, 2.5cm, 3.2cm, 1fr, 2.8cm),
       align: (center + horizon, center + horizon, left + horizon, left + horizon, left + horizon),
-      stroke: 0.5pt + luma(140),
       table.header(
-        table.cell(fill: rgb("#ffe599"))[*Código*],
-        table.cell(fill: rgb("#ffe599"))[*Atributo ISO*],
-        table.cell(fill: rgb("#ffe599"))[*Métrica / Umbral*],
-        table.cell(fill: rgb("#ffe599"))[*Criterio de Aceptación Arquitectónico*],
-        table.cell(fill: rgb("#ffe599"))[*Componente Responsable*],
+        [*Código*],
+        [*Atributo ISO*],
+        [*Métrica / Umbral*],
+        [*Criterio de Aceptación Arquitectónico*],
+        [*Componente Responsable*],
       ),
       [*RNF-0001*], [Disponibilidad], [Durabilidad: 99.999999999% \ Disponibilidad: >= 99.9%], [Custodia en la nube de documentos médicos, consentimientos e historias clínicas electrónicas.], [AWS S3 (`S-EXT-02`) y PostgreSQL (`P-DAT-01`)],
       [*RNF-0002*], [Eficiencia / Latencia], [Latencia: $t <= 3.0$ s \ Debounce: 500 ms], [Búsqueda y filtrado por DNI en el catálogo de pacientes en recepción y consultorio.], [Cliente React (`P-CLI-01`) y FastAPI Core (`P-SRV-01`)],
@@ -239,17 +235,16 @@ La interacción entre contenedores y servicios externos se gobierna mediante 11 
 
 #align(center)[
   #block(width: 100%)[
-    #set text(size: 8pt)
+    #set text(size: 9.5pt)
     #table(
       columns: (0.9cm, 2.6cm, 2.6cm, 3.2cm, 1fr),
       align: (center + horizon, left + horizon, left + horizon, left + horizon, left + horizon),
-      stroke: 0.5pt + luma(140),
       table.header(
-        table.cell(fill: rgb("#ffe599"))[*N°*],
-        table.cell(fill: rgb("#ffe599"))[*Origen*],
-        table.cell(fill: rgb("#ffe599"))[*Destino*],
-        table.cell(fill: rgb("#ffe599"))[*Protocolo / Puerto*],
-        table.cell(fill: rgb("#ffe599"))[*Propósito Operativo y Regla Vinculada*],
+        [*N°*],
+        [*Origen*],
+        [*Destino*],
+        [*Protocolo / Puerto*],
+        [*Propósito Operativo y Regla Vinculada*],
       ),
       [1], [`P-CLI-01` (SPA Web)], [`P-EDGE-01` (Proxy)], [HTTPS REST (443) + JWT], [Admisión, búsqueda por DNI ($t < 3$ s), agenda, check-in en 1 clic y monitoreo (`RNF-0002`, `0003`, `0008`).],
       [2], [`P-CLI-02` (Tablet)], [`P-EDGE-01` (Proxy)], [HTTPS REST (443) + JWT], [Registro de historias clínicas, notas SOAP, plantillas y captura de firma en box (`EDU-0006`, `0025`, `0031`).],
