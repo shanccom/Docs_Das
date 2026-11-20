@@ -139,7 +139,7 @@ _Ficha técnica: D-C4-002, versión 2.0.0_
         table.cell(fill: rgb("#dbe6f0"))[*Especificación del Artefacto*],
       ),
       [*Código del diagrama*], [D-C4-002],
-      [*Requisitos no funcionales*], [RNF-0001, RNF-0002, RNF-0003, RNF-0005, RNF-0006, RNF-0007, RNF-0008, RNF-0011, RNF-0012, RNF-0013..15, RNF-0016..18, RSK-01..06],
+      [*Requisitos no funcionales*], [RNF-0001, RNF-0002, RNF-0003, RNF-0005, RNF-0006, RNF-0007, RNF-0008, RNF-0011, RNF-0012, RNF-0011..15, RSK-01..06],
       [*Contexto / Módulo*], [Topología de Contenedores y Protocolos Físicos de Comunicación (MVC + Hexagonal en Monolito Modular)],
       [*Proceso representado*], [Estructuración completa de las unidades ejecutables: Clientes de sede (P-CLI-01 SPA React y P-CLI-02 App Kotlin), Borde perimetral (P-EDGE-01 Nginx TLS), Servidores de aplicaciones (P-SRV-01 FastAPI Core y P-SRV-02 Python WebSockets), Procesamiento asíncrono (P-BRK-01 Broker de tareas y P-WRK-01 Celery Worker), Persistencia relacional (P-DAT-01 PostgreSQL 16) y los 11 protocolos físicos estrictos de red. Soporta dimensionamiento para 3 sucursales, 65 pacientes/día, picos > 25 req/s y mitigación integral RSK-01..06.],
       [*Versión*], [2.0.0],
@@ -212,7 +212,7 @@ _Ficha técnica: D-C4-003, versión 2.0.0_
         table.cell(fill: rgb("#dbe6f0"))[*Especificación del Artefacto*],
       ),
       [*Código del diagrama*], [D-C4-003],
-      [*Requisitos no funcionales*], [RNF-0001, RNF-0002, RNF-0003, RNF-0004, RNF-0005, RNF-0006, RNF-0007, RNF-0008, RNF-0009, RNF-0012..15, RNF-0018, RSK-01..06],
+      [*Requisitos no funcionales*], [RNF-0001, RNF-0002, RNF-0003, RNF-0004, RNF-0005, RNF-0006, RNF-0007, RNF-0008, RNF-0009, RNF-0012..15, RSK-01..06],
       [*Contexto / Módulo*], [P-SRV-01 Backend Core bajo Clean Architecture y Arquitectura Hexagonal],
       [*Proceso representado*], [Descomposición concéntrica rigurosa en 4 capas: 01 Presentación (API Routers y dependencias de seguridad JWT/RBAC), 02 Aplicación (11 Casos de Uso y contratos abstractos de Puertos), 03 Dominio puro (Entidades clínicas y reglas de negocio independientes de frameworks) y 04 Infraestructura (Repositorios PostgreSQL, UnitOfWork, Transactional Outbox y Adaptadores secundarios hacia S3, Firma Perú, Pasarela Financiera, WebSockets y Celery Worker).],
       [*Versión*], [2.0.0],
@@ -228,7 +228,7 @@ _Ficha técnica: D-C4-003, versión 2.0.0_
 #pagebreak(weak: true)
 
 #figure(
-  image("../imagenes/diagramas/c4-nivel3.svg", width: 100%, height: 18cm, fit: "contain"),
+  image("../imagenes/diagramas/c4-nivel3.png", width: 100%, height: 18cm, fit: "contain"),
   kind: image,
   supplement: [Figura],
   caption: [_D-C4-003_ versión 2.0.0: Diagrama de Componentes Internos del Backend Core (P-SRV-01 FastAPI Clean Architecture).],

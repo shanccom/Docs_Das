@@ -52,13 +52,13 @@ De las 33 necesidades identificadas inicialmente en el estudio de campo, el alca
       [*EDU-0002*], [Gestión de citas de pacientes], [Vital], [ACT-0003], [Ciclo de vida de la agenda médica multi-sede: programación, reprogramación, cancelación y detección de colisiones horarias.],
       [*EDU-0005*], [Gestión de seguimiento de clientes], [Opcional], [ACT-0001], [Registro y visualización analítica de métricas evolutivas objetivas: dolor en Escala Visual Analógica (EVA) y arcos de movilidad.],
       [*EDU-0006*], [Registro clínico del paciente], [Vital], [ACT-0001], [Apertura de historia clínica, ficha de evaluación traumatológica y geronto-psicomotriz con diagnóstico cinético.],
-      [*EDU-0025*], [Gestión de sesión terapéutica], [Vital], [ACT-0001], [Registro de notas SOAP en box, toma de constantes vitales, activación de banderas rojas y captura de firma en tableta.],
-      [*EDU-0026*], [Visualización de organización interna], [Vital], [ACT-0002], [Tablero de control de turnos en consultorio, pacientes asignados y visualización de carga de trabajo por fisioterapeuta.],
+      [*EDU-0025*], [Gestión de registro de sesión terapéutica], [Vital], [ACT-0001], [Registro de notas SOAP en box, toma de constantes vitales, activación de banderas rojas y captura de firma en tableta.],
+      [*EDU-0026*], [Visualización de organización interna actual], [Vital], [ACT-0002], [Tablero de control de turnos en consultorio, pacientes asignados y visualización de carga de trabajo por fisioterapeuta.],
       [*EDU-0027*], [Intercambio de información entre sedes], [Vital], [ACT-0002], [Acceso unificado al expediente clínico y saldo de sesiones desde cualquiera de las tres sedes de la red asistencial.],
       [*EDU-0029*], [Control de asistencia de pacientes], [Vital], [ACT-0003], [Recepción y check-in en ventanilla en un solo clic, con validación síncrona de saldo y generación de constancia.],
-      [*EDU-0031*], [Plantillas de tratamiento estándar], [Vital], [ACT-0001], [Creación, actualización y aplicación de protocolos kinesiológicos estandarizados reutilizables por patología.],
-      [*EDU-0032*], [Monitoreo de organización en recepción], [Vital], [ACT-0003], [Dashboard reactivo en ventanilla con estado de camillas en tiempo real y asignación dinámica de pacientes a boxes.],
-      [*EDU-0033*], [Ingreso al sistema y seguridad], [Vital], [ACT-0004], [Autenticación centralizada mediante credenciales corporativas, tokens JWT y control de acceso basado en roles (RBAC).],
+      [*EDU-0031*], [Gestión de Plantillas de Tratamiento Estandarizadas], [Vital], [ACT-0001], [Creación, actualización y aplicación de protocolos kinesiológicos estandarizados reutilizables por patología.],
+      [*EDU-0032*], [Gestión de monitoreo de organización interna actual para el recepcionista], [Vital], [ACT-0003], [Dashboard reactivo en ventanilla con estado de camillas en tiempo real y asignación dinámica de pacientes a boxes.],
+      [*EDU-0033*], [Ingreso al sistema], [Vital], [ACT-0004], [Autenticación centralizada mediante credenciales corporativas, tokens JWT y control de acceso basado en roles (RBAC).],
     )
   ]
 ]
@@ -169,9 +169,6 @@ El catálogo de Requerimientos No Funcionales formaliza los atributos de calidad
       [*RNF-0013*], [Usabilidad], [Gráfica interactiva \ Escala EVA (0-10) y ROM], [Representación visual de la curva de dolor y rango de movimiento en el tiempo.], [Módulo de Seguimiento (`P-CLI-01`, `P-CLI-02`)],
       [*RNF-0014*], [Operatividad], [Tiempo registro: <= 45 s \ Formulario estructurado], [Registro veloz de la mini-evaluación diaria sin retrasar la atención física del paciente.], [Formularios SOAP en Tablet (`P-CLI-02`)],
       [*RNF-0015*], [Seguridad / Auditoría], [Marca temporal UTC \ Bitácora inmutable], [Trazabilidad inalterable de cada mutación clínica: usuario, rol, timestamp y baja lógica.], [PostgreSQL (`P-DAT-01`) y Core (`P-SRV-01`)],
-      [*RNF-0016*], [Seguridad RBAC], [Validación JWT en servidor \ Firma RS256/HS256], [Control de acceso basado en roles multi-sede con claims validados exclusivamente en backend.], [API Gateway FastAPI (`P-SRV-01`)],
-      [*RNF-0017*], [Consistencia ACID], [Nivel de aislamiento Read Committed \ SELECT FOR UPDATE], [Bloqueo pesimista por fila para impedir sobre-asignación concurrente de turnos y camillas.], [Motor relacional PostgreSQL 16 (`P-DAT-01`)],
-      [*RNF-0018*], [Seguridad Perimetral], [Terminación TLS 1.3 \ Latencia: $t < 50$ ms], [Cifrado perimetral de todo el tráfico entrante de sucursales con proxy inverso.], [Reverse Proxy Nginx (`P-EDGE-01`)],
     )
   ]
 ]
@@ -181,11 +178,11 @@ El catálogo de Requerimientos No Funcionales formaliza los atributos de calidad
 Para garantizar la estabilidad y validez médico-legal de la solución, la arquitectura final implementa seis mecanismos de mitigación de riesgos críticos:
 
 - *RSK-01 (Pérdida de integridad del historial médico o alteración no autorizada):* Mitigado mediante la prohibición estricta de borrado físico en base de datos (`P-DAT-01`). Toda desvinculación se procesa como baja lógica ("Archivo Histórico"), complementada por marcas de tiempo UTC del servidor y una bitácora de auditoría inmutable de tipo _append-only_ (`RNF-0015`).
-- *RSK-02 (Condiciones de carrera en reserva de citas o asignación concurrente de camillas):* Mitigado mediante transacciones ACID con bloqueo pesimista por fila (`SELECT FOR UPDATE`) a nivel de base de datos relacional. Si dos recepcionistas o coordinadores intentan asignar el mismo recurso simultáneamente, el backend `P-SRV-01` rechaza la segunda solicitud devolviendo un código `HTTP 409 Conflict` (`RNF-0006`, `RNF-0017`).
-- *RSK-03 (Fuga de información confidencial o incumplimiento de leyes de protección de datos personales):* Mitigado mediante cifrado simétrico robusto AES-256 en reposo para todos los objetos y documentos clínicos en AWS S3 (`S-EXT-02`), y cifrado obligatorio en tránsito con SSL/TLS 1.3 en el borde perimetral (`P-EDGE-01`, `RNF-0018`).
+- *RSK-02 (Condiciones de carrera en reserva de citas o asignación concurrente de camillas):* Mitigado mediante transacciones ACID con bloqueo pesimista por fila (`SELECT FOR UPDATE`) a nivel de base de datos relacional. Si dos recepcionistas o coordinadores intentan asignar el mismo recurso simultáneamente, el backend `P-SRV-01` rechaza la segunda solicitud devolviendo un código `HTTP 409 Conflict` (`RNF-0006`).
+- *RSK-03 (Fuga de información confidencial o incumplimiento de leyes de protección de datos personales):* Mitigado mediante cifrado simétrico robusto AES-256 en reposo para todos los objetos y documentos clínicos en AWS S3 (`S-EXT-02`), y cifrado obligatorio en tránsito con SSL/TLS 1.3 en el borde perimetral (`P-EDGE-01`, `RNF-0009`).
 - *RSK-04 (Repudio legal de consentimientos informados y actas de atención):* Mitigado mediante la integración síncrona con el servicio de firma digital criptográfica de Firma Perú - RENIEC PKI (`S-EXT-04`), vinculando la firma biométrica de la tableta con un certificado digital y sello cronológico inalterable resguardado en la nube (`RNF-0003`, `RNF-0007`).
 - *RSK-05 (Bloqueo y degradación de la experiencia por indisponibilidad o latencia de APIs externas):* Mitigado mediante una política estricta de tiempo de corte (_timeout_ de 3 segundos) en las llamadas hacia la Pasarela Financiera (`S-EXT-01`), y el desacoplamiento total de la generación de PDFs y mensajería de WhatsApp (`S-EXT-03`) delegándolos a colas de mensajería asíncronas con Celery y Redis (`P-BRK-01`, `P-WRK-01`, `RNF-0007`).
-- *RSK-06 (Acceso no autorizado, suplantación o escalamiento de privilegios entre sedes):* Mitigado centralizando la verificación de roles exclusivamente en el backend core (`P-SRV-01`) mediante tokens JWT criptográficamente firmados, impidiendo que los clientes web o tableta determinen privilegios de manera autónoma (`RNF-0016`).
+- *RSK-06 (Acceso no autorizado, suplantación o escalamiento de privilegios entre sedes):* Mitigado centralizando la verificación de roles exclusivamente en el backend core (`P-SRV-01`) mediante tokens JWT criptográficamente firmados, impidiendo que los clientes web o tableta determinen privilegios de manera autónoma (`RNF-0009`).
 
 #pagebreak(weak: true)
 
@@ -213,7 +210,7 @@ El Diagrama de Contexto del Sistema delimita formalmente las fronteras de softwa
 #v(0.6em)
 
 #figure(
-  image("../imagenes/c1.svg", width: 100%, height: 13.5cm, fit: "contain"),
+  image("../imagenes/c1.png", width: 100%, height: 13.5cm, fit: "contain"),
   kind: image,
   supplement: [Figura],
   caption: [Diagrama C4 — Nivel 1: Contexto del Sistema OmVital Physio Control en caja negra.],
@@ -227,12 +224,12 @@ El Diagrama de Contenedores expone las unidades ejecutables y desplegables que c
 
 1. *P-CLI-01 (SPA Web React / TypeScript):* Aplicación web enriquecida desplegada en navegadores de recepción y coordinación. Optimizada para flujos ágiles de admisión, agenda multi-sucursal y dashboards de monitoreo reactivo (`RNF-0002`, `RNF-0008`).
 2. *P-CLI-02 (App Tablet Android / Kotlin):* Aplicación móvil nativa utilizada por fisioterapeutas en los boxes de tratamiento. Proporciona formularios kinefisiátricos ágiles, evaluación rápida diaria y un componente de lienzo táctil para captura de firma manuscrita digital (`RNF-0003`, `RNF-0014`).
-3. *P-EDGE-01 (Reverse Proxy Nginx / TLS 1.3):* Punto de entrada y borde de seguridad que efectúa la terminación SSL/TLS con latencia inferior a 50 ms (`RNF-0018`), aplicando políticas de limitación de tasa de peticiones (_rate limiting_) y enrutando el tráfico hacia el API Core o el motor de WebSockets.
+3. *P-EDGE-01 (Reverse Proxy Nginx / TLS 1.3):* Punto de entrada y borde de seguridad que efectúa la terminación SSL/TLS con latencia inferior a 50 ms (`RNF-0009`), aplicando políticas de limitación de tasa de peticiones (_rate limiting_) y enrutando el tráfico hacia el API Core o el motor de WebSockets.
 4. *P-SRV-01 (OMVITAL Backend Core API - FastAPI / Python):* Servidor transaccional monolítico modular estructurado bajo Clean Architecture. Procesa los 11 casos de uso de negocio clínico, ejecuta validaciones Pydantic, coordina el control de acceso JWT/RBAC y gestiona los puertos secundarios de persistencia e integración.
 5. *P-SRV-02 (Motor WebSockets en tiempo real - Python):* Servidor reactivo basado en el protocolo RFC 6455 que mantiene conexiones bidireccionales persistentes con recepción y boxes, difundiendo los eventos de ocupación y liberación de camillas con latencia de 200 a 450 ms (`RNF-0006`).
 6. *P-BRK-01 (Broker de Tareas en Memoria - Redis):* Cola de mensajes de alta velocidad empleada para desacoplar el procesamiento intensivo de constancias PDF y despacho de mensajería del hilo principal de peticiones HTTP.
 7. *P-WRK-01 (Trabajadores en Segundo Plano - Celery / Python):* Servicio de ejecución diferida que procesa los trabajos de la cola Redis, compila reportes en PDF, consume el servicio de mensajería WhatsApp (`S-EXT-03`) y sube archivos cifrados a AWS S3 (`S-EXT-02`) en menos de 5 segundos (`RNF-0007`).
-8. *P-DAT-01 (Repositorio Relacional PostgreSQL 16):* Base de datos principal configurada con motor ACID estricto. Organiza la información en esquemas lógicos desacoplados (`core_clinical`, `scheduling_resources`, `security_audit`), garantizando integridad referencial, bloqueos pesimistas y preservación de auditoría histórica (`RNF-0015`, `RNF-0017`).
+8. *P-DAT-01 (Repositorio Relacional PostgreSQL 16):* Base de datos principal configurada con motor ACID estricto. Organiza la información en esquemas lógicos desacoplados (`core_clinical`, `scheduling_resources`, `security_audit`), garantizando integridad referencial, bloqueos pesimistas y preservación de auditoría histórica (`RNF-0015`, `RNF-0006`).
 
 #v(0.4em)
 
@@ -272,7 +269,7 @@ La interacción entre contenedores y servicios externos se gobierna mediante 11 
 #pagebreak(weak: true)
 
 #figure(
-  image("../imagenes/c2.svg", width: 100%, height: 21cm, fit: "contain"),
+  image("../imagenes/c2.png", width: 100%, height: 21cm, fit: "contain"),
   kind: image,
   supplement: [Figura],
   caption: [Diagrama C4 — Nivel 2: Topología de Contenedores y los 11 Protocolos Físicos de Comunicación.],
@@ -286,7 +283,7 @@ El Diagrama de Componentes descompone la anatomía interna del contenedor centra
 
 1. *Capa 01 - Presentación (Adaptadores Primarios de Entrada):*
   - *FastAPI Domain Routers:* Enrutadores modulares que exponen los endpoints REST para Pacientes, Agenda, Sesiones, Recursos y Seguridad, efectuando la serialización sintáctica con esquemas Pydantic v2.
-  - *Middlewares de Seguridad y Contexto:* Verificación obligatoria de tokens JWT, inyección de dependencias de identidad multi-sede y autorización estricta RBAC (`RNF-0016`).
+  - *Middlewares de Seguridad y Contexto:* Verificación obligatoria de tokens JWT, inyección de dependencias de identidad multi-sede y autorización estricta RBAC (`RNF-0009`).
 2. *Capa 02 - Aplicación (Casos de Uso y Puertos Abstractos):*
   - *Casos de Uso Clínicos y Administrativos (11 Use Cases):* Orquestadores del flujo de negocio que encapsulan la lógica transaccional: Admisión de Paciente, Programación de Cita, Admisión Síncrona (Check-in con validación financiera $\le 3$ s), Asignación de Box, Registro de Notas SOAP, Activación de Contingencia Médica (Banderas Rojas), Cierre de Sesión con Firma Digital, Creación de Plantilla Terapéutica, Consulta de Historial Multi-Sede, Generación Asíncrona de Constancia y Autenticación Centralizada.
   - *Puertos de Aplicación (Interfaces Abstractas):* Contratos abstractos orientados al dominio que desacoplan la lógica de negocio respecto de la tecnología de almacenamiento (interfaces `IPatientRepository`, `IAppointmentRepository`, `IClinicalRecordRepository`, etc.) y de servicios externos (interfaces `IFinancialGatewayService`, `IDigitalSignatureService`, `IStorageService`, `INotificationService`).
@@ -294,7 +291,7 @@ El Diagrama de Componentes descompone la anatomía interna del contenedor centra
   - *Entidades de Negocio:* Modelos de dominio enriquecidos que no poseen ninguna dependencia de SQLAlchemy, FastAPI o bibliotecas de persistencia (Paciente, Expediente Clínico, Cita, Camilla, Nota SOAP, Constantes Vitales, Plantilla Kinesiológica).
   - *Invariantes y Reglas Clínicas:* Validación de consistencia médica (imposibilidad de firmar sesiones sin toma previa de constantes vitales, prohibición de sobrepasar rangos biológicos admisibles, y la regla de no-borrado físico mediante baja lógica obligatoria).
 4. *Capa 04 - Infraestructura (Adaptadores Secundarios de Persistencia e Integración):*
-  - *Adaptadores de Persistencia (PostgreSQL Repositories):* Implementaciones de los puertos de aplicación mediante SQLAlchemy 2.0 ORM con soporte asíncrono (`asyncpg`), gobernadas por el patrón *Unit of Work* para asegurar atomicidad transaccional y bloqueos pesimistas por fila (`SELECT FOR UPDATE`, `RNF-0017`).
+  - *Adaptadores de Persistencia (PostgreSQL Repositories):* Implementaciones de los puertos de aplicación mediante SQLAlchemy 2.0 ORM con soporte asíncrono (`asyncpg`), gobernadas por el patrón *Unit of Work* para asegurar atomicidad transaccional y bloqueos pesimistas por fila (`SELECT FOR UPDATE`, `RNF-0006`).
   - *Patrón Transactional Outbox:* Garantiza que todo evento de dominio (liberación de camilla, cita atendida) se registre en una tabla de bandeja de salida dentro de la misma transacción de base de datos antes de publicarse hacia WebSockets o Celery, impidiendo desincronizaciones ante caídas de red.
   - *Adaptador Pasarela Financiera:* Cliente HTTP asíncrono con control de tiempo de corte estricto ($t \le 3$ s) hacia `S-EXT-01` (`RSK-05`).
   - *Adaptador Firma Perú PKI:* Cliente REST para invocación de firma digital criptográfica de consentimientos informados con `S-EXT-04` (`RSK-04`).
@@ -304,7 +301,7 @@ El Diagrama de Componentes descompone la anatomía interna del contenedor centra
 #pagebreak(weak: true)
 
 #figure(
-  image("../imagenes/c3.svg", width: 100%, height: 20.5cm, fit: "contain"),
+  image("../imagenes/c3.png", width: 100%, height: 20.5cm, fit: "contain"),
   kind: image,
   supplement: [Figura],
   caption: [Diagrama C4 — Nivel 3: Componentes Internos del Backend Core (P-SRV-01 FastAPI Clean Architecture).],
@@ -317,7 +314,7 @@ El Diagrama de Componentes descompone la anatomía interna del contenedor centra
 La concepción, modelado y especificación técnica de la Arquitectura Final de *OmVital Physio Control* alcanza los siguientes objetivos primordiales de ingeniería de software:
 
 1. *Consolidar la visión arquitectónica unificada del sistema:* Sintetizar las perspectivas de contexto en caja negra, contenedores físicos desplegables, protocolos de red y componentes concéntricos de software en un cuerpo documental armónico, cerrando el ciclo de diseño del curso de manera rigurosa.
-2. *Garantizar la trazabilidad estricta y bidireccional de requisitos:* Establecer una vinculación demostrable desde las 11 educciones activas y 27 ilaciones operativas, pasando por los tres niveles del Modelo C4, hasta los atributos de calidad (`RNF-0001` a `RNF-0018`) y controles de riesgo (`RSK-01` a `RSK-06`) catalogados en PostgreSQL.
+2. *Garantizar la trazabilidad estricta y bidireccional de requisitos:* Establecer una vinculación demostrable desde las 11 educciones activas y 27 ilaciones operativas, pasando por los tres niveles del Modelo C4, hasta los atributos de calidad (`RNF-0001` a `RNF-0015`) y controles de riesgo (`RSK-01` a `RSK-06`) catalogados en PostgreSQL.
 3. *Aislar las invariantes clínicas frente a tecnologías de terceros:* Blindar las reglas del protocolo kinesiológico, las notas SOAP y la inmutabilidad de los expedientes médicos mediante puertos y adaptadores abstractos, permitiendo la actualización de bases de datos o servicios de mensajería sin alterar el núcleo de dominio.
 4. *Resolver formalmente la contención y concurrencia multi-sede:* Especificar mecanismos de sincronización reactiva en tiempo real sobre WebSockets ($t < 1$ s, latencia objetivo 200 a 450 ms) y bloqueos pesimistas relacionales en PostgreSQL (`SELECT FOR UPDATE`) para erradicar cualquier sobreasignación de camillas y turnos entre sucursales.
 5. *Desacoplar el cómputo intensivo del flujo interactivo:* Asegurar la rápida liberación de las interfaces de usuario en admisión ($t \le 3$ s) y consultorio ($t \le 500$ ms) delegando la generación de constancias PDF y la certificación digital PKI a procesamiento asíncrono con brokers Redis y trabajadores Celery en segundo plano.

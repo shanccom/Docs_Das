@@ -23,7 +23,7 @@ flowchart TB
     classDef ctrl fill:#85BBF0,stroke:#397BC1,stroke-width:1.5px,color:#0F172A
     classDef uc fill:#559CE1,stroke:#2769B4,stroke-width:1.5px,color:#071D3C
     classDef dom fill:#1168BD,stroke:#0B4884,stroke-width:2px,color:#FFFFFF
-    classDef port fill:#E5F1FF,stroke:#397BC1,st2roke-width:1.5px,stroke-dasharray:5 3,color:#123F70
+    classDef port fill:#E5F1FF,stroke:#397BC1,stroke-width:1.5px,stroke-dasharray:5 3,color:#123F70
     classDef infra fill:#85BBF0,stroke:#397BC1,stroke-width:1.5px,color:#0F172A
     classDef ext fill:#64748B,stroke:#475569,stroke-width:1.5px,color:#FFFFFF
     classDef db fill:#1168BD,stroke:#0B4884,stroke-width:2px,color:#FFFFFF
@@ -34,7 +34,7 @@ flowchart TB
     %% ENTRADA - CONTENEDOR EXTERNO
     %% =============================================================
 
-    PROXY["<b>P-EDGE-01 · Reverse Proxy</b><br/>[Nginx / HTTPS / TLS]<br/>Enrutamiento y terminación TLS<br/><b>[RNF-0018]</b>"]:::ext
+    PROXY["<b>P-EDGE-01 · Reverse Proxy</b><br/>[Nginx / HTTPS / TLS]<br/>Enrutamiento y terminación TLS<br/><b>[RNF-0009]</b>"]:::ext
 
     %% =============================================================
     %% CONTENEDOR PRINCIPAL
@@ -406,4 +406,4 @@ flowchart TB
 * **`EDU-0007` al `EDU-0024` (18 Educciones Administrativas Legacy):** Subprocesos administrativos redundantes y módulos de proveeduría eliminados durante la refactorización de alcance.
 * **`EDU-0028` (Presupuestos Comerciales Externos):** Unificado directamente dentro del flujo de admisión y caja en recepción (`EDU-0001` / `EDU-0002`).
 * **`EDU-0030` (Encuestas de Satisfacción Post-Atención):** Excluido de la fase *core* transaccional para priorizar la trazabilidad clínica y el seguimiento terapéutico (`EDU-0005`).
-* **`RNF-0010` (Soporte para Internet Explorer 11):** Eliminado por directriz de seguridad y modernización tecnológica (`RNF-0018`).
+* **Requisito archivado (compatibilidad con Internet Explorer 11):** Eliminado por directriz de seguridad y modernización tecnológica.
