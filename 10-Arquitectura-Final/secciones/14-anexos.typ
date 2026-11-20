@@ -39,10 +39,8 @@ _Ficha técnica: D-C4-001, versión 1.0.0_
   ]
 ]
 
-#pagebreak(weak: true)
-
 #figure(
-  image("../imagenes/diagramas/c4-nivel1-v1.png", width: 95%, height: 18cm, fit: "contain"),
+  image("../imagenes/diagramas/c4-nivel1-v1.png", width: 100%, height: 24cm, fit: "contain"),
   kind: image,
   supplement: [Figura],
   caption: [_D-C4-001_ versión 1.0.0: Diagrama de contexto con exposición preliminar de componentes de red e infraestructura.],

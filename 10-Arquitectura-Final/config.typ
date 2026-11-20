@@ -41,8 +41,8 @@
 #let tamano-encabezado = 7.5pt     // tamaño de fuente del texto del encabezado
 
 // --- Posición del encabezado y separación ---
-#let distancia-encabezado-arriba = 1.5cm   // distancia desde el borde superior de la hoja hasta el encabezado
-#let separacion-encabezado-texto = 0.8cm // espacio libre entre el encabezado y el texto (índice, títulos, contenido)
+#let distancia-encabezado-arriba = 1.0cm   // distancia desde el borde superior de la hoja hasta el encabezado
+#let separacion-encabezado-texto = 0.5cm // espacio libre entre el encabezado y el texto (índice, títulos, contenido)
 
 // --- Opciones ---
 #let portada            = true    // mostrar portada
@@ -64,8 +64,8 @@
 
 // --- Página y Márgenes ---
 #let papel           = "a4"
-#let margen-lateral  = 2cm
-#let margen-inferior = 2.5cm
+#let margen-lateral  = 1.8cm
+#let margen-inferior = 2.0cm
 
 // --- Títulos ---
 #let numeracion-titulos = "1.1"
